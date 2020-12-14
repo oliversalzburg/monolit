@@ -3,6 +3,7 @@
 	"displayName": "Build Manager",
 	"description": "Builds in VS Code, except they don't suck.",
 	"version": "0.0.1",
+	"license": "UNLICENSED",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
