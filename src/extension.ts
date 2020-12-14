@@ -1,8 +1,8 @@
 import * as vscode from "vscode";
 
 class LaunchConfiguration implements vscode.QuickPickItem {
-	workspaceFolder: vscode.WorkspaceFolder;
-	configuration: vscode.DebugConfiguration;
+	readonly workspaceFolder: vscode.WorkspaceFolder;
+	readonly configuration: vscode.DebugConfiguration;
 
 	constructor(workspaceFolder: vscode.WorkspaceFolder, configuration: vscode.DebugConfiguration) {
 		this.workspaceFolder = workspaceFolder;
@@ -14,13 +14,18 @@ class LaunchConfiguration implements vscode.QuickPickItem {
 	}
 
 	get description(): string | undefined {
-		return undefined;
+		return this.workspaceFolder.name;
 	}
 
 	get detail(): string | undefined {
 		return this.configuration.preLaunchTask ? `after running '${this.configuration.preLaunchTask}' task in '${this.configuration.cwd || "<workspace root>"}'` : undefined;
 	}
 }
+
+type Selection = {
+	label: string;
+	uri: string;
+};
 
 async function executeBuildTask(task: vscode.Task) {
 	const execution = await vscode.tasks.executeTask(task);
@@ -56,6 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const tasks = await tasksCached;
 
 		const launchConfigurations = new Array<LaunchConfiguration>();
+		const previousSelection: Selection | undefined = context.workspaceState.get("build-manager.lastSelection");
 		for (const workspaceFolder of vscode.workspace.workspaceFolders) {
 			const configuration = vscode.workspace.getConfiguration("launch", workspaceFolder.uri);
 			const debugConfigurations = configuration.get<vscode.DebugConfiguration[]>("configurations");
@@ -64,38 +70,57 @@ export function activate(context: vscode.ExtensionContext) {
 				continue;
 			}
 
-			const launchConfigs = debugConfigurations.map(configuration => new LaunchConfiguration(workspaceFolder, configuration));
+			let previousConfig: LaunchConfiguration | undefined;
+			const launchConfigs = debugConfigurations.map(configuration => {
+				const launchConfiguration = new LaunchConfiguration(workspaceFolder, configuration);
+				if (previousSelection && previousSelection.label === launchConfiguration.label && previousSelection.uri && launchConfiguration.workspaceFolder.uri) {
+					console.log("Found previous selection again");
+					previousConfig = launchConfiguration;
+				}
+				return launchConfiguration;
+			});
+
+			// Add all launch configurations.
 			launchConfigurations.push(...launchConfigs);
+			// The move the previously selected one to the top.
+			if (previousConfig) {
+				const index = launchConfigurations.indexOf(previousConfig);
+				launchConfigurations.splice(index, 1);
+				launchConfigurations.unshift(previousConfig);
+			}
 		}
 
-		const selection = await vscode.window.showQuickPick(launchConfigurations);
+		const selection = await vscode.window.showQuickPick(launchConfigurations, { placeHolder: "Select launch configuration" });
 		if (selection) {
 			console.log(`Selected: ${selection.label} (${selection.workspaceFolder.uri}) with preLaunchTask: ${selection.configuration.preLaunchTask}`);
+			context.workspaceState.update("build-manager.lastSelection", { label: selection.label, uri: selection.workspaceFolder.uri });
 
 			const userDefinedPreLaunchTask = selection.configuration.preLaunchTask;
 			selection.configuration.preLaunchTask = undefined;
+			const selectionConfigurationCwd = selection.configuration.cwd || "${workspaceFolder}";
 
 			const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 			if (plt) {
-				console.debug(`Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selection.configuration.cwd}'...`);
+				console.debug(`Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selectionConfigurationCwd}'...`);
 
 				const execution: vscode.ShellExecution = plt.execution as vscode.ShellExecution;
 				let cwdWasReplaced = false;
 				if (execution.options) {
 					if (execution.options.cwd === "inherit") {
-						console.debug(`Replacing 'cwd' in preLaunchTask with '${selection.configuration.cwd}'.`);
+						console.debug(`Replacing 'cwd' in preLaunchTask with '${selectionConfigurationCwd}'.`);
 
-						if (execution.commandLine) {
-							plt.execution = new vscode.ShellExecution(execution.commandLine, {
-								cwd: selection.configuration.cwd,
+						if (execution.command) {
+							plt.execution = new vscode.ShellExecution(execution.command, execution.args, {
+								cwd: selectionConfigurationCwd,
 								env: execution.options?.env,
 								executable: execution.options?.executable,
 								shellArgs: execution.options?.shellArgs,
 								shellQuoting: execution.options?.shellQuoting
 							});
+
 						} else {
-							plt.execution = new vscode.ShellExecution(execution.command, execution.args, {
-								cwd: selection.configuration.cwd,
+							plt.execution = new vscode.ShellExecution(execution.commandLine!, {
+								cwd: selectionConfigurationCwd,
 								env: execution.options?.env,
 								executable: execution.options?.executable,
 								shellArgs: execution.options?.shellArgs,
