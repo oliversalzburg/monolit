@@ -3,6 +3,11 @@
 	"displayName": "Build Manager",
 	"description": "Builds in VS Code, except they don't suck.",
 	"version": "0.0.1",
+	"publisher": "OliverSalzburg",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/oliversalzburg/build-manager.git"
+	},
 	"license": "UNLICENSED",
 	"engines": {
 		"vscode": "^1.52.0"
