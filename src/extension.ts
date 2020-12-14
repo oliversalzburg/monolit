@@ -63,16 +63,16 @@ export function activate(context: vscode.ExtensionContext) {
 		const launchConfigurations = new Array<LaunchConfiguration>();
 		const previousSelection: Selection | undefined = context.workspaceState.get("build-manager.lastSelection");
 		for (const workspaceFolder of vscode.workspace.workspaceFolders) {
-			const configuration = vscode.workspace.getConfiguration("launch", workspaceFolder.uri);
-			const debugConfigurations = configuration.get<vscode.DebugConfiguration[]>("configurations");
+			const workspaceConfiguration = vscode.workspace.getConfiguration("launch", workspaceFolder.uri);
+			const debugConfigurations = workspaceConfiguration.get<vscode.DebugConfiguration[]>("configurations");
 			if (!debugConfigurations) {
 				console.debug(`No launch configurations in '${workspaceFolder}'.`);
 				continue;
 			}
 
 			let previousConfig: LaunchConfiguration | undefined;
-			const launchConfigs = debugConfigurations.map(configuration => {
-				const launchConfiguration = new LaunchConfiguration(workspaceFolder, configuration);
+			const launchConfigs = debugConfigurations.map(debugConfiguration => {
+				const launchConfiguration = new LaunchConfiguration(workspaceFolder, debugConfiguration);
 				if (previousSelection && previousSelection.label === launchConfiguration.label && previousSelection.uri && launchConfiguration.workspaceFolder.uri) {
 					console.log("Found previous selection again");
 					previousConfig = launchConfiguration;
