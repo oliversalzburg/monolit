@@ -1,3 +1,4 @@
+import { basename } from "path";
 import * as vscode from "vscode";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
 import { LaunchConfiguration } from "./LaunchConfiguration";
@@ -63,17 +64,27 @@ export function activate(context: vscode.ExtensionContext) {
       uri: selectedConfiguration.workspaceFolder.uri,
     });
 
+    console.log(`Target cwd: '${selectedConfiguration.configuration.cwd}'`);
+
     // Extremely primitive approach to workspace selection.
-    // This needs to be rewritten to also properly construct the target CWD later.
+    // We currently only support * at the tail of the base selector.
+    // Use a proper glob matching library to find the targets!
+    const baseSelector = basename(selectedConfiguration.configuration.cwd);
+    const requiredPrefix = baseSelector.replace("*", "");
     const cwdSelector = selectedConfiguration.configuration.cwd
       .replace("${workspaceFolder}", "")
-      .replace("/*", "");
+      .replace(baseSelector, "");
+
+    console.log(`Base selector is: ${baseSelector}`);
 
     const newUri = vscode.Uri.joinPath(selectedConfiguration.workspaceFolder.uri, cwdSelector);
 
     console.log(`Searching for matches on '${cwdSelector}'...`);
     const contents = await vscode.workspace.fs.readDirectory(newUri);
-    const folders = contents.filter(entry => entry[1] === 2).map(entry => `\${workspaceFolder}${cwdSelector}/${entry[0]}`);
+    const folders = contents
+      .filter(entry => entry[1] === 2 && entry[0].startsWith(requiredPrefix))
+      .map(entry => `\${workspaceFolder}${cwdSelector}/${entry[0]}`);
+    console.dir(folders);
 
     const launchVariants = selectedConfiguration.asVariants(folders);
     const selectedVariant = await vscode.window.showQuickPick(launchVariants, {
