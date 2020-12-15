@@ -44,7 +44,6 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     const selectionConfigurationCwd =
       asVariant?.cwd || this.configuration.cwd || "${workspaceFolder}";
 
-    // TODO: This causes issues. Probably some tasks share the same name. Find better approach.
     const plt = withTasks.find(task => task.name === userDefinedPreLaunchTask);
 
     if (plt) {
