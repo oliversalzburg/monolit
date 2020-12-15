@@ -19,7 +19,7 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
   }
 
   get detail(): string | undefined {
-    return "";
+    return this.configuration.preLaunchTask ? `→ ${this.configuration.preLaunchTask}` : "";
   }
 
   asDebugConfiguration(asVariant?: LaunchSession): vscode.DebugConfiguration {
@@ -40,7 +40,6 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
 
   async launch(withTasks: Array<vscode.Task>, asVariant?: LaunchSession): Promise<void> {
     const userDefinedPreLaunchTask = this.configuration.preLaunchTask;
-    //this.configuration.preLaunchTask = undefined;
     const selectionConfigurationCwd =
       asVariant?.cwd || this.configuration.cwd || "${workspaceFolder}";
 

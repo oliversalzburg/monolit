@@ -25,7 +25,7 @@ export class LaunchSession implements QuickPickItem {
 
   get detail(): string | undefined {
     return this._configuration.configuration.preLaunchTask
-      ? `after running task '${this._configuration.configuration.preLaunchTask}'`
-      : "no preLaunchTask configured";
+      ? `→ ${this._configuration.configuration.preLaunchTask}`
+      : "";
   }
 }
