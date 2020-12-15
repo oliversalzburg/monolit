@@ -53,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const tasksCached = vscode.tasks.fetchTasks();
 
-	let buildCommand = vscode.commands.registerCommand("build-manager.build", async () => {
+	let buildCommand = vscode.commands.registerCommand("monolit.build", async () => {
 		if (!Array.isArray(vscode.workspace.workspaceFolders)) {
 			return;
 		}
@@ -61,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const tasks = await tasksCached;
 
 		const launchConfigurations = new Array<LaunchConfiguration>();
-		const previousSelection: Selection | undefined = context.workspaceState.get("build-manager.lastSelection");
+		const previousSelection: Selection | undefined = context.workspaceState.get("monolit.lastSelection");
 		for (const workspaceFolder of vscode.workspace.workspaceFolders) {
 			const workspaceConfiguration = vscode.workspace.getConfiguration("launch", workspaceFolder.uri);
 			const debugConfigurations = workspaceConfiguration.get<vscode.DebugConfiguration[]>("configurations");
@@ -93,7 +93,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const selection = await vscode.window.showQuickPick(launchConfigurations, { placeHolder: "Select launch configuration" });
 		if (selection) {
 			console.log(`Selected: ${selection.label} (${selection.workspaceFolder.uri}) with preLaunchTask: ${selection.configuration.preLaunchTask}`);
-			context.workspaceState.update("build-manager.lastSelection", { label: selection.label, uri: selection.workspaceFolder.uri });
+			context.workspaceState.update("monolit.lastSelection", { label: selection.label, uri: selection.workspaceFolder.uri });
 
 			const userDefinedPreLaunchTask = selection.configuration.preLaunchTask;
 			selection.configuration.preLaunchTask = undefined;
@@ -158,5 +158,3 @@ export function activate(context: vscode.ExtensionContext) {
 	console.debug("Registering commands...");
 	context.subscriptions.push(buildCommand);
 }
-
-export function deactivate() { }

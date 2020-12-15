@@ -1,12 +1,12 @@
 {
-	"name": "build-manager",
-	"displayName": "Build Manager",
+	"name": "monolit",
+	"displayName": "MonoLit",
 	"description": "Builds in VS Code, except they don't suck.",
 	"version": "0.0.1",
 	"publisher": "OliverSalzburg",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/oliversalzburg/build-manager.git"
+		"url": "https://github.com/oliversalzburg/monolit.git"
 	},
 	"license": "UNLICENSED",
 	"engines": {
@@ -17,13 +17,12 @@
 	],
 	"main": "./out/extension.js",
 	"activationEvents": [
-		"onCommand:build-manager.build",
 		"workspaceContains:yarn.lock"
 	],
 	"contributes": {
 		"commands": [
 			{
-				"command": "build-manager.build",
+				"command": "monolit.build",
 				"title": "Build"
 			}
 		]
@@ -47,6 +46,7 @@
 		"glob": "^7.1.6",
 		"mocha": "^8.1.3",
 		"prettier": "2.2.1",
+		"prettier-plugin-organize-imports": "1.1.1",
 		"typescript": "^4.1.2",
 		"vscode-test": "^1.4.1"
 	}

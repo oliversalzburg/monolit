@@ -1088,6 +1088,11 @@ prelude-ls@^1.2.1:
   resolved "http://nexus.lan.fairmanager.net:8081/repository/registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
+prettier-plugin-organize-imports@1.1.1:
+  version "1.1.1"
+  resolved "http://nexus.lan.fairmanager.net:8081/repository/registry.npmjs.org/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-1.1.1.tgz#7f1ac1a13d4d1752dc16881894dde1c10ccbf3c0"
+  integrity sha512-rFA1lnek1FYkMGthm4xBKME41qUKItTovuo24bCGZu/Vu1n3gW71UPLAkIdwewwkZCe29gRVweSOPXvAdckFuw==
+
 prettier@2.2.1:
   version "2.2.1"
   resolved "http://nexus.lan.fairmanager.net:8081/repository/registry.npmjs.org/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
