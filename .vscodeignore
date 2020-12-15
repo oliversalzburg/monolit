@@ -3,6 +3,7 @@
 out/test/**
 src/**
 .gitignore
+.prettierrc.js
 .yarnrc
 vsc-extension-quickstart.md
 **/tsconfig.json
