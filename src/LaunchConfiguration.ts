@@ -29,7 +29,7 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
       program: asVariant
         ? (<string>this.configuration.program).replace("*", asVariant.basename)
         : this.configuration.program,
-      trace: true,
+      cwd: asVariant ? asVariant.cwd : this.configuration.cwd,
     };
     return configuration;
   }
