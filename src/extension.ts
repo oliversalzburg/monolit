@@ -99,6 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
 			selection.configuration.preLaunchTask = undefined;
 			const selectionConfigurationCwd = selection.configuration.cwd || "${workspaceFolder}";
 
+			// TODO: This causes issues. Probably some tasks share the same name. Find better approach.
 			const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 			if (plt) {
 				console.debug(`Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selectionConfigurationCwd}'...`);
