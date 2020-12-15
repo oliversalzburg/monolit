@@ -1,3 +1,4 @@
+import { basename } from "path";
 import { QuickPickItem } from "vscode";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 
@@ -11,7 +12,11 @@ export class LaunchSession implements QuickPickItem {
   }
 
   get label(): string {
-    return `${this.cwd}`;
+    return this.basename;
+  }
+
+  get basename(): string {
+    return `${basename(this.cwd)}`;
   }
 
   get description(): string | undefined {

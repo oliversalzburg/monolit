@@ -73,12 +73,17 @@ export function activate(context: vscode.ExtensionContext) {
 
     console.log(`Searching for matches on '${cwdSelector}'...`);
     const contents = await vscode.workspace.fs.readDirectory(newUri);
-    const folders = contents.filter(entry => entry[1] === 2).map(entry => entry[0]);
+    const folders = contents.filter(entry => entry[1] === 2).map(entry => `\${workspaceFolder}${cwdSelector}/${entry[0]}`);
 
     const launchVariants = selectedConfiguration.asVariants(folders);
     const selectedVariant = await vscode.window.showQuickPick(launchVariants, {
       placeHolder: "Select target cwd",
     });
+
+    if (!selectedVariant) {
+      console.warn("Operation cancelled");
+      return;
+    }
 
     await selectedConfiguration.launch(tasks, selectedVariant);
   });
