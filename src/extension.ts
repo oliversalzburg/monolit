@@ -64,6 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // Extremely primitive approach to workspace selection.
+    // This needs to be rewritten to also properly construct the target CWD later.
     const cwdSelector = selectedConfiguration.configuration.cwd
       .replace("${workspaceFolder}", "")
       .replace("/*", "");

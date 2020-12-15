@@ -37,7 +37,10 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
   async launch(withTasks: Array<vscode.Task>, asVariant?: LaunchSession): Promise<void> {
     const userDefinedPreLaunchTask = this.configuration.preLaunchTask;
     //this.configuration.preLaunchTask = undefined;
-    const selectionConfigurationCwd = asVariant?.cwd || this.configuration.cwd || "${workspaceFolder}";
+    const selectionConfigurationCwd =
+      (asVariant ? `\${workspaceFolder}/packages/${asVariant.cwd}` : undefined) ||
+      this.configuration.cwd ||
+      "${workspaceFolder}";
 
     // TODO: This causes issues. Probably some tasks share the same name. Find better approach.
     const plt = withTasks.find(task => task.name === userDefinedPreLaunchTask);
@@ -75,10 +78,16 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
         });
       }
 
-      const buildTask: vscode.Task = {
-        ...plt,
-        execution: newExecution,
-      };
+      const buildTask: vscode.Task = new vscode.Task(
+        plt.definition,
+        plt.scope!,
+        plt.name,
+        plt.source,
+        newExecution,
+        plt.problemMatchers
+      );
+
+      console.dir(buildTask);
 
       await this._executeBuildTask(buildTask);
     } else {
