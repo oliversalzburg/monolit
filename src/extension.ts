@@ -3,29 +3,29 @@ import { ConfigurationLibrary } from "./ConfigurationLibrary";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 
 type Selection = {
-	label: string;
-	uri: string;
+  label: string;
+  uri: string;
 };
 
 export function activate(context: vscode.ExtensionContext) {
-	console.debug("Fetching tasks...");
+  console.debug("Fetching tasks...");
 
-	const tasksCached = vscode.tasks.fetchTasks();
+  const tasksCached = vscode.tasks.fetchTasks();
 
-	let buildCommand = vscode.commands.registerCommand("monolit.build", async () => {
-		if (!Array.isArray(vscode.workspace.workspaceFolders)) {
-			return;
-		}
+  let buildCommand = vscode.commands.registerCommand("monolit.build", async () => {
+    if (!Array.isArray(vscode.workspace.workspaceFolders)) {
+      return;
+    }
 
-		const tasks = await tasksCached;
+    const tasks = await tasksCached;
 
-		const launchConfigurations = new Array<LaunchConfiguration>();
-		const previousSelection: Selection | undefined = context.workspaceState.get(
-			"monolit.lastSelection"
-		);
+    const launchConfigurations = new Array<LaunchConfiguration>();
+    const previousSelection: Selection | undefined = context.workspaceState.get(
+      "monolit.lastSelection"
+    );
 
-		const library = ConfigurationLibrary.fromWorkspaceFolders(vscode.workspace.workspaceFolders);
-		/*
+    const library = ConfigurationLibrary.fromWorkspaceFolders(vscode.workspace.workspaceFolders);
+    /*
 			let previousConfig: LaunchConfiguration | undefined;
 			const launchConfigs = debugConfigurations.map(debugConfiguration => {
 				const launchConfiguration = new LaunchConfiguration(workspaceFolder, debugConfiguration);
@@ -46,22 +46,42 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			*/
 
-		const selection = await vscode.window.showQuickPick(library.configurations, {
-			placeHolder: "Select launch configuration",
-		});
-		if (selection) {
-			console.log(
-				`Selected: ${selection.label} (${selection.workspaceFolder.uri}) with preLaunchTask: ${selection.configuration.preLaunchTask}`
-			);
-			context.workspaceState.update("monolit.lastSelection", {
-				label: selection.label,
-				uri: selection.workspaceFolder.uri,
-			});
+    const selectedConfiguration = await vscode.window.showQuickPick(library.configurations, {
+      placeHolder: "Select launch configuration",
+    });
 
-			await selection.launch(tasks);
-		}
-	});
+    if (!selectedConfiguration) {
+      console.warn("Operation cancelled");
+      return;
+    }
 
-	console.debug("Registering commands...");
-	context.subscriptions.push(buildCommand);
+    console.log(
+      `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
+    );
+    context.workspaceState.update("monolit.lastSelection", {
+      label: selectedConfiguration.label,
+      uri: selectedConfiguration.workspaceFolder.uri,
+    });
+
+    // Extremely primitive approach to workspace selection.
+    const cwdSelector = selectedConfiguration.configuration.cwd
+      .replace("${workspaceFolder}", "")
+      .replace("/*", "");
+
+    const newUri = vscode.Uri.joinPath(selectedConfiguration.workspaceFolder.uri, cwdSelector);
+
+    console.log(`Searching for matches on '${cwdSelector}'...`);
+    const contents = await vscode.workspace.fs.readDirectory(newUri);
+    const folders = contents.filter(entry => entry[1] === 2).map(entry => entry[0]);
+
+    const launchVariants = selectedConfiguration.asVariants(folders);
+    const selectedVariant = await vscode.window.showQuickPick(launchVariants, {
+      placeHolder: "Select target cwd",
+    });
+
+    await selectedConfiguration.launch(tasks, selectedVariant);
+  });
+
+  console.debug("Registering commands...");
+  context.subscriptions.push(buildCommand);
 }

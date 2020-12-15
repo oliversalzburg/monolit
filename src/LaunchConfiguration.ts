@@ -1,111 +1,115 @@
 import * as vscode from "vscode";
+import { LaunchSession } from "./LaunchSession";
 
 export class LaunchConfiguration implements vscode.QuickPickItem {
-	readonly workspaceFolder: vscode.WorkspaceFolder;
-	readonly configuration: vscode.DebugConfiguration;
+  readonly workspaceFolder: vscode.WorkspaceFolder;
+  readonly configuration: vscode.DebugConfiguration;
 
-	constructor(workspaceFolder: vscode.WorkspaceFolder, configuration: vscode.DebugConfiguration) {
-		this.workspaceFolder = workspaceFolder;
-		this.configuration = configuration;
-	}
+  constructor(workspaceFolder: vscode.WorkspaceFolder, configuration: vscode.DebugConfiguration) {
+    this.workspaceFolder = workspaceFolder;
+    this.configuration = configuration;
+  }
 
-	get label(): string {
-		return this.configuration.name;
-	}
+  get label(): string {
+    return this.configuration.name;
+  }
 
-	get description(): string | undefined {
-		return this.workspaceFolder.name;
-	}
+  get description(): string | undefined {
+    return this.workspaceFolder.name;
+  }
 
-	get detail(): string | undefined {
-		return this.configuration.preLaunchTask
-			? `after running '${this.configuration.preLaunchTask}' task in '${this.configuration.cwd || "<workspace root>"
-			}'`
-			: undefined;
-	}
+  get detail(): string | undefined {
+    return "";
+  }
 
-	async launch(withTasks: Array<vscode.Task>): Promise<void> {
-		const userDefinedPreLaunchTask = this.configuration.preLaunchTask;
-		this.configuration.preLaunchTask = undefined;
-		const selectionConfigurationCwd = this.configuration.cwd || "${workspaceFolder}";
+  asDebugConfiguration(): vscode.DebugConfiguration {
+    const configuration = {
+      ...this.configuration,
+      preLaunchTask: undefined,
+    };
+    return configuration;
+  }
 
-		// TODO: This causes issues. Probably some tasks share the same name. Find better approach.
-		const plt = withTasks.find(task => task.name === userDefinedPreLaunchTask);
-		if (plt) {
-			console.debug(
-				`Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selectionConfigurationCwd}'...`
-			);
+  asVariants(folders: Array<string>): Array<LaunchSession> {
+    return folders.map(folder => new LaunchSession(this, folder));
+  }
 
-			const execution: vscode.ShellExecution = plt.execution as vscode.ShellExecution;
-			let cwdWasReplaced = false;
-			if (execution.options) {
-				if (execution.options.cwd === "inherit") {
-					console.debug(`Replacing 'cwd' in preLaunchTask with '${selectionConfigurationCwd}'.`);
+  async launch(withTasks: Array<vscode.Task>, asVariant?: LaunchSession): Promise<void> {
+    const userDefinedPreLaunchTask = this.configuration.preLaunchTask;
+    //this.configuration.preLaunchTask = undefined;
+    const selectionConfigurationCwd = asVariant?.cwd || this.configuration.cwd || "${workspaceFolder}";
 
-					if (execution.command) {
-						plt.execution = new vscode.ShellExecution(execution.command, execution.args, {
-							cwd: selectionConfigurationCwd,
-							env: execution.options?.env,
-							executable: execution.options?.executable,
-							shellArgs: execution.options?.shellArgs,
-							shellQuoting: execution.options?.shellQuoting,
-						});
-					} else {
-						plt.execution = new vscode.ShellExecution(execution.commandLine!, {
-							cwd: selectionConfigurationCwd,
-							env: execution.options?.env,
-							executable: execution.options?.executable,
-							shellArgs: execution.options?.shellArgs,
-							shellQuoting: execution.options?.shellQuoting,
-						});
-					}
-					cwdWasReplaced = true;
-				} else {
-					console.debug(
-						`The 'cwd' in preLaunchTask is not set to 'inherit', so it won't be changed.`
-					);
-				}
-			} else {
-				console.debug(`The preLaunchTask doesn't specify a cwd, so it won't be changed.`);
-			}
+    // TODO: This causes issues. Probably some tasks share the same name. Find better approach.
+    const plt = withTasks.find(task => task.name === userDefinedPreLaunchTask);
 
-			await this._executeBuildTask(plt);
+    if (plt) {
+      console.debug(
+        `Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selectionConfigurationCwd}'...`
+      );
 
-			// Restore previous CWD after execution.
-			if (cwdWasReplaced && execution) {
-				plt.execution = execution;
-			}
-		} else {
-			console.warn(`${userDefinedPreLaunchTask} could not be found.`);
-		}
+      // All tasks are currently assumed to be "shell" tasks.
 
-		console.debug(`Executing launch configuration...`);
-		await vscode.debug.startDebugging(this.workspaceFolder, this.configuration);
+      const originalExecution: vscode.ShellExecution = plt.execution as vscode.ShellExecution;
+      let newExecution: vscode.ShellExecution;
+      console.debug(`Replacing 'cwd' in preLaunchTask with '${selectionConfigurationCwd}'.`);
 
-		// Restore previous preLaunchTask after execution.
-		this.configuration.preLaunchTask = userDefinedPreLaunchTask;
-	}
+      if (originalExecution.command) {
+        newExecution = new vscode.ShellExecution(
+          originalExecution.command,
+          originalExecution.args,
+          {
+            cwd: selectionConfigurationCwd,
+            env: originalExecution.options?.env,
+            executable: originalExecution.options?.executable,
+            shellArgs: originalExecution.options?.shellArgs,
+            shellQuoting: originalExecution.options?.shellQuoting,
+          }
+        );
+      } else {
+        newExecution = new vscode.ShellExecution(originalExecution.commandLine!, {
+          cwd: selectionConfigurationCwd,
+          env: originalExecution.options?.env,
+          executable: originalExecution.options?.executable,
+          shellArgs: originalExecution.options?.shellArgs,
+          shellQuoting: originalExecution.options?.shellQuoting,
+        });
+      }
 
-	async _executeBuildTask(task: vscode.Task): Promise<void> {
-		const execution = await vscode.tasks.executeTask(task);
+      const buildTask: vscode.Task = {
+        ...plt,
+        execution: newExecution,
+      };
 
-		const terminal = vscode.window.terminals.find(
-			terminal => terminal.name === `Task - ${task.name}`
-		);
-		if (terminal) {
-			console.debug(`Showing terminal window...`);
-			terminal.show();
-		} else {
-			console.debug("Terminal window not found. Maybe first run.");
-		}
+      await this._executeBuildTask(buildTask);
+    } else {
+      console.warn(`${userDefinedPreLaunchTask} could not be found.`);
+    }
 
-		return new Promise<void>(resolve => {
-			let disposable = vscode.tasks.onDidEndTask(e => {
-				if (e.execution === execution) {
-					disposable.dispose();
-					resolve();
-				}
-			});
-		});
-	}
+    console.debug(`Executing launch configuration...`);
+    const configuration = this.asDebugConfiguration();
+    await vscode.debug.startDebugging(this.workspaceFolder, configuration);
+  }
+
+  async _executeBuildTask(task: vscode.Task): Promise<void> {
+    const execution = await vscode.tasks.executeTask(task);
+
+    const terminal = vscode.window.terminals.find(
+      terminal => terminal.name === `Task - ${task.name}`
+    );
+    if (terminal) {
+      console.debug(`Showing terminal window...`);
+      terminal.show();
+    } else {
+      console.debug("Terminal window not found. Maybe first run.");
+    }
+
+    return new Promise<void>(resolve => {
+      let disposable = vscode.tasks.onDidEndTask(e => {
+        if (e.execution === execution) {
+          disposable.dispose();
+          resolve();
+        }
+      });
+    });
+  }
 }
