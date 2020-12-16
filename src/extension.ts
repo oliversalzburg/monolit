@@ -1,6 +1,7 @@
-import { basename } from "path";
+import { glob } from "glob";
 import * as vscode from "vscode";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
+import { CwdParser } from "./CwdParser";
 import { LaunchSession } from "./LaunchSession";
 import { SlowConsole } from "./SlowConsole";
 
@@ -68,24 +69,23 @@ export async function build(context: vscode.ExtensionContext) {
   );
   await SlowConsole.debug(`  + Configured cwd: '${selectedConfiguration.configuration.cwd}'`);
 
-  // Extremely primitive approach to workspace selection.
-  // We currently only support * at the tail of the base selector.
-  // Use a proper glob matching library to find the targets!
-  const baseSelector = basename(selectedConfiguration.configuration.cwd);
-  const requiredPrefix = baseSelector.replace("*", "");
-  const cwdSelector = selectedConfiguration.configuration.cwd
-    .replace("${workspaceFolder}", "")
-    .replace(baseSelector, "");
+  // Find new cwd for operation.
+  const cwdParser = new CwdParser(selectedConfiguration.configuration.cwd);
+  await cwdParser.analyzeAndRewrite();
 
-  await SlowConsole.debug(`  + Base selector is: ${baseSelector}`);
+  await SlowConsole.debug(
+    `  ? Glob search for '${cwdParser.cwd}' in '${selectedConfiguration.workspaceFolder.uri.fsPath}'...`
+  );
+  const targets = glob.sync(cwdParser.cwd, {
+    cwd: selectedConfiguration.workspaceFolder.uri.fsPath,
+  });
 
-  const newUri = vscode.Uri.joinPath(selectedConfiguration.workspaceFolder.uri, cwdSelector);
-
-  await SlowConsole.debug(`  ? Searching for matches on '${cwdSelector}' with '${newUri}'...`);
-  const contents = await vscode.workspace.fs.readDirectory(newUri);
-  const folders = contents
-    .filter(entry => entry[1] === 2 && entry[0].startsWith(requiredPrefix))
-    .map(entry => `\${workspaceFolder}${cwdSelector}/${entry[0]}`);
+  let infoString = targets.join(",");
+  if (100 < infoString.length) {
+    infoString = infoString.slice(0, 100) + "...";
+  }
+  const folders = targets.map(entry => `\${workspaceFolder}/${entry}`);
+  await SlowConsole.debug(`  → ${folders.length} entries: ${infoString}`);
 
   await SlowConsole.debug("Loading last configuration variant...");
   const previousVariantCwd: string | undefined = context.workspaceState.get(
