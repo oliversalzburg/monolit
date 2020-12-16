@@ -2,7 +2,7 @@
   "name": "monolit",
   "displayName": "MonoLit",
   "description": "Dynamic launch system for VS Code",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "publisher": "OliverSalzburg",
   "repository": {
     "type": "git",
@@ -35,7 +35,8 @@
     "vscode:prepublish": "webpack --mode production",
     "compile": "webpack --mode development",
     "watch": "webpack --mode development --watch",
-    "package": "run vsce package --yarn"
+    "package": "run vsce package --yarn",
+    "publish": "run vsce publish --yarn"
   },
   "devDependencies": {
     "@types/glob": "^7.1.3",
