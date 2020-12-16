@@ -2,7 +2,7 @@
   "name": "monolit",
   "displayName": "MonoLit",
   "description": "Builds in VS Code, except they don't suck.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "OliverSalzburg",
   "repository": {
     "type": "git",
