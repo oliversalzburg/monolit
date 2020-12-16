@@ -2,7 +2,7 @@
   "name": "monolit",
   "displayName": "MonoLit",
   "description": "Dynamic launch system for VS Code",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "OliverSalzburg",
   "repository": {
     "type": "git",
