@@ -1,13 +1,14 @@
 import * as vscode from "vscode";
 import { SelectedConfiguration } from "./extension";
 import { LaunchConfiguration } from "./LaunchConfiguration";
+import { SlowConsole } from "./SlowConsole";
 
 export class ConfigurationLibrary {
   configurations: Array<LaunchConfiguration> = [];
 
-  static fromWorkspaceFolders(
+  static async fromWorkspaceFolders(
     folders: ReadonlyArray<vscode.WorkspaceFolder>
-  ): ConfigurationLibrary {
+  ): Promise<ConfigurationLibrary> {
     const library = new ConfigurationLibrary();
 
     for (const workspaceFolder of folders) {
@@ -19,7 +20,7 @@ export class ConfigurationLibrary {
         "configurations"
       );
       if (!debugConfigurations) {
-        console.debug(`  No launch configurations in '${workspaceFolder}'.`);
+        await SlowConsole.debug(`  No launch configurations in '${workspaceFolder}'.`);
         continue;
       }
 
@@ -29,12 +30,12 @@ export class ConfigurationLibrary {
           configuration.type === "node" &&
           (this.hasMonoLitableCwd(configuration) || this.hasMonoLitableName(configuration))
         ) {
-          console.info(
-            `  Registering configuration '${configuration.name}' as a MonoLit configuration.`
+          await SlowConsole.info(
+            `  + Registering configuration '${configuration.name}' as a MonoLit configuration.`
           );
           library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
         } else {
-          console.debug(`  Configuration '${configuration.name}' is not monolit-able!`);
+          await SlowConsole.debug(`  - Configuration '${configuration.name}' is not monolit-able!`);
         }
       }
     }
