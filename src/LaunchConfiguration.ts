@@ -24,13 +24,14 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
   }
 
   asDebugConfiguration(asVariant?: LaunchSession): vscode.DebugConfiguration {
+    const cwd = asVariant ? asVariant.cwd : this.configuration.cwd;
     const configuration = {
       ...this.configuration,
       preLaunchTask: undefined,
       program: asVariant
-        ? (<string>this.configuration.program).replace("*", asVariant.basename)
+        ? (<string>this.configuration.program).replace(this.configuration.cwd, cwd)
         : this.configuration.program,
-      cwd: asVariant ? asVariant.cwd : this.configuration.cwd,
+      cwd,
     };
     return configuration;
   }
