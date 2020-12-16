@@ -46,8 +46,8 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     const selectionConfigurationCwd =
       (asVariant
         ? join(asVariant.candidate.workspace.uri.fsPath, asVariant.candidate.path)
-        : undefined) ||
-      this.configuration.cwd ||
+        : undefined) ??
+      this.configuration.cwd ??
       "${workspaceFolder}";
 
     const userDefinedPreLaunchTask = this.configuration.preLaunchTask;

@@ -68,10 +68,10 @@ export async function build(context: vscode.ExtensionContext) {
     `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
   );
 
-  const configuredCwd: string = selectedConfiguration.configuration.cwd;
+  const configuredCwd: string = selectedConfiguration.configuration.cwd ?? "${workspaceFolder}";
   const search = new CandidateSearch(configuredCwd, vscode.workspace.workspaceFolders);
 
-  const cwdIsGlobbed = configuredCwd.includes("*");
+  const cwdIsGlobbed = configuredCwd && configuredCwd.includes("*");
 
   await SlowConsole.debug(
     `  + Configured cwd: '${configuredCwd}'${cwdIsGlobbed ? "" : " (not globbed)"}`
