@@ -1,7 +1,7 @@
 {
   "name": "monolit",
   "displayName": "MonoLit",
-  "description": "Builds in VS Code, except they don't suck.",
+  "description": "Dynamic launch system for VS Code",
   "version": "0.0.4",
   "publisher": "OliverSalzburg",
   "repository": {
