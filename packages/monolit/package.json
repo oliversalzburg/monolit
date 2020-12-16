@@ -17,7 +17,7 @@
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
-    "workspaceContains:yarn.lock"
+    "onStartupFinished"
   ],
   "contributes": {
     "commands": [

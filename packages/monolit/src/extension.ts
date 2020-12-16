@@ -1,7 +1,6 @@
-import { glob } from "glob";
 import * as vscode from "vscode";
+import { Candidate, CandidateSearch } from "./CandidateSearch";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
-import { CwdParser } from "./CwdParser";
 import { LaunchSession } from "./LaunchSession";
 import { SlowConsole } from "./SlowConsole";
 
@@ -34,8 +33,6 @@ export async function build(context: vscode.ExtensionContext) {
     return;
   }
 
-  const tasks = await GLOBAL_TASK_CACHE;
-
   await SlowConsole.debug("Loading previous configuration selection...");
   const previousConfig: SelectedConfiguration | undefined = context.workspaceState.get(
     "monolit.lastConfiguration"
@@ -56,7 +53,10 @@ export async function build(context: vscode.ExtensionContext) {
   await SlowConsole.debug(`  → ${library.configurations.length} entries`);
 
   const selectedConfiguration = await vscode.window.showQuickPick(library.configurations, {
-    placeHolder: "Select launch configuration",
+    placeHolder:
+      library.configurations.length === 0
+        ? "No monolit-able configurations found."
+        : "Select launch configuration",
   });
 
   if (!selectedConfiguration) {
@@ -67,43 +67,47 @@ export async function build(context: vscode.ExtensionContext) {
   await SlowConsole.debug(
     `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
   );
-  await SlowConsole.debug(`  + Configured cwd: '${selectedConfiguration.configuration.cwd}'`);
 
-  // Find new cwd for operation.
-  const cwdParser = new CwdParser(selectedConfiguration.configuration.cwd);
-  await cwdParser.analyzeAndRewrite();
+  const configuredCwd: string = selectedConfiguration.configuration.cwd;
+  const search = new CandidateSearch(configuredCwd, vscode.workspace.workspaceFolders);
+
+  const cwdIsGlobbed = configuredCwd.includes("*");
 
   await SlowConsole.debug(
-    `  ? Glob search for '${cwdParser.cwd}' in '${selectedConfiguration.workspaceFolder.uri.fsPath}'...`
+    `  + Configured cwd: '${configuredCwd}'${cwdIsGlobbed ? "" : " (not globbed)"}`
   );
-  const targets = glob.sync(cwdParser.cwd, {
-    cwd: selectedConfiguration.workspaceFolder.uri.fsPath,
-  });
 
-  let infoString = targets.join(",");
+  // Find new cwd for operation.
+  await SlowConsole.debug(`  ? Starting candidate search in all workspaces...`);
+  const targets = await search.search();
+
+  let infoString = targets.map(target => `${target.workspace.name}:${target.path}`).join(",");
   if (100 < infoString.length) {
     infoString = infoString.slice(0, 100) + "...";
   }
-  const folders = targets.map(entry => `\${workspaceFolder}/${entry}`);
+  const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
   await SlowConsole.debug(`  → ${folders.length} entries: ${infoString}`);
 
   await SlowConsole.debug("Loading last configuration variant...");
-  const previousVariantCwd: string | undefined = context.workspaceState.get(
+  const previousVariantCwd: Candidate | undefined = context.workspaceState.get(
     "monolit.lastVariantCwd"
   );
   if (previousVariantCwd) {
-    await SlowConsole.debug(`  → ${previousVariantCwd}`);
+    await SlowConsole.debug(`  → ${previousVariantCwd.workspace.name}:${previousVariantCwd.path}`);
   } else {
     await SlowConsole.debug(`  → none`);
   }
 
-  const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(folders);
+  const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
   if (previousVariantCwd) {
     LaunchSession.orderByPriority(launchVariants, previousVariantCwd);
   }
 
   const selectedVariant: LaunchSession | undefined = await vscode.window.showQuickPick(
-    launchVariants,
+    (async () => {
+      await GLOBAL_TASK_CACHE;
+      return launchVariants;
+    })(),
     {
       placeHolder: "Select target cwd",
     }
@@ -121,7 +125,9 @@ export async function build(context: vscode.ExtensionContext) {
     label: selectedConfiguration.label,
     uri: selectedConfiguration.workspaceFolder.uri.toString(),
   });
-  context.workspaceState.update("monolit.lastVariantCwd", selectedVariant.cwd);
+  context.workspaceState.update("monolit.lastVariantCwd", selectedVariant.candidate);
+
+  const tasks = await GLOBAL_TASK_CACHE;
 
   await selectedConfiguration.launch(tasks, selectedVariant);
 }

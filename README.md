@@ -1,28 +1,28 @@
 # MonoLit
 
-MonoLit tries to establish more dynamic monorepo debugging workflows in VS Code.
+MonoLit tries to establish more dynamic debugging workflows in VS Code.
 
 ## About
 
 This extension tries to solve debug/launch configuration and task duplication
- when working in monorepos in VS Code.
+ when working in multi-project environments, like monorepos or multi-folder
+ workspaces, in VS Code.
 
 ## Usage
-Currently, the extension only activates in workspaces that contain a `yarn.lock`.
-
 Invoke the `monolit.build` command to get started.
 
 MonoLit presents a list of "monolit-able" launch configurations. A launch
  configuration becomes monolit-able if any of the following are true:
 
 - The `cwd` of the configuration contains a `*`.
+- The `program` of the configuration contains a `*`.
 - The name starts with `MonoLit:`.
 
 ![Configuration Selection](./doc/select-configuration.png)
 
 The highlighted portion shows the name of the configuration. Next to it is the
  name of the workspace this configuration was found in.
-On the second line you see the `preLaunchTask` set in the configuration.
+On the second line you see the `preLaunchTask` set in the configuration, if any.
 
 MonoLit will then check the `cwd` in the configuration and expand the glob
  pattern therein. For example, your `cwd` is configured as:
@@ -31,7 +31,8 @@ MonoLit will then check the `cwd` in the configuration and expand the glob
   "cwd": "${workspaceFolder}/packages/*"
 ```
 
-It will then present the findings for you to select a target for this launch.
+It will then look for matches in all open workspace folders and present the
+ findings, for you to select a target for this launch.
 
 ![Target Selection](./doc/select-target.png)
 

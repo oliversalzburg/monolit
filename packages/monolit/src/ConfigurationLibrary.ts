@@ -28,14 +28,16 @@ export class ConfigurationLibrary {
       for (const configuration of debugConfigurations) {
         if (
           configuration.type === "node" &&
-          (this.hasMonoLitableCwd(configuration) || this.hasMonoLitableName(configuration))
+          (this.hasMonoLitableCwd(configuration) ||
+            this.hasMonoLitableName(configuration) ||
+            this.hasMonoLitableProgram(configuration))
         ) {
           await SlowConsole.info(
             `  + Registering configuration '${configuration.name}' as a MonoLit configuration.`
           );
           library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
         } else {
-          await SlowConsole.debug(`  - Configuration '${configuration.name}' is not monolit-able!`);
+          await SlowConsole.debug(`  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`);
         }
       }
     }
@@ -49,6 +51,10 @@ export class ConfigurationLibrary {
 
   static hasMonoLitableName(configuration: vscode.DebugConfiguration): boolean {
     return configuration.name.startsWith("MonoLit:");
+  }
+
+  static hasMonoLitableProgram(configuration: vscode.DebugConfiguration): boolean {
+    return "program" in configuration && configuration.program.includes("*");
   }
 
   orderByPriority(previousSelection: SelectedConfiguration): void {
