@@ -1,5 +1,6 @@
 {
   "name": "root",
+  "private": "true",
   "version": "latest",
   "repository": {
     "type": "git",
