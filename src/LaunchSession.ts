@@ -28,4 +28,21 @@ export class LaunchSession implements QuickPickItem {
       ? `→ ${this._configuration.configuration.preLaunchTask}`
       : "";
   }
+
+  static orderByPriority(
+    variants: Array<LaunchSession>,
+    lastVariantCwd: string
+  ): Array<LaunchSession> {
+    variants.sort((a, b) => {
+      if (a.cwd === lastVariantCwd) {
+        return -1;
+      }
+      if (b.cwd === lastVariantCwd) {
+        return 1;
+      }
+
+      return a.label.localeCompare(b.label);
+    });
+    return variants;
+  }
 }

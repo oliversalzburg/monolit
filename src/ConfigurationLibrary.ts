@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { SelectedConfiguration } from "./extension";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 
 export class ConfigurationLibrary {
@@ -18,7 +19,7 @@ export class ConfigurationLibrary {
         "configurations"
       );
       if (!debugConfigurations) {
-        console.debug(`No launch configurations in '${workspaceFolder}'.`);
+        console.debug(`  No launch configurations in '${workspaceFolder}'.`);
         continue;
       }
 
@@ -28,10 +29,12 @@ export class ConfigurationLibrary {
           configuration.type === "node" &&
           (this.hasMonoLitableCwd(configuration) || this.hasMonoLitableName(configuration))
         ) {
-          console.log(
-            `Registering configuration '${configuration.name}' as a MonoLit configuration.`
+          console.info(
+            `  Registering configuration '${configuration.name}' as a MonoLit configuration.`
           );
           library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
+        } else {
+          console.debug(`  Configuration '${configuration.name}' is not monolit-able!`);
         }
       }
     }
@@ -45,5 +48,24 @@ export class ConfigurationLibrary {
 
   static hasMonoLitableName(configuration: vscode.DebugConfiguration): boolean {
     return configuration.name.startsWith("MonoLit:");
+  }
+
+  orderByPriority(previousSelection: SelectedConfiguration): void {
+    this.configurations.sort((a, b) => {
+      if (
+        a.workspaceFolder.uri.toString() === previousSelection.uri &&
+        a.label === previousSelection.label
+      ) {
+        return -1;
+      }
+      if (
+        b.workspaceFolder.uri.toString() === previousSelection.uri &&
+        b.label === previousSelection.label
+      ) {
+        return 1;
+      }
+
+      return a.label.localeCompare(b.label);
+    });
   }
 }

@@ -1,104 +1,128 @@
 import { basename } from "path";
 import * as vscode from "vscode";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
-import { LaunchConfiguration } from "./LaunchConfiguration";
+import { LaunchSession } from "./LaunchSession";
 
-type Selection = {
+export type SelectedConfiguration = {
   label: string;
   uri: string;
 };
 
+let GLOBAL_TASK_CACHE: Thenable<Array<vscode.Task>> = vscode.tasks.fetchTasks();
+
 export function activate(context: vscode.ExtensionContext) {
-  console.debug("Fetching tasks...");
+  console.debug("Activated: Fetching tasks...");
 
-  const tasksCached = vscode.tasks.fetchTasks();
+  const commandBuild = vscode.commands.registerCommand(
+    "monolit.build",
+    build.bind(undefined, context)
+  );
+  const commandRefreshTasks = vscode.commands.registerCommand(
+    "monolit.refreshTasks",
+    refreshTasks.bind(undefined, context)
+  );
 
-  let buildCommand = vscode.commands.registerCommand("monolit.build", async () => {
-    if (!Array.isArray(vscode.workspace.workspaceFolders)) {
-      return;
-    }
+  console.debug("Activated: Registering commands...");
+  context.subscriptions.push(commandBuild);
+  context.subscriptions.push(commandRefreshTasks);
+}
 
-    const tasks = await tasksCached;
+export async function build(context: vscode.ExtensionContext) {
+  if (!Array.isArray(vscode.workspace.workspaceFolders)) {
+    return;
+  }
 
-    const launchConfigurations = new Array<LaunchConfiguration>();
-    const previousSelection: Selection | undefined = context.workspaceState.get(
-      "monolit.lastSelection"
-    );
+  const tasks = await GLOBAL_TASK_CACHE;
 
-    const library = ConfigurationLibrary.fromWorkspaceFolders(vscode.workspace.workspaceFolders);
-    /*
-			let previousConfig: LaunchConfiguration | undefined;
-			const launchConfigs = debugConfigurations.map(debugConfiguration => {
-				const launchConfiguration = new LaunchConfiguration(workspaceFolder, debugConfiguration);
-				if (previousSelection && previousSelection.label === launchConfiguration.label && previousSelection.uri && launchConfiguration.workspaceFolder.uri) {
-					console.log("Found previous selection again");
-					previousConfig = launchConfiguration;
-				}
-				return launchConfiguration;
-			});
-	
-			// Add all launch configurations.
-			launchConfigurations.push(...launchConfigs);
-			// The move the previously selected one to the top.
-			if (previousConfig) {
-				const index = launchConfigurations.indexOf(previousConfig);
-				launchConfigurations.splice(index, 1);
-				launchConfigurations.unshift(previousConfig);
-			}
-			*/
+  console.debug("Loading previous configuration selection...");
+  const previousConfig: SelectedConfiguration | undefined = context.workspaceState.get(
+    "monolit.lastConfiguration"
+  );
+  if (previousConfig) {
+    console.debug(`  → ${previousConfig.label}@${previousConfig.uri}`);
+  } else {
+    console.debug(`  → none`);
+  }
 
-    const selectedConfiguration = await vscode.window.showQuickPick(library.configurations, {
-      placeHolder: "Select launch configuration",
-    });
+  console.debug("Constructing configuration library...");
+  const library = ConfigurationLibrary.fromWorkspaceFolders(vscode.workspace.workspaceFolders);
+  if (previousConfig) {
+    library.orderByPriority(previousConfig);
+  }
+  console.debug(`  → ${library.configurations.length} entries`);
 
-    if (!selectedConfiguration) {
-      console.warn("Operation cancelled");
-      return;
-    }
-
-    console.log(
-      `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
-    );
-    context.workspaceState.update("monolit.lastSelection", {
-      label: selectedConfiguration.label,
-      uri: selectedConfiguration.workspaceFolder.uri,
-    });
-
-    console.log(`Target cwd: '${selectedConfiguration.configuration.cwd}'`);
-
-    // Extremely primitive approach to workspace selection.
-    // We currently only support * at the tail of the base selector.
-    // Use a proper glob matching library to find the targets!
-    const baseSelector = basename(selectedConfiguration.configuration.cwd);
-    const requiredPrefix = baseSelector.replace("*", "");
-    const cwdSelector = selectedConfiguration.configuration.cwd
-      .replace("${workspaceFolder}", "")
-      .replace(baseSelector, "");
-
-    console.log(`Base selector is: ${baseSelector}`);
-
-    const newUri = vscode.Uri.joinPath(selectedConfiguration.workspaceFolder.uri, cwdSelector);
-
-    console.log(`Searching for matches on '${cwdSelector}'...`);
-    const contents = await vscode.workspace.fs.readDirectory(newUri);
-    const folders = contents
-      .filter(entry => entry[1] === 2 && entry[0].startsWith(requiredPrefix))
-      .map(entry => `\${workspaceFolder}${cwdSelector}/${entry[0]}`);
-    console.dir(folders);
-
-    const launchVariants = selectedConfiguration.asVariants(folders);
-    const selectedVariant = await vscode.window.showQuickPick(launchVariants, {
-      placeHolder: "Select target cwd",
-    });
-
-    if (!selectedVariant) {
-      console.warn("Operation cancelled");
-      return;
-    }
-
-    await selectedConfiguration.launch(tasks, selectedVariant);
+  const selectedConfiguration = await vscode.window.showQuickPick(library.configurations, {
+    placeHolder: "Select launch configuration",
   });
 
-  console.debug("Registering commands...");
-  context.subscriptions.push(buildCommand);
+  if (!selectedConfiguration) {
+    console.warn("Operation cancelled.");
+    return;
+  }
+
+  console.debug(
+    `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
+  );
+  console.debug(`  + Configured cwd: '${selectedConfiguration.configuration.cwd}'`);
+
+  // Extremely primitive approach to workspace selection.
+  // We currently only support * at the tail of the base selector.
+  // Use a proper glob matching library to find the targets!
+  const baseSelector = basename(selectedConfiguration.configuration.cwd);
+  const requiredPrefix = baseSelector.replace("*", "");
+  const cwdSelector = selectedConfiguration.configuration.cwd
+    .replace("${workspaceFolder}", "")
+    .replace(baseSelector, "");
+
+  console.debug(`  + Base selector is: ${baseSelector}`);
+
+  const newUri = vscode.Uri.joinPath(selectedConfiguration.workspaceFolder.uri, cwdSelector);
+
+  console.debug(`  ? Searching for matches on '${cwdSelector}' with '${newUri}'...`);
+  const contents = await vscode.workspace.fs.readDirectory(newUri);
+  const folders = contents
+    .filter(entry => entry[1] === 2 && entry[0].startsWith(requiredPrefix))
+    .map(entry => `\${workspaceFolder}${cwdSelector}/${entry[0]}`);
+  console.dir(folders);
+
+  console.debug("Loading last configuration variant...");
+  const previousVariantCwd: string | undefined = context.workspaceState.get(
+    "monolit.lastVariantCwd"
+  );
+  if (previousVariantCwd) {
+    console.debug(`  → ${previousVariantCwd}`);
+  } else {
+    console.debug(`  → none`);
+  }
+
+  const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(folders);
+  if (previousVariantCwd) {
+    LaunchSession.orderByPriority(launchVariants, previousVariantCwd);
+  }
+
+  const selectedVariant: LaunchSession | undefined = await vscode.window.showQuickPick(
+    launchVariants,
+    {
+      placeHolder: "Select target cwd",
+    }
+  );
+
+  if (!selectedVariant) {
+    console.warn("Operation cancelled.");
+    return;
+  }
+
+  // Persist selected configuration
+  context.workspaceState.update("monolit.lastConfiguration", {
+    label: selectedConfiguration.label,
+    uri: selectedConfiguration.workspaceFolder.uri.toString(),
+  });
+  context.workspaceState.update("monolit.lastVariantCwd", selectedVariant.cwd);
+
+  await selectedConfiguration.launch(tasks, selectedVariant);
+}
+
+export async function refreshTasks(context: vscode.ExtensionContext) {
+  GLOBAL_TASK_CACHE = vscode.tasks.fetchTasks();
+  return GLOBAL_TASK_CACHE;
 }
