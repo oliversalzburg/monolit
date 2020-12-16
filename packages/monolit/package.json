@@ -7,7 +7,8 @@
   "publisher": "OliverSalzburg",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oliversalzburg/monolit.git"
+    "url": "https://github.com/oliversalzburg/monolit.git",
+    "directory": "/packages/monolit"
   },
   "license": "UNLICENSED",
   "engines": {
