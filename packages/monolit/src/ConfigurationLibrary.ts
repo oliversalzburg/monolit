@@ -44,7 +44,7 @@ export class ConfigurationLibrary {
             this.hasMonoLitableProgram(configuration))
         ) {
           Log.info(
-            `  + Registering configuration '${configuration.name}' as a MonoLit configuration.`
+            `  + Registering configuration '${configuration.name}' from workspace '${workspaceFolder.name}' as a MonoLit configuration.`
           );
           library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
         } else {
