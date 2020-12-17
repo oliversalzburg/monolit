@@ -27,7 +27,7 @@ export class ConfigurationLibrary {
       // Find monolit-able configurations.
       for (const configuration of debugConfigurations) {
         if (
-          configuration.type === "node" &&
+          (configuration.type === "extensionHost" || configuration.type === "node") &&
           (this.hasMonoLitableCwd(configuration) ||
             this.hasMonoLitableName(configuration) ||
             this.hasMonoLitableProgram(configuration))
@@ -37,7 +37,9 @@ export class ConfigurationLibrary {
           );
           library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
         } else {
-          await SlowConsole.debug(`  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`);
+          await SlowConsole.debug(
+            `  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`
+          );
         }
       }
     }
