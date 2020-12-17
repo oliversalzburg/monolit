@@ -90,13 +90,13 @@ export async function build(context: vscode.ExtensionContext) {
 
   // Get the previously selected variant to offer it as the top choice.
   await SlowConsole.debug("Loading last configuration variant...");
-  let previousVariant: Candidate | undefined = context.workspaceState.get(
-    "monolit.lastVariantCwd"
-  );
+  let previousVariant: Candidate | undefined = context.workspaceState.get("monolit.lastVariantCwd");
   // Basic schema check for setting while we're still moving shit around.
   if (
     previousVariant &&
-    ("workspace" in previousVariant === false || "path" in previousVariant === false)
+    (typeof previousVariant !== "object" ||
+      "workspace" in previousVariant === false ||
+      "path" in previousVariant === false)
   ) {
     previousVariant = undefined;
   }
