@@ -4,6 +4,7 @@
   "description": "Dynamic launch system for VS Code",
   "icon": "icon.png",
   "version": "0.0.15",
+  "preview": true,
   "publisher": "OliverSalzburg",
   "repository": {
     "type": "git",
@@ -17,6 +18,14 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "debug",
+    "launch",
+    "monorepo",
+    "task",
+    "workspace"
+  ],
+  "qna": "false",
   "main": "./dist/extension.js",
   "activationEvents": [
     "onStartupFinished"
