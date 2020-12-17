@@ -13,14 +13,19 @@ export class LaunchSession implements QuickPickItem {
   }
 
   get label(): string {
-    return basename(this.candidate.path);
+    return this.candidate.displayAs || basename(this.candidate.path);
   }
 
   get description(): string | undefined {
-    return `${this.candidate.workspace.name}`;
+    // Only print the workspace name, if the label is distinct from the
+    // workspace name.
+    // They can be identical if the user matched only on "${workspaceFolder}".
+    // In that case we don't want the redundant repetition.
+    return this.label !== this.candidate.workspace.name ? `${this.candidate.workspace.name}` : "";
   }
 
   get detail(): string | undefined {
+    // The launch configuration to be started, and the optional preLaunchTask.
     return this._configuration.configuration.preLaunchTask
       ? `→ ${this._configuration.configuration.preLaunchTask} → ${this._configuration.configuration.name}`
       : `→ ${this._configuration.configuration.name}`;

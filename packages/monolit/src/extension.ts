@@ -81,7 +81,9 @@ export async function build(context: vscode.ExtensionContext) {
   await SlowConsole.debug(`  ? Starting candidate search in all workspaces...`);
   const targets = await search.search();
 
-  let infoString = targets.map(target => `${target.workspace.name}:${target.path}`).join(",");
+  let infoString = targets
+    .map(target => `${target.workspace.name}:${target.path || "<root>"}`)
+    .join(",");
   if (100 < infoString.length) {
     infoString = infoString.slice(0, 100) + "...";
   }
@@ -101,7 +103,9 @@ export async function build(context: vscode.ExtensionContext) {
     previousVariant = undefined;
   }
   if (previousVariant) {
-    await SlowConsole.debug(`  → was: ${previousVariant.workspace.name}:${previousVariant.path}`);
+    await SlowConsole.debug(
+      `  → was: ${previousVariant.workspace.name}:${previousVariant.path || "<root>"}`
+    );
   } else {
     await SlowConsole.debug(`  → was: none`);
   }

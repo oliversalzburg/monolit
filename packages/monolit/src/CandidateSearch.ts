@@ -1,11 +1,12 @@
 import glob = require("glob");
+import { basename } from "path";
 import * as vscode from "vscode";
 import { CwdParser } from "./CwdParser";
-import { SlowConsole } from "./SlowConsole";
 
 export type Candidate = {
   workspace: vscode.WorkspaceFolder;
   path: string;
+  displayAs?: string;
 };
 
 export class CandidateSearch {
@@ -26,10 +27,16 @@ export class CandidateSearch {
     const candidates: Array<Candidate> = [];
     for (const workspace of this.workspaces) {
       if (!cwdIsGlobbed) {
+        let displayString = workspace.name;
+        if (cwdParser.cwd) {
+          displayString += `:${cwdParser.cwd}`;
+        }
+
         try {
           await vscode.workspace.fs.stat(vscode.Uri.joinPath(workspace.uri, cwdParser.cwd));
           candidates.push({
             path: cwdParser.cwd,
+            displayAs: displayString,
             workspace,
           });
         } catch (error) {
@@ -45,6 +52,7 @@ export class CandidateSearch {
       for (const target of targets) {
         candidates.push({
           path: target,
+          displayAs: basename(target),
           workspace,
         });
       }
