@@ -1,8 +1,18 @@
 import * as vscode from "vscode";
 
+/**
+ * Provide a really primitive logging interface that slightly resembles the
+ * browser console.
+ * Provide a static interface, but also prepare to be used as an instance for
+ * whatever reason.
+ */
 export class Log {
   private _outputChannel: vscode.OutputChannel | undefined;
 
+  /**
+   * Initialize the log with a VS Code output channel.
+   * This is the channel the log instance will write to.
+   */
   init(outputChannel: vscode.OutputChannel) {
     this._outputChannel = outputChannel;
   }
@@ -35,6 +45,10 @@ export class Log {
     this._outputChannel.appendLine(text);
   }
 
+  /**
+   * Initialize the global log instance  with a VS Code output channel.
+   * This is the channel the global log instance will write to.
+   */
   static init(outputChannel: vscode.OutputChannel) {
     _instance.init(outputChannel);
   }
