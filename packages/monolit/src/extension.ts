@@ -101,9 +101,9 @@ export async function build(context: vscode.ExtensionContext) {
     previousVariant = undefined;
   }
   if (previousVariant) {
-    await SlowConsole.debug(`  → ${previousVariant.workspace.name}:${previousVariant.path}`);
+    await SlowConsole.debug(`  → was: ${previousVariant.workspace.name}:${previousVariant.path}`);
   } else {
-    await SlowConsole.debug(`  → none`);
+    await SlowConsole.debug(`  → was: none`);
   }
 
   const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
