@@ -88,19 +88,27 @@ export async function build(context: vscode.ExtensionContext) {
   const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
   await SlowConsole.debug(`  → ${folders.length} entries: ${infoString}`);
 
+  // Get the previously selected variant to offer it as the top choice.
   await SlowConsole.debug("Loading last configuration variant...");
-  const previousVariantCwd: Candidate | undefined = context.workspaceState.get(
+  let previousVariant: Candidate | undefined = context.workspaceState.get(
     "monolit.lastVariantCwd"
   );
-  if (previousVariantCwd) {
-    await SlowConsole.debug(`  → ${previousVariantCwd.workspace.name}:${previousVariantCwd.path}`);
+  // Basic schema check for setting while we're still moving shit around.
+  if (
+    previousVariant &&
+    ("workspace" in previousVariant === false || "path" in previousVariant === false)
+  ) {
+    previousVariant = undefined;
+  }
+  if (previousVariant) {
+    await SlowConsole.debug(`  → ${previousVariant.workspace.name}:${previousVariant.path}`);
   } else {
     await SlowConsole.debug(`  → none`);
   }
 
   const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
-  if (previousVariantCwd) {
-    LaunchSession.orderByPriority(launchVariants, previousVariantCwd);
+  if (previousVariant) {
+    LaunchSession.orderByPriority(launchVariants, previousVariant);
   }
 
   const selectedVariant: LaunchSession | undefined = await vscode.window.showQuickPick(
