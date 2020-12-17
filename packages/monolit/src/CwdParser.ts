@@ -1,4 +1,4 @@
-import { SlowConsole } from "./SlowConsole";
+import { Log } from "./Log";
 
 export class CwdParser {
   readonly originalCwd: string;
@@ -17,7 +17,7 @@ export class CwdParser {
     // If the cwd is empty, it's assumed to be `${workspaceFolder}`
     // If the cwd is relative, it's assumed to be relative to `${workspaceFolder}`
     if (!this._cwd.startsWith("${workspaceFolder}")) {
-      await SlowConsole.warn(
+      Log.warn(
         `    ! The 'cwd' should always start with '\${workspaceFolder}' to avoid confusion!`
       );
     }

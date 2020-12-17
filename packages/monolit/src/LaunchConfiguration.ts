@@ -2,7 +2,7 @@ import { join } from "path";
 import * as vscode from "vscode";
 import { Candidate } from "./CandidateSearch";
 import { LaunchSession } from "./LaunchSession";
-import { SlowConsole } from "./SlowConsole";
+import { Log } from "./Log";
 
 export class LaunchConfiguration implements vscode.QuickPickItem {
   readonly workspaceFolder: vscode.WorkspaceFolder;
@@ -56,7 +56,7 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
       const plt = withTasks.find(task => task.name === userDefinedPreLaunchTask);
 
       if (plt) {
-        await SlowConsole.debug(
+        Log.debug(
           `  * Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selectionConfigurationCwd}'...`
         );
 
@@ -64,9 +64,7 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
 
         const originalExecution: vscode.ShellExecution = plt.execution as vscode.ShellExecution;
         let newExecution: vscode.ShellExecution;
-        await SlowConsole.debug(
-          `  ! Replacing 'cwd' in preLaunchTask with '${selectionConfigurationCwd}'.`
-        );
+        Log.debug(`  ! Replacing 'cwd' in preLaunchTask with '${selectionConfigurationCwd}'.`);
 
         if (originalExecution.command) {
           newExecution = new vscode.ShellExecution(
@@ -101,21 +99,21 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
 
         await this._executeBuildTask(buildTask);
       } else {
-        await SlowConsole.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
+        Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
       }
     } else {
-      await SlowConsole.debug(`  - no preLaunchTask requested.`);
+      Log.debug(`  - no preLaunchTask requested.`);
     }
 
-    await SlowConsole.debug(`  * Executing launch configuration...`);
+    Log.debug(`  * Executing launch configuration...`);
     const configuration = this.asDebugConfiguration(selectionConfigurationCwd);
     try {
       const result = await vscode.debug.startDebugging(this.workspaceFolder, configuration);
       if (result === true) {
-        await SlowConsole.info("MonoLit execution completed successfully.");
+        Log.info("MonoLit execution completed successfully.");
       }
     } catch (error) {
-      await SlowConsole.error(error);
+      Log.error(error);
     }
   }
 
@@ -126,12 +124,10 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
       terminal => terminal.name === `Task - ${task.name}`
     );
     if (terminal) {
-      await SlowConsole.debug(`  ! Showing terminal window...`);
+      Log.debug(`  ! Showing terminal window...`);
       terminal.show();
     } else {
-      await SlowConsole.debug(
-        "  ? Terminal window not found. Maybe this is the first run in this session."
-      );
+      Log.debug("  ? Terminal window not found. Maybe this is the first run in this session.");
     }
 
     return new Promise<void>(resolve => {

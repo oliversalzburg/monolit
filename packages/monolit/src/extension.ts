@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { Candidate, CandidateSearch } from "./CandidateSearch";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
 import { LaunchSession } from "./LaunchSession";
-import { SlowConsole } from "./SlowConsole";
+import { Log } from "./Log";
 
 export type SelectedConfiguration = {
   label: string;
@@ -12,7 +12,10 @@ export type SelectedConfiguration = {
 let GLOBAL_TASK_CACHE: Thenable<Array<vscode.Task>> = vscode.tasks.fetchTasks();
 
 export async function activate(context: vscode.ExtensionContext) {
-  await SlowConsole.debug("Activated: Fetching tasks...");
+  const outputChannel = vscode.window.createOutputChannel("MonoLit");
+  Log.init(outputChannel);
+
+  Log.debug("Activated: Fetching tasks...");
 
   const commandBuild = vscode.commands.registerCommand(
     "monolit.build",
@@ -23,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
     refreshTasks.bind(undefined, context)
   );
 
-  await SlowConsole.debug("Activated: Registering commands...");
+  Log.debug("Activated: Registering commands...");
   context.subscriptions.push(commandBuild);
   context.subscriptions.push(commandRefreshTasks);
 }
@@ -33,24 +36,24 @@ export async function build(context: vscode.ExtensionContext) {
     return;
   }
 
-  await SlowConsole.debug("Loading previous configuration selection...");
+  Log.debug("Loading previous configuration selection...");
   const previousConfig: SelectedConfiguration | undefined = context.workspaceState.get(
     "monolit.lastConfiguration"
   );
   if (previousConfig) {
-    await SlowConsole.debug(`  → ${previousConfig.label}@${previousConfig.uri}`);
+    Log.debug(`  → ${previousConfig.label}@${previousConfig.uri}`);
   } else {
-    await SlowConsole.debug(`  → none`);
+    Log.debug(`  → none`);
   }
 
-  await SlowConsole.debug("Constructing configuration library...");
+  Log.debug("Constructing configuration library...");
   const library = await ConfigurationLibrary.fromWorkspaceFolders(
     vscode.workspace.workspaceFolders
   );
   if (previousConfig) {
     library.orderByPriority(previousConfig);
   }
-  await SlowConsole.debug(`  → ${library.configurations.length} entries`);
+  Log.debug(`  → ${library.configurations.length} entries`);
 
   const selectedConfiguration = await vscode.window.showQuickPick(library.configurations, {
     placeHolder:
@@ -60,11 +63,11 @@ export async function build(context: vscode.ExtensionContext) {
   });
 
   if (!selectedConfiguration) {
-    await SlowConsole.warn("Operation cancelled.");
+    Log.warn("Operation cancelled.");
     return;
   }
 
-  await SlowConsole.debug(
+  Log.debug(
     `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
   );
 
@@ -73,12 +76,10 @@ export async function build(context: vscode.ExtensionContext) {
 
   const cwdIsGlobbed = configuredCwd && configuredCwd.includes("*");
 
-  await SlowConsole.debug(
-    `  + Configured cwd: '${configuredCwd}'${cwdIsGlobbed ? "" : " (not globbed)"}`
-  );
+  Log.debug(`  + Configured cwd: '${configuredCwd}'${cwdIsGlobbed ? "" : " (not globbed)"}`);
 
   // Find new cwd for operation.
-  await SlowConsole.debug(`  ? Starting candidate search in all workspaces...`);
+  Log.debug(`  ? Starting candidate search in all workspaces...`);
   const targets = await search.search();
 
   let infoString = targets
@@ -88,10 +89,10 @@ export async function build(context: vscode.ExtensionContext) {
     infoString = infoString.slice(0, 100) + "...";
   }
   const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
-  await SlowConsole.debug(`  → ${folders.length} entries: ${infoString}`);
+  Log.debug(`  → ${folders.length} entries: ${infoString}`);
 
   // Get the previously selected variant to offer it as the top choice.
-  await SlowConsole.debug("Loading last configuration variant...");
+  Log.debug("Loading last configuration variant...");
   let previousVariant: Candidate | undefined = context.workspaceState.get("monolit.lastVariantCwd");
   // Basic schema check for setting while we're still moving shit around.
   if (
@@ -103,11 +104,9 @@ export async function build(context: vscode.ExtensionContext) {
     previousVariant = undefined;
   }
   if (previousVariant) {
-    await SlowConsole.debug(
-      `  → was: ${previousVariant.workspace.name}:${previousVariant.path || "<root>"}`
-    );
+    Log.debug(`  → was: ${previousVariant.workspace.name}:${previousVariant.path || "<root>"}`);
   } else {
-    await SlowConsole.debug(`  → was: none`);
+    Log.debug(`  → was: none`);
   }
 
   const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
@@ -126,11 +125,11 @@ export async function build(context: vscode.ExtensionContext) {
   );
 
   if (!selectedVariant) {
-    await SlowConsole.warn("Operation cancelled.");
+    Log.warn("Operation cancelled.");
     return;
   }
 
-  await SlowConsole.info(`Starting execution...`);
+  Log.info(`Starting execution...`);
 
   // Persist selected configuration
   context.workspaceState.update("monolit.lastConfiguration", {
