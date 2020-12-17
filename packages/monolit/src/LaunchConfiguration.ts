@@ -30,9 +30,10 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     const configuration = {
       ...this.configuration,
       preLaunchTask: undefined,
-      program: inCwd
-        ? (<string>this.configuration.program).replace(this.configuration.cwd, cwd)
-        : this.configuration.program,
+      program:
+        inCwd && "program" in this.configuration
+          ? (<string>this.configuration.program).replace(this.configuration.cwd, cwd)
+          : this.configuration.program,
       cwd,
     };
     return configuration;
