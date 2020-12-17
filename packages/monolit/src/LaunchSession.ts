@@ -28,13 +28,20 @@ export class LaunchSession implements QuickPickItem {
 
   static orderByPriority(
     variants: Array<LaunchSession>,
-    lastVariantCwd: Candidate
+    lastVariant: Candidate
   ): Array<LaunchSession> {
     variants.sort((a, b) => {
-      if (a.candidate === lastVariantCwd) {
+      // Sort the last picked variant to the top.
+      if (
+        a.candidate.path === lastVariant.path &&
+        a.candidate.workspace.uri.toString() === lastVariant.workspace.uri.toString()
+      ) {
         return -1;
       }
-      if (b.candidate === lastVariantCwd) {
+      if (
+        b.candidate.path === lastVariant.path &&
+        b.candidate.workspace.uri.toString() === lastVariant.workspace.uri.toString()
+      ) {
         return 1;
       }
 
