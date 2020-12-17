@@ -3,15 +3,26 @@ import { SelectedConfiguration } from "./extension";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { Log } from "./Log";
 
+/**
+ * We want to collect all launch configurations that are available to us in the
+ * current context.
+ * Our main task is to look for "monolit-able" configurations.
+ * Those are the ones we care about and want to mess with. They are designated
+ * by certain markers in their body.
+ */
 export class ConfigurationLibrary {
   configurations: Array<LaunchConfiguration> = [];
 
+  /**
+   * Constructs a `ConfigurationLibrary` from a set of workspace folders.
+   */
   static async fromWorkspaceFolders(
     folders: ReadonlyArray<vscode.WorkspaceFolder>
   ): Promise<ConfigurationLibrary> {
     const library = new ConfigurationLibrary();
 
     for (const workspaceFolder of folders) {
+      // Retrieve all launch configurations.
       const workspaceConfiguration = vscode.workspace.getConfiguration(
         "launch",
         workspaceFolder.uri
@@ -37,7 +48,9 @@ export class ConfigurationLibrary {
           );
           library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
         } else {
-          Log.debug(`  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`);
+          Log.debug(
+            `  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`
+          );
         }
       }
     }
@@ -45,18 +58,31 @@ export class ConfigurationLibrary {
     return library;
   }
 
+  /**
+   * Determine if a `cwd` of a configuration signals to be "monolit-able".
+   */
   static hasMonoLitableCwd(configuration: vscode.DebugConfiguration): boolean {
     return "cwd" in configuration && configuration.cwd.includes("*");
   }
 
+  /**
+   * Determine if a `name` of a configuration signals to be "monolit-able".
+   */
   static hasMonoLitableName(configuration: vscode.DebugConfiguration): boolean {
     return configuration.name.startsWith("MonoLit:");
   }
 
+  /**
+   * Determine if a `program` of a configuration signals to be "monolit-able".
+   */
   static hasMonoLitableProgram(configuration: vscode.DebugConfiguration): boolean {
     return "program" in configuration && configuration.program.includes("*");
   }
 
+  /**
+   * Order the library so that the given previous selection is at the top and
+   * the remaining elements are ordered alphabetically-
+   */
   orderByPriority(previousSelection: SelectedConfiguration): void {
     this.configurations.sort((a, b) => {
       if (

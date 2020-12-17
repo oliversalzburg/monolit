@@ -3,3 +3,9 @@
 3. Restart command
 4. Start more command
 5. Dynamically adjust names of launch configs for better overview if multiple are running.
+  not trivial
+
+The commands we should have:
+1. Start : Execute launch config
+2. Restart : Stop current sesseion, Execute same launch config
+3. Clean Restart: Stop current session, Rebuild, Execute same launch config

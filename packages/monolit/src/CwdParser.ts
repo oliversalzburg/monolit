@@ -1,5 +1,9 @@
 import { Log } from "./Log";
 
+/**
+ * Given a `cwd` in a user-defined launch configuration, make something out of
+ * it that is easier for us to consume through out the extension.
+ */
 export class CwdParser {
   readonly originalCwd: string;
   private _cwd = "";
@@ -13,6 +17,9 @@ export class CwdParser {
     return this._cwd;
   }
 
+  /**
+   * Rewrite the `cwd` to something we can process properly.
+   */
   async analyzeAndRewrite(): Promise<void> {
     // If the cwd is empty, it's assumed to be `${workspaceFolder}`
     // If the cwd is relative, it's assumed to be relative to `${workspaceFolder}`
