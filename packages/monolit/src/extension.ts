@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { Candidate, CandidateSearch } from "./CandidateSearch";
+import { CandidateSearch } from "./CandidateSearch";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
@@ -93,7 +93,9 @@ export async function build(context: vscode.ExtensionContext) {
 
   // Get the previously selected variant to offer it as the top choice.
   Log.debug("Loading last configuration variant...");
-  let previousVariant: Candidate | undefined = context.workspaceState.get("monolit.lastVariantCwd");
+  let previousVariant: { path: string; workspace: string } | undefined = context.workspaceState.get(
+    "monolit.lastVariant"
+  );
   // Basic schema check for setting while we're still moving shit around.
   if (
     previousVariant &&
@@ -104,7 +106,7 @@ export async function build(context: vscode.ExtensionContext) {
     previousVariant = undefined;
   }
   if (previousVariant) {
-    Log.debug(`  → was: ${previousVariant.workspace.name}:${previousVariant.path || "<root>"}`);
+    Log.debug(`  → was: ${previousVariant.workspace}:${previousVariant.path || "<root>"}`);
   } else {
     Log.debug(`  → was: none`);
   }
@@ -132,11 +134,15 @@ export async function build(context: vscode.ExtensionContext) {
   Log.info(`Starting execution...`);
 
   // Persist selected configuration
+  Log.info(`  + Persisting selected configuration information...`);
   context.workspaceState.update("monolit.lastConfiguration", {
     label: selectedConfiguration.label,
     uri: selectedConfiguration.workspaceFolder.uri.toString(),
   });
-  context.workspaceState.update("monolit.lastVariantCwd", selectedVariant.candidate);
+  context.workspaceState.update("monolit.lastVariant", {
+    path: selectedVariant.candidate.path,
+    workspace: selectedVariant.candidate.workspace.name,
+  });
 
   const tasks = await GLOBAL_TASK_CACHE;
 
