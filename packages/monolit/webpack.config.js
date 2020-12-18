@@ -8,7 +8,7 @@ const path = require("path");
 const config = {
   target: "node",
 
-  entry: "./src/extension.ts",
+  entry: "./source/extension.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "extension.js",

@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": "source",
     "outDir": "output",
     "emitDeclarationOnly": false,
     "incremental": true
