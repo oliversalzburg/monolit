@@ -1,3 +1,5 @@
+import { join } from "path";
+import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
 
 /**
@@ -35,5 +37,9 @@ export class CwdParser {
     if (this._cwd.startsWith("/")) {
       this._cwd = this._cwd.slice(1, this._cwd.length);
     }
+  }
+
+  static cwdFromVariant(variant: LaunchSession): string {
+    return join(variant.candidate.workspace.uri.fsPath, variant.candidate.path);
   }
 }

@@ -1,4 +1,3 @@
-import { join } from "path";
 import * as vscode from "vscode";
 import { Candidate } from "./CandidateSearch";
 import { LaunchSession } from "./LaunchSession";
@@ -68,70 +67,9 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
   /**
    * Launch the configuration.
    */
-  async launch(withTasks: Array<vscode.Task>, asVariant?: LaunchSession): Promise<void> {
-    const selectionConfigurationCwd =
-      (asVariant
-        ? join(asVariant.candidate.workspace.uri.fsPath, asVariant.candidate.path)
-        : undefined) ??
-      this.configuration.cwd ??
-      "${workspaceFolder}";
-
-    const userDefinedPreLaunchTask = this.configuration.preLaunchTask;
-    if (userDefinedPreLaunchTask) {
-      const plt = withTasks.find(task => task.name === userDefinedPreLaunchTask);
-
-      if (plt) {
-        Log.debug(
-          `  * Executing preLaunchTask '${userDefinedPreLaunchTask}' in '${selectionConfigurationCwd}'...`
-        );
-
-        // All tasks are currently assumed to be "shell" tasks.
-
-        const originalExecution: vscode.ShellExecution = plt.execution as vscode.ShellExecution;
-        let newExecution: vscode.ShellExecution;
-        Log.debug(`  ! Replacing 'cwd' in preLaunchTask with '${selectionConfigurationCwd}'.`);
-
-        if (originalExecution.command) {
-          newExecution = new vscode.ShellExecution(
-            originalExecution.command,
-            originalExecution.args,
-            {
-              cwd: selectionConfigurationCwd,
-              env: originalExecution.options?.env,
-              executable: originalExecution.options?.executable,
-              shellArgs: originalExecution.options?.shellArgs,
-              shellQuoting: originalExecution.options?.shellQuoting,
-            }
-          );
-        } else {
-          newExecution = new vscode.ShellExecution(originalExecution.commandLine!, {
-            cwd: selectionConfigurationCwd,
-            env: originalExecution.options?.env,
-            executable: originalExecution.options?.executable,
-            shellArgs: originalExecution.options?.shellArgs,
-            shellQuoting: originalExecution.options?.shellQuoting,
-          });
-        }
-
-        const buildTask: vscode.Task = new vscode.Task(
-          plt.definition,
-          plt.scope!,
-          plt.name,
-          plt.source,
-          newExecution,
-          plt.problemMatchers
-        );
-
-        await this._executeBuildTask(buildTask);
-      } else {
-        Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
-      }
-    } else {
-      Log.debug(`  - no preLaunchTask requested.`);
-    }
-
+  async launch(inCwd: string): Promise<void> {
     Log.debug(`  * Executing launch configuration...`);
-    const configuration = this.asDebugConfiguration(selectionConfigurationCwd);
+    const configuration = this.asDebugConfiguration(inCwd);
     try {
       const result = await vscode.debug.startDebugging(this.workspaceFolder, configuration);
       if (result === true) {
@@ -140,31 +78,5 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     } catch (error) {
       Log.error(error);
     }
-  }
-
-  /**
-   * Executes a task and waits for the execution to end.
-   */
-  async _executeBuildTask(task: vscode.Task): Promise<void> {
-    const execution = await vscode.tasks.executeTask(task);
-
-    const terminal = vscode.window.terminals.find(
-      terminal => terminal.name === `Task - ${task.name}`
-    );
-    if (terminal) {
-      Log.debug(`  ! Showing terminal window...`);
-      terminal.show();
-    } else {
-      Log.debug("  ? Terminal window not found. Maybe this is the first run in this session.");
-    }
-
-    return new Promise<void>(resolve => {
-      let disposable = vscode.tasks.onDidEndTask(e => {
-        if (e.execution === execution) {
-          disposable.dispose();
-          resolve();
-        }
-      });
-    });
   }
 }

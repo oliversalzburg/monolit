@@ -7,5 +7,5 @@
 
 The commands we should have:
 1. Start : Execute launch config
-2. Restart : Stop current sesseion, Execute same launch config
+2. Restart : Stop current sesseion, Execute same launch config without tasks
 3. Clean Restart: Stop current session, Rebuild, Execute same launch config
