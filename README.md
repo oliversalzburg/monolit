@@ -108,3 +108,14 @@ Additionally, by configuring a _rebuild_ command (`monolit.tasks.rebuild`) in
 
 This enables workflows with a fast default build (change detection, incremental,
  ...) and a slower full rebuild.
+
+## Workflows
+
+- `monolit.start` <kbd>F5</kbd>  
+  Start a new session.
+- `workbench.action.debug.restart` <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F5</kbd>  
+  Restart the session without running the pre-launch task.
+- `monolit.restart` <kbd>Shift</kbd>+<kbd>F5</kbd>  
+  Restart the session and run the pre-launch task.
+- `monolit.cleanStart` <kbd>Ctrl</kbd>+<kbd>F5</kbd>  
+  Restart the session and run the rebuild task.
