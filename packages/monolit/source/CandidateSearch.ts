@@ -67,7 +67,7 @@ export class CandidateSearch {
           if (cwdParser.cwd) {
             displayString += `:${cwdParser.cwd}`;
           }
-          
+
           candidates.push({
             path: cwdParser.cwd,
             displayAs: displayString,
@@ -81,9 +81,21 @@ export class CandidateSearch {
       }
 
       // Look for targets matching the glob pattern.
-      const targets = glob.sync(cwdParser.cwd, {
-        cwd: workspace.uri.fsPath,
-      });
+      const targets: Array<string> = await new Promise((resolve, reject) =>
+        glob(
+          cwdParser.cwd,
+          {
+            cwd: workspace.uri.fsPath,
+          },
+          (error: Error | null, matches: Array<string>) => {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(matches);
+          }
+        )
+      );
       for (const target of targets) {
         candidates.push({
           path: target,
