@@ -101,3 +101,10 @@ This can be as simple as executing [`yarn.build`](https://yarn.build/) in the
   }
 }
 ```
+
+Additionally, by configuring a _rebuild_ command (`monolit.tasks.rebuild`) in
+ your settings, you can use the `monolit.cleanStart` command to have that task
+ executed as the pre-launch task of the started configuration.
+
+This enables workflows with a fast default build (change detection, incremental,
+ ...) and a slower full rebuild.
