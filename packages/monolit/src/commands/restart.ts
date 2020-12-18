@@ -11,6 +11,8 @@ export async function restart(context: vscode.ExtensionContext) {
     return;
   }
 
+  vscode.debug.stopDebugging();
+
   const selectedCwd = CwdParser.cwdFromVariant(extensionInstance.activeSession);
 
   return extensionInstance.activeConfiguration.launch(selectedCwd);
