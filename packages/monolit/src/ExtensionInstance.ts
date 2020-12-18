@@ -268,7 +268,7 @@ export class ExtensionInstance {
     }
 
     return new Promise<void>(resolve => {
-      let disposable = vscode.tasks.onDidEndTask(e => {
+      const disposable = vscode.tasks.onDidEndTask(e => {
         if (e.execution === execution) {
           disposable.dispose();
           resolve();
