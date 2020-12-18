@@ -31,7 +31,26 @@
     "onStartupFinished"
   ],
   "contributes": {
+    "configuration": {
+      "title": "MonoLit",
+      "properties": {
+        "monolit.tasks.build": {
+          "type": "string",
+          "default": "",
+          "description": "The 'build' task to invoke before starting a program. Leave empty to use the task declared in the configuration, if any."
+        },
+        "monolit.tasks.rebuild": {
+          "type": "string",
+          "default": "",
+          "description": "The 'rebuild' task to invoke before starting a program."
+        }
+      }
+    },
     "commands": [
+      {
+        "command": "monolit.cleanStart",
+        "title": "MonoLit: Clean start"
+      },
       {
         "command": "monolit.refreshTasks",
         "title": "MonoLit: Refresh tasks"

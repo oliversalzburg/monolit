@@ -1,10 +1,18 @@
 import * as vscode from "vscode";
+import { CandidateSearch } from "./CandidateSearch";
+import { cleanStart } from "./commands/cleanStart";
 import { refreshTasks } from "./commands/refreshTasks";
 import { restart } from "./commands/restart";
 import { start } from "./commands/start";
+import { ConfigurationLibrary, SelectedConfiguration } from "./ConfigurationLibrary";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
+
+export type Selection = {
+  configuration: LaunchConfiguration;
+  variant: LaunchSession;
+};
 
 /**
  * Represents all relevant state of the extension.
@@ -12,6 +20,7 @@ import { Log } from "./Log";
 export class ExtensionInstance {
   readonly context: vscode.ExtensionContext;
   taskCache: Thenable<Array<vscode.Task>>;
+  readonly configuration: vscode.Memento;
 
   activeConfiguration: LaunchConfiguration | undefined;
   activeSession: LaunchSession | undefined;
@@ -19,16 +28,23 @@ export class ExtensionInstance {
   constructor(context: vscode.ExtensionContext) {
     this.context = context;
     this.taskCache = Promise.resolve([]);
+    this.configuration = vscode.workspace.getConfiguration("MonoLit");
+
+    const outputChannel = vscode.window.createOutputChannel("MonoLit");
+    Log.init(outputChannel);
   }
 
   init() {
-    const outputChannel = vscode.window.createOutputChannel("MonoLit");
-    Log.init(outputChannel);
-
+    // Fetch as early as possible to populate the cache.
+    // Ideally, we would be persisting this cache into the workspace state...
     Log.debug("Activated: Fetching tasks...");
     this.refreshTasks();
 
     Log.debug("Activated: Registering commands...");
+    const commandCleanStart = vscode.commands.registerCommand(
+      "monolit.cleanStart",
+      cleanStart.bind(undefined, this.context)
+    );
     const commandRefreshTasks = vscode.commands.registerCommand(
       "monolit.refreshTasks",
       refreshTasks.bind(undefined, this.context)
@@ -43,6 +59,7 @@ export class ExtensionInstance {
       start.bind(undefined, this.context)
     );
 
+    this.context.subscriptions.push(commandCleanStart);
     this.context.subscriptions.push(commandRefreshTasks);
     this.context.subscriptions.push(commandRestart);
     this.context.subscriptions.push(commandStart);
@@ -62,6 +79,119 @@ export class ExtensionInstance {
       path: variant.candidate.path,
       workspace: variant.candidate.workspace.name,
     });
+  }
+
+  async get(): Promise<Selection | undefined> {
+    if (!Array.isArray(vscode.workspace.workspaceFolders)) {
+      Log.warn("No workspace open. Aborting.");
+      return;
+    }
+
+    Log.debug("Loading previous configuration selection...");
+    const previousConfig: SelectedConfiguration | undefined = this.context.workspaceState.get(
+      "monolit.lastConfiguration"
+    );
+    if (previousConfig) {
+      Log.debug(`  → ${previousConfig.label}@${previousConfig.uri}`);
+    } else {
+      Log.debug(`  → none`);
+    }
+
+    Log.debug("Constructing configuration library...");
+    const library = await ConfigurationLibrary.fromWorkspaceFolders(
+      vscode.workspace.workspaceFolders
+    );
+    if (previousConfig) {
+      library.orderByPriority(previousConfig);
+    }
+    Log.debug(`  → ${library.configurations.length} entries`);
+
+    const selectedConfiguration = await vscode.window.showQuickPick(library.configurations, {
+      placeHolder:
+        library.configurations.length === 0
+          ? "No monolit-able configurations found."
+          : "Select launch configuration",
+    });
+
+    if (!selectedConfiguration) {
+      Log.warn("Operation cancelled.");
+      return;
+    }
+
+    Log.debug(
+      `Selected: ${selectedConfiguration.label} (${selectedConfiguration.workspaceFolder.uri}) with preLaunchTask: ${selectedConfiguration.configuration.preLaunchTask}`
+    );
+
+    const configuredCwd: string = selectedConfiguration.configuration.cwd ?? "${workspaceFolder}";
+    const search = new CandidateSearch(configuredCwd, vscode.workspace.workspaceFolders);
+
+    const cwdIsGlobbed = configuredCwd && configuredCwd.includes("*");
+
+    Log.debug(`  + Configured cwd: '${configuredCwd}'${cwdIsGlobbed ? "" : " (not globbed)"}`);
+
+    // Find new cwd for operation.
+    Log.debug(`  ? Starting candidate search in all workspaces...`);
+    const targets = await search.search();
+
+    let infoString = targets
+      .map(target => `${target.workspace.name}:${target.path || "<root>"}`)
+      .join(",");
+    if (100 < infoString.length) {
+      infoString = infoString.slice(0, 100) + "...";
+    }
+    const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
+    Log.debug(`  → ${folders.length} entries: ${infoString}`);
+
+    // Get the previously selected variant to offer it as the top choice.
+    Log.debug("Loading last configuration variant...");
+    let previousVariant:
+      | { path: string; workspace: string }
+      | undefined = this.context.workspaceState.get("monolit.lastVariant");
+    // Basic schema check for setting while we're still moving shit around.
+    if (
+      previousVariant &&
+      (typeof previousVariant !== "object" ||
+        "workspace" in previousVariant === false ||
+        "path" in previousVariant === false)
+    ) {
+      previousVariant = undefined;
+    }
+    if (previousVariant) {
+      Log.debug(`  → was: ${previousVariant.workspace}:${previousVariant.path || "<root>"}`);
+    } else {
+      Log.debug(`  → was: none`);
+    }
+
+    const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
+    if (previousVariant) {
+      LaunchSession.orderByPriority(launchVariants, previousVariant);
+    }
+
+    const selectedVariant:
+      | LaunchSession
+      | undefined = await vscode.window.showQuickPick<LaunchSession>(
+      new Promise(async resolve => {
+        await this.taskCache;
+        resolve(launchVariants);
+      }),
+      {
+        placeHolder: "Select target cwd",
+      }
+    );
+
+    if (!selectedVariant) {
+      Log.warn("Operation cancelled.");
+      return;
+    }
+
+    // Persist selected configuration
+    Log.info(`  + Persisting selected configuration information...`);
+    this.activateConfiguration(selectedConfiguration, selectedVariant);
+
+    return {
+      configuration: selectedConfiguration,
+      variant: selectedVariant,
+    };
   }
 
   async executeLaunchTask(task: vscode.Task, inCwd: string): Promise<void> {
@@ -111,7 +241,7 @@ export class ExtensionInstance {
   /**
    * Executes a task and waits for the execution to end.
    */
-  async _executeTask(task: vscode.Task): Promise<void> {
+  private async _executeTask(task: vscode.Task): Promise<void> {
     const execution = await vscode.tasks.executeTask(task);
 
     const terminal = vscode.window.terminals.find(
