@@ -3,6 +3,9 @@ import { QuickPickItem } from "vscode";
 import { Candidate } from "./CandidateSearch";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 
+/**
+ * A possible variant of a launch configuration.
+ */
 export class LaunchSession implements QuickPickItem {
   private _configuration: LaunchConfiguration;
   readonly candidate: Candidate;
@@ -31,6 +34,9 @@ export class LaunchSession implements QuickPickItem {
       : `→ ${this._configuration.configuration.name}`;
   }
 
+  /**
+   * Sort alphabetically, but ensure the last selection is sorted to the top.
+   */
   static orderByPriority(
     variants: Array<LaunchSession>,
     lastVariant: { path: string; workspace: string }

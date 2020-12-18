@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "extension:package": "cd packages/monolit && yarn package",
-    "extension:publish": "cd packages/monolit && yarn publish"
+    "extension:publish": "cd packages/monolit && yarn publish",
+    "typecheck:all": "tsc --noEmit --incremental false"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

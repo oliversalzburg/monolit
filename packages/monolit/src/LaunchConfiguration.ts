@@ -4,6 +4,11 @@ import { Candidate } from "./CandidateSearch";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
 
+/**
+ * A single debug/launch configuration in MonoLit.
+ * These are usually constructed from existing debug/launch configurations in
+ * workspaces.
+ */
 export class LaunchConfiguration implements vscode.QuickPickItem {
   readonly workspaceFolder: vscode.WorkspaceFolder;
   readonly configuration: vscode.DebugConfiguration;
@@ -13,18 +18,32 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     this.configuration = configuration;
   }
 
+  /**
+   * The highlighted, searchable part of the quick-pick item.
+   */
   get label(): string {
     return this.configuration.name;
   }
 
+  /**
+   * The smaller note next to the label.
+   */
   get description(): string | undefined {
     return this.workspaceFolder.name;
   }
 
+  /**
+   * The line below the label.
+   */
   get detail(): string | undefined {
     return this.configuration.preLaunchTask ? `→ ${this.configuration.preLaunchTask}` : "";
   }
 
+  /**
+   * Construct a new configuration that executes in the given `cwd`.
+   * The `preLaunchTask` from the source configuration will be removed, as
+   * MonoLit should handle pre-launch tasks itself.
+   */
   asDebugConfiguration(inCwd?: string): vscode.DebugConfiguration {
     const cwd = inCwd ? inCwd : this.configuration.cwd;
     const configuration = {
@@ -39,10 +58,16 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     return configuration;
   }
 
+  /**
+   * Get the different variants we could launch of this configuration.
+   */
   asVariants(candidates: Array<Candidate>): Array<LaunchSession> {
     return candidates.map(candidate => new LaunchSession(this, candidate));
   }
 
+  /**
+   * Launch the configuration.
+   */
   async launch(withTasks: Array<vscode.Task>, asVariant?: LaunchSession): Promise<void> {
     const selectionConfigurationCwd =
       (asVariant
@@ -117,6 +142,9 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     }
   }
 
+  /**
+   * Executes a task and waits for the execution to end.
+   */
   async _executeBuildTask(task: vscode.Task): Promise<void> {
     const execution = await vscode.tasks.executeTask(task);
 

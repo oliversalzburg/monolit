@@ -1,15 +1,14 @@
 import * as vscode from "vscode";
 import { CandidateSearch } from "../CandidateSearch";
-import { ConfigurationLibrary } from "../ConfigurationLibrary";
+import { ConfigurationLibrary, SelectedConfiguration } from "../ConfigurationLibrary";
 import { getExtensionInstance } from "../extension";
 import { LaunchSession } from "../LaunchSession";
 import { Log } from "../Log";
 
-export type SelectedConfiguration = {
-  label: string;
-  uri: string;
-};
-
+/**
+ * The command should let the user pick a launch configuration and start it,
+ * applying all the MonoLit magic we love so much.
+*/
 export async function build(context: vscode.ExtensionContext) {
   if (!Array.isArray(vscode.workspace.workspaceFolders)) {
     Log.warn("No workspace open. Aborting.");

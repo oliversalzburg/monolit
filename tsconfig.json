@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "lib": [
+      "es6"
+    ],
+    "sourceMap": true,
+    "strict": true
+  },
+  "exclude": [
+    ".yarn",
+    ".vscode-test",
+    "packages/*/dist"
+  ]
+}

@@ -3,6 +3,9 @@ import { build } from "./commands/build";
 import { refreshTasks } from "./commands/refreshTasks";
 import { Log } from "./Log";
 
+/**
+ * Represents all relevant state of the extension.
+ */
 export class ExtensionInstance {
   readonly context: vscode.ExtensionContext;
   taskCache: Thenable<Array<vscode.Task>>;

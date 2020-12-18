@@ -1,7 +1,11 @@
 import * as vscode from "vscode";
-import { SelectedConfiguration } from "./extension";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { Log } from "./Log";
+
+export type SelectedConfiguration = {
+  label: string;
+  uri: string;
+};
 
 /**
  * We want to collect all launch configurations that are available to us in the
