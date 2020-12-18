@@ -10,7 +10,7 @@ import { Log } from "../Log";
  * The command should let the user pick a launch configuration and start it,
  * applying all the MonoLit magic we love so much.
  */
-export async function build(context: vscode.ExtensionContext) {
+export async function start(context: vscode.ExtensionContext) {
   if (!Array.isArray(vscode.workspace.workspaceFolders)) {
     Log.warn("No workspace open. Aborting.");
     return;

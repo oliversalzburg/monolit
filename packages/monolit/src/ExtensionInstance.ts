@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
-import { build } from "./commands/build";
 import { refreshTasks } from "./commands/refreshTasks";
+import { restart } from "./commands/restart";
+import { start } from "./commands/start";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
@@ -28,17 +29,25 @@ export class ExtensionInstance {
     this.refreshTasks();
 
     Log.debug("Activated: Registering commands...");
-    const commandBuild = vscode.commands.registerCommand(
-      "monolit.build",
-      build.bind(undefined, this.context)
-    );
     const commandRefreshTasks = vscode.commands.registerCommand(
       "monolit.refreshTasks",
       refreshTasks.bind(undefined, this.context)
     );
+    const commandRestart = vscode.commands.registerCommand(
+      "monolit.restart",
+      restart.bind(undefined, this.context)
+    );
 
-    this.context.subscriptions.push(commandBuild);
+    const commandStart = vscode.commands.registerCommand(
+      "monolit.start",
+      start.bind(undefined, this.context)
+    );
+
     this.context.subscriptions.push(commandRefreshTasks);
+    this.context.subscriptions.push(commandRestart);
+    this.context.subscriptions.push(commandStart);
+
+    Log.debug("Activated: Activation complete.");
   }
 
   activateConfiguration(configuration: LaunchConfiguration, variant: LaunchSession): void {

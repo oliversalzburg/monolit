@@ -11,7 +11,7 @@ This extension tries to solve debug/launch configuration and task duplication
  workspaces, in VS Code.
 
 ## Usage
-Invoke the `monolit.build` command to get started.
+Invoke the `monolit.start` command to get started.
 
 MonoLit presents a list of "monolit-able" launch configurations. A launch
  configuration becomes monolit-able if any of the following are true:
@@ -77,7 +77,7 @@ Rewrite this configuration to be generic, so you can use it with MonoLit, like
 }
 ```
 
-Now when you launch `monolit.build`, the same configuration can be used for
+Now when you launch `monolit.start`, the same configuration can be used for
  every project matching `${workspaceFolder}/packages/app-*`.
 
 ## Pre-Launch Tasks

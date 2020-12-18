@@ -33,12 +33,16 @@
   "contributes": {
     "commands": [
       {
-        "command": "monolit.build",
-        "title": "MonoLit: Build"
-      },
-      {
         "command": "monolit.refreshTasks",
         "title": "MonoLit: Refresh tasks"
+      },
+      {
+        "command": "monolit.restart",
+        "title": "MonoLit: Restart"
+      },
+      {
+        "command": "monolit.start",
+        "title": "MonoLit: Start"
       }
     ]
   },
