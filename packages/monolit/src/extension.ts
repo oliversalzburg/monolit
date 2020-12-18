@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { ExtensionInstance } from "./ExtensionInstance";
-import { Log } from "./Log";
 
 let extensionInstance: ExtensionInstance | undefined;
 
@@ -8,7 +7,6 @@ let extensionInstance: ExtensionInstance | undefined;
  * MonoLit. Activate!
  */
 export async function activate(context: vscode.ExtensionContext) {
-  Log.debug("Activated: Creating extension instance...");
   extensionInstance = new ExtensionInstance(context);
   extensionInstance.init();
 }
