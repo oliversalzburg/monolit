@@ -10,6 +10,12 @@ This extension tries to solve debug/launch configuration and task duplication
  when working in multi-project environments, like monorepos or multi-folder
  workspaces, in VS Code.
 
+The core approach is to execute launch configurations and tasks in dynamically
+ selected working directories.
+
+Instead of redefining the same launch configurations over and over, define them
+ once generically and let MonoLit handle the rest.
+
 ## Usage
 Invoke the `monolit.start` command to get started.
 
