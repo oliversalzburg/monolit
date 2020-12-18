@@ -3,7 +3,7 @@
   "displayName": "MonoLit",
   "description": "Dynamic launch system for VS Code",
   "icon": "icon.png",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "preview": true,
   "publisher": "OliverSalzburg",
   "repository": {
