@@ -1,14 +1,10 @@
 import * as vscode from "vscode";
-import { CandidateSearch } from "../CandidateSearch";
-import { ConfigurationLibrary, SelectedConfiguration } from "../ConfigurationLibrary";
 import { CwdParser } from "../CwdParser";
 import { getExtensionInstance } from "../extension";
-import { LaunchSession } from "../LaunchSession";
 import { Log } from "../Log";
 
 /**
- * The command should let the user pick a launch configuration and start it,
- * applying all the MonoLit magic we love so much.
+ * The command should let the user pick a launch configuration and start it.
  */
 export async function start(context: vscode.ExtensionContext) {
   if (!Array.isArray(vscode.workspace.workspaceFolders)) {
@@ -17,9 +13,9 @@ export async function start(context: vscode.ExtensionContext) {
   }
 
   const extensionInstance = getExtensionInstance();
-  const selection = await extensionInstance.get();
+  const selection = await extensionInstance.pickConfigurationVariant();
 
-  if(!selection){
+  if (!selection) {
     return;
   }
 
@@ -34,7 +30,7 @@ export async function start(context: vscode.ExtensionContext) {
     const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 
     if (plt) {
-      await getExtensionInstance().executeLaunchTask(plt, selectedCwd);
+      await getExtensionInstance().executeTask(plt, selectedCwd);
     } else {
       Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
     }

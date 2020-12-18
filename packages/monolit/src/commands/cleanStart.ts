@@ -54,7 +54,7 @@ export async function cleanStart(context: vscode.ExtensionContext) {
     extensionInstance.configuration.update("monolit.tasks.rebuild", rebuildTaskName);
   }
 
-  const selection = await extensionInstance.get();
+  const selection = await extensionInstance.pickConfigurationVariant();
 
   if (!selection) {
     return;
@@ -66,6 +66,6 @@ export async function cleanStart(context: vscode.ExtensionContext) {
 
   vscode.debug.stopDebugging();
 
-  await extensionInstance.executeLaunchTask(rebuildTask, selectedCwd);
+  await extensionInstance.executeTask(rebuildTask, selectedCwd);
   await selection.configuration.launch(selectedCwd);
 }

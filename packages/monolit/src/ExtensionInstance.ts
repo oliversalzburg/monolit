@@ -67,6 +67,10 @@ export class ExtensionInstance {
     Log.debug("Activated: Activation complete.");
   }
 
+  /**
+   * Assume a given configuration as the currently active one.
+   * This should be used to improve user experience.
+   */
   activateConfiguration(configuration: LaunchConfiguration, variant: LaunchSession): void {
     this.activeConfiguration = configuration;
     this.activeSession = variant;
@@ -81,7 +85,10 @@ export class ExtensionInstance {
     });
   }
 
-  async get(): Promise<Selection | undefined> {
+  /**
+   * Let the user pick a configuration and a target cwd for a launch.
+   */
+  async pickConfigurationVariant(): Promise<Selection | undefined> {
     if (!Array.isArray(vscode.workspace.workspaceFolders)) {
       Log.warn("No workspace open. Aborting.");
       return;
@@ -194,7 +201,10 @@ export class ExtensionInstance {
     };
   }
 
-  async executeLaunchTask(task: vscode.Task, inCwd: string): Promise<void> {
+  /**
+   * Execute a task in a cwd and wait for it to complete.
+   */
+  async executeTask(task: vscode.Task, inCwd: string): Promise<void> {
     Log.debug(`  * Executing preLaunchTask '${task.name}' in '${inCwd}'...`);
 
     // All tasks are currently assumed to be "shell" tasks.
@@ -233,6 +243,9 @@ export class ExtensionInstance {
     return this._executeTask(buildTask);
   }
 
+  /**
+   * Refresh the task cache.
+   */
   refreshTasks(): Thenable<Array<vscode.Task>> {
     this.taskCache = vscode.tasks.fetchTasks();
     return this.taskCache;
