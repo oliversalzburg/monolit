@@ -25,6 +25,19 @@
       "options": {
         "cwd": "${workspaceFolder}/packages/monolit"
       }
+    },
+    {
+      "label": "Hello world",
+      "type": "shell",
+      "command": "echo",
+      "args": [
+        "Hello",
+        "World",
+        "$PWD"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/packages/*"
+      }
     }
   ]
 }

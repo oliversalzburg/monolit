@@ -62,6 +62,10 @@
       {
         "command": "monolit.start",
         "title": "MonoLit: Start"
+      },
+      {
+        "command": "monolit.startTask",
+        "title": "MonoLit: Start task"
       }
     ]
   },

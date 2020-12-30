@@ -4,6 +4,7 @@ import { cleanStart } from "./commands/cleanStart";
 import { refreshTasks } from "./commands/refreshTasks";
 import { restart } from "./commands/restart";
 import { start } from "./commands/start";
+import { startTask } from "./commands/startTask";
 import { ConfigurationLibrary, SelectedConfiguration } from "./ConfigurationLibrary";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { LaunchSession } from "./LaunchSession";
@@ -53,16 +54,20 @@ export class ExtensionInstance {
       "monolit.restart",
       restart.bind(undefined, this.context)
     );
-
     const commandStart = vscode.commands.registerCommand(
       "monolit.start",
       start.bind(undefined, this.context)
+    );
+    const commandStartTask = vscode.commands.registerCommand(
+      "monolit.startTask",
+      startTask.bind(undefined, this.context)
     );
 
     this.context.subscriptions.push(commandCleanStart);
     this.context.subscriptions.push(commandRefreshTasks);
     this.context.subscriptions.push(commandRestart);
     this.context.subscriptions.push(commandStart);
+    this.context.subscriptions.push(commandStartTask);
 
     Log.debug("Activated: Activation complete.");
   }
@@ -202,16 +207,104 @@ export class ExtensionInstance {
   }
 
   /**
+   * Let the user pick a task and a target cwd to execute it in.
+   */
+  async pickTaskVariant(): Promise<vscode.Task | undefined> {
+    if (!Array.isArray(vscode.workspace.workspaceFolders)) {
+      Log.warn("No workspace open. Aborting.");
+      return;
+    }
+
+    Log.debug("Loading previous task selection...");
+    const previousTask: string | undefined = this.context.workspaceState.get("monolit.lastTask");
+    if (previousTask) {
+      Log.debug(`  → ${previousTask}`);
+    } else {
+      Log.debug(`  → none`);
+    }
+
+    //const taskNames = Array.from(new Set(tasks.map(task => task.name)));
+    const selectedTask = await vscode.window.showQuickPick<vscode.QuickPickItem>(
+      new Promise(async resolve => {
+        Log.debug("Constructing task list...");
+        const tasks = await this.taskCache;
+        Log.debug(`  → ${tasks.length} entries`);
+        resolve(
+          tasks
+            .filter(task => task.execution instanceof vscode.ShellExecution)
+            .map(task => {
+              return {
+                label: task.name,
+                description: task.source,
+              };
+            })
+        );
+      }),
+      {
+        placeHolder: "Select task",
+      }
+    );
+
+    // Cancelled or nothing configured.
+    if (!selectedTask) {
+      Log.warn("Operation cancelled.");
+      return;
+    }
+
+    Log.debug(`Selected: ${selectedTask.label}`);
+
+    const tasks = await this.taskCache;
+    const task = tasks.find(task => task.name === selectedTask.label);
+    const execution = task?.execution as vscode.ShellExecution;
+
+    const search = new CandidateSearch(
+      execution.options?.cwd ?? "${workspaceFolder}",
+      vscode.workspace.workspaceFolders
+    );
+
+    // Find new cwd for operation.
+    Log.debug(`  ? Starting candidate search in all workspaces...`);
+    const targets = await search.search();
+
+    let infoString = targets
+      .map(target => `${target.workspace.name}:${target.path || "<root>"}`)
+      .join(",");
+    if (100 < infoString.length) {
+      infoString = infoString.slice(0, 100) + "...";
+    }
+    const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
+    Log.debug(`  → ${folders.length} entries: ${infoString}`);
+
+    const cwd = await vscode.window.showQuickPick<vscode.QuickPickItem>(
+      targets.map(target => {
+        return {
+          label: target.displayAs,
+        };
+      }),
+      {
+        placeHolder: "Select target cwd",
+      }
+    );
+
+    this.context.workspaceState.update("monolit.lastTask", selectedTask.label);
+
+    return {
+      task: selectedTask,
+      cwd,
+    };
+  }
+
+  /**
    * Execute a task in a cwd and wait for it to complete.
    */
   async executeTask(task: vscode.Task, inCwd: string): Promise<void> {
-    Log.debug(`  * Executing preLaunchTask '${task.name}' in '${inCwd}'...`);
+    Log.debug(`  * Executing task '${task.name}' in '${inCwd}'...`);
 
     // All tasks are currently assumed to be "shell" tasks.
 
     const originalExecution: vscode.ShellExecution = task.execution as vscode.ShellExecution;
     let newExecution: vscode.ShellExecution;
-    Log.debug(`  ! Replacing 'cwd' in preLaunchTask with '${inCwd}'.`);
+    Log.debug(`  ! Replacing 'cwd' in task with '${inCwd}'.`);
 
     if (originalExecution.command) {
       newExecution = new vscode.ShellExecution(originalExecution.command, originalExecution.args, {

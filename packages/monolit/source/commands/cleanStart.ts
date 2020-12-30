@@ -25,7 +25,7 @@ export async function cleanStart(context: vscode.ExtensionContext) {
   while (!rebuildTask) {
     const taskNames = Array.from(new Set(tasks.map(task => task.name)));
     rebuildTaskName = await vscode.window.showQuickPick(taskNames, {
-      placeHolder: "Please configure rebuild task.",
+      placeHolder: "Please configure rebuild task",
     });
 
     // Cancelled or nothing configured.

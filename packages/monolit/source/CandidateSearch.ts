@@ -20,7 +20,7 @@ export type Candidate = {
   /**
    * How this candidate wants to be displayed in a selection.
    */
-  displayAs?: string;
+  displayAs: string;
 };
 
 /**
