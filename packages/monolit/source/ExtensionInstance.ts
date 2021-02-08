@@ -211,7 +211,13 @@ export class ExtensionInstance {
 
     const originalExecution: vscode.ShellExecution = task.execution as vscode.ShellExecution;
     let newExecution: vscode.ShellExecution;
-    Log.debug(`  ! Replacing 'cwd' in preLaunchTask with '${inCwd}'.`);
+
+    if (originalExecution.options?.cwd) {
+      Log.debug(`  ! NOT setting 'cwd' in preLaunchTask, using configuration.`);
+      inCwd = originalExecution.options?.cwd;
+    } else {
+      Log.debug(`  ! Setting 'cwd' in preLaunchTask with '${inCwd}'.`);
+    }
 
     if (originalExecution.command) {
       newExecution = new vscode.ShellExecution(originalExecution.command, originalExecution.args, {
