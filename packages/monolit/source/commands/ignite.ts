@@ -16,7 +16,7 @@ export async function ignite(context: vscode.ExtensionContext) {
     const selection = await vscode.window.showQuickPick(
       [
         {
-          id: "START_ANOTER",
+          id: "START_ANOTHER",
           label: "Start another session.",
           detail: "The current session(s) will keep running and we'll start a new one.",
         },
