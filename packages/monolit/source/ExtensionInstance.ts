@@ -20,15 +20,17 @@ export type Selection = {
 export class ExtensionInstance {
   readonly context: vscode.ExtensionContext;
   taskCache: Thenable<Array<vscode.Task>>;
-  readonly configuration: vscode.Memento;
 
   activeConfiguration: LaunchConfiguration | undefined;
   activeSession: LaunchSession | undefined;
 
+  get configuration(): vscode.WorkspaceConfiguration {
+    return vscode.workspace.getConfiguration("monolit");
+  }
+
   constructor(context: vscode.ExtensionContext) {
     this.context = context;
     this.taskCache = Promise.resolve([]);
-    this.configuration = vscode.workspace.getConfiguration("MonoLit");
 
     const outputChannel = vscode.window.createOutputChannel("MonoLit");
     Log.init(outputChannel);
@@ -140,51 +142,56 @@ export class ExtensionInstance {
     Log.debug(`  ? Starting candidate search in all workspaces...`);
     const targets = await search.search();
 
-    let infoString = targets
-      .map(target => `${target.workspace.name}:${target.path || "<root>"}`)
-      .join(",");
-    if (100 < infoString.length) {
-      infoString = infoString.slice(0, 100) + "...";
-    }
-    const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
-    Log.debug(`  → ${folders.length} entries: ${infoString}`);
+    let selectedVariant: LaunchSession | undefined;
 
-    // Get the previously selected variant to offer it as the top choice.
-    Log.debug("Loading last configuration variant...");
-    let previousVariant:
-      | { path: string; workspace: string }
-      | undefined = this.context.workspaceState.get("monolit.lastVariant");
-    // Basic schema check for setting while we're still moving shit around.
-    if (
-      previousVariant &&
-      (typeof previousVariant !== "object" ||
-        "workspace" in previousVariant === false ||
-        "path" in previousVariant === false)
-    ) {
-      previousVariant = undefined;
-    }
-    if (previousVariant) {
-      Log.debug(`  → was: ${previousVariant.workspace}:${previousVariant.path || "<root>"}`);
+    if (1 === targets.length && this.configuration.get("launch.autoSelectSingleCwd") === true) {
+      // There is only 1 variant/cwd that should be auto-selected.
+      selectedVariant = selectedConfiguration.asVariants(targets)[0];
     } else {
-      Log.debug(`  → was: none`);
-    }
-
-    const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
-    if (previousVariant) {
-      LaunchSession.orderByPriority(launchVariants, previousVariant);
-    }
-
-    const selectedVariant:
-      | LaunchSession
-      | undefined = await vscode.window.showQuickPick<LaunchSession>(
-      new Promise(async resolve => {
-        await this.taskCache;
-        resolve(launchVariants);
-      }),
-      {
-        placeHolder: "Select target cwd",
+      let infoString = targets
+        .map(target => `${target.workspace.name}:${target.path || "<root>"}`)
+        .join(",");
+      if (100 < infoString.length) {
+        infoString = infoString.slice(0, 100) + "...";
       }
-    );
+      const folders = targets.map(entry => `${entry.workspace.name}/${entry.path}`);
+      Log.debug(`  → ${folders.length} entries: ${infoString}`);
+
+      // Get the previously selected variant to offer it as the top choice.
+      Log.debug("Loading last configuration variant...");
+      let previousVariant:
+        | { path: string; workspace: string }
+        | undefined = this.context.workspaceState.get("monolit.lastVariant");
+      // Basic schema check for setting while we're still moving shit around.
+      if (
+        previousVariant &&
+        (typeof previousVariant !== "object" ||
+          "workspace" in previousVariant === false ||
+          "path" in previousVariant === false)
+      ) {
+        previousVariant = undefined;
+      }
+      if (previousVariant) {
+        Log.debug(`  → was: ${previousVariant.workspace}:${previousVariant.path || "<root>"}`);
+      } else {
+        Log.debug(`  → was: none`);
+      }
+
+      const launchVariants: Array<LaunchSession> = selectedConfiguration.asVariants(targets);
+      if (previousVariant) {
+        LaunchSession.orderByPriority(launchVariants, previousVariant);
+      }
+
+      selectedVariant = await vscode.window.showQuickPick<LaunchSession>(
+        new Promise(async resolve => {
+          await this.taskCache;
+          resolve(launchVariants);
+        }),
+        {
+          placeHolder: "Select target cwd",
+        }
+      );
+    }
 
     if (!selectedVariant) {
       Log.warn("Operation cancelled.");
