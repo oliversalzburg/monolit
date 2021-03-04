@@ -15,7 +15,7 @@
       "outFiles": [
         "${workspaceFolder}/packages/monolit/out/**/*.js"
       ],
-      "preLaunchTask": "${defaultBuildTask}"
+      "preLaunchTask": "watch"
     },
     {
       "name": "Extension Tests",

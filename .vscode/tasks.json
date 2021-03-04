@@ -11,6 +11,7 @@
       ]
     },
     {
+      "label": "watch",
       "type": "npm",
       "script": "watch",
       "problemMatcher": "$ts-webpack-watch",
