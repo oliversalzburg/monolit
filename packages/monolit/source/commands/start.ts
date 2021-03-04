@@ -35,7 +35,10 @@ export async function start(context: vscode.ExtensionContext) {
       const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 
       if (plt) {
-        await getExtensionInstance().executeTask(plt, selectedCwd);
+        const taskPromise = getExtensionInstance().executeTask(plt, selectedCwd);
+        if (!plt.isBackground) {
+          await taskPromise;
+        }
       } else {
         Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
       }
