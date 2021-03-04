@@ -27,12 +27,18 @@ export async function start(context: vscode.ExtensionContext) {
 
   const userDefinedPreLaunchTask = selection.configuration.configuration.preLaunchTask;
   if (userDefinedPreLaunchTask) {
-    const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
-
-    if (plt) {
-      await getExtensionInstance().executeTask(plt, selectedCwd);
+    if (userDefinedPreLaunchTask === "${defaultBuildTask}") {
+      vscode.window.showWarningMessage(
+        "MonoLit can not execute tasks referenced by ${defaultBuildTask}. Please name the task explicitly."
+      );
     } else {
-      Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
+      const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
+
+      if (plt) {
+        await getExtensionInstance().executeTask(plt, selectedCwd);
+      } else {
+        Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
+      }
     }
   } else {
     Log.debug(`  - no preLaunchTask requested.`);
