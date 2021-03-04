@@ -57,6 +57,10 @@
         "title": "MonoLit: Clean start"
       },
       {
+        "command": "monolit.ignite",
+        "title": "MonoLit: Ignite"
+      },
+      {
         "command": "monolit.refreshTasks",
         "title": "MonoLit: Refresh tasks"
       },
