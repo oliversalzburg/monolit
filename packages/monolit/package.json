@@ -3,7 +3,7 @@
   "displayName": "MonoLit",
   "description": "Dynamic launch system for VS Code",
   "icon": "icon.png",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "preview": true,
   "publisher": "OliverSalzburg",
   "repository": {
@@ -35,7 +35,6 @@
       "title": "MonoLit",
       "properties": {
         "monolit.launch.autoSelectSingleCwd": {
-          
           "type": "boolean",
           "default": true,
           "markdownDescription": "When launching a configuration that only produces a single `cwd` candidate, automatically use that cwd without prompting."
