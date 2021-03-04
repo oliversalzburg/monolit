@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { CandidateSearch } from "./CandidateSearch";
 import { cleanStart } from "./commands/cleanStart";
+import { ignite } from "./commands/ignite";
 import { refreshTasks } from "./commands/refreshTasks";
 import { restart } from "./commands/restart";
 import { start } from "./commands/start";
@@ -47,6 +48,10 @@ export class ExtensionInstance {
       "monolit.cleanStart",
       cleanStart.bind(undefined, this.context)
     );
+    const commandIgnite = vscode.commands.registerCommand(
+      "monolit.ignite",
+      ignite.bind(undefined, this.context)
+    );
     const commandRefreshTasks = vscode.commands.registerCommand(
       "monolit.refreshTasks",
       refreshTasks.bind(undefined, this.context)
@@ -62,6 +67,7 @@ export class ExtensionInstance {
     );
 
     this.context.subscriptions.push(commandCleanStart);
+    this.context.subscriptions.push(commandIgnite);
     this.context.subscriptions.push(commandRefreshTasks);
     this.context.subscriptions.push(commandRestart);
     this.context.subscriptions.push(commandStart);
