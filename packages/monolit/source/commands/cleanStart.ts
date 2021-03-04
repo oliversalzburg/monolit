@@ -16,7 +16,7 @@ export async function cleanStart(context: vscode.ExtensionContext) {
   const extensionInstance = getExtensionInstance();
   const tasks = await extensionInstance.taskCache;
 
-  let rebuildTaskName = extensionInstance.configuration.get("monolit.tasks.rebuild");
+  let rebuildTaskName = extensionInstance.configuration.get("tasks.rebuild");
   let rebuildTask: vscode.Task | undefined = rebuildTaskName
     ? tasks.find(task => task.name === rebuildTaskName)
     : undefined;
@@ -51,7 +51,7 @@ export async function cleanStart(context: vscode.ExtensionContext) {
   // Task is good, remember it for next time.
   if (!wasConfiguredAtStartup) {
     vscode.window.showInformationMessage("Storing task in configuration.");
-    extensionInstance.configuration.update("monolit.tasks.rebuild", rebuildTaskName);
+    extensionInstance.configuration.update("tasks.rebuild", rebuildTaskName);
   }
 
   const selection = await extensionInstance.pickConfigurationVariant();
