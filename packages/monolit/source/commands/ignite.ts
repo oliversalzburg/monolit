@@ -45,6 +45,8 @@ export async function ignite(context: vscode.ExtensionContext) {
       return start(context);
     } else if (selection.id === "REPLACE_CURRENT") {
       await vscode.debug.stopDebugging();
+      // I know it's naughty to terminate *all* tasks, but it's fine for now.
+      vscode.tasks.taskExecutions.forEach(task => task.terminate());
       return start(context);
     } else if (selection.id === "RESTART_CURRENT") {
       return restart(context);

@@ -15,6 +15,8 @@ export async function restart(context: vscode.ExtensionContext) {
   }
 
   vscode.debug.stopDebugging();
+  // I know it's naughty to terminate *all* tasks, but it's fine for now.
+  vscode.tasks.taskExecutions.forEach(task => task.terminate());
 
   const selectedCwd = CwdParser.cwdFromVariant(extensionInstance.activeSession);
 
