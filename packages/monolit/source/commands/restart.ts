@@ -5,7 +5,7 @@ import { Log } from "../Log";
 
 /**
  * The command should restart the current configuration.
-*/
+ */
 export async function restart(context: vscode.ExtensionContext) {
   const extensionInstance = getExtensionInstance();
 
@@ -20,7 +20,8 @@ export async function restart(context: vscode.ExtensionContext) {
 
   const tasks = await extensionInstance.taskCache;
 
-  const userDefinedPreLaunchTask = extensionInstance.activeConfiguration.configuration.preLaunchTask;
+  const userDefinedPreLaunchTask =
+    extensionInstance.activeConfiguration.configuration.preLaunchTask;
   if (userDefinedPreLaunchTask) {
     const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 
@@ -33,5 +34,8 @@ export async function restart(context: vscode.ExtensionContext) {
     Log.debug(`  - no preLaunchTask requested.`);
   }
 
-  return extensionInstance.activeConfiguration.launch(selectedCwd);
+  return extensionInstance.activeConfiguration.launch(
+    selectedCwd,
+    extensionInstance.activeSession.candidate.displayAs
+  );
 }

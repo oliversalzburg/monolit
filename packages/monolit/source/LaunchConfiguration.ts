@@ -67,11 +67,11 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
   /**
    * Launch the configuration.
    */
-  async launch(inCwd: string): Promise<void> {
+  async launch(inCwd: string, label?: string): Promise<void> {
     Log.debug(`  * Executing launch configuration...`);
     const configuration = this.asDebugConfiguration(inCwd);
     try {
-      configuration.name = `${this.label} (${this.description})`;
+      configuration.name = `${this.label} ${label ? `(${this.description})` : ""}`;
       const result = await vscode.debug.startDebugging(this.workspaceFolder, configuration);
       if (result === true) {
         Log.info("MonoLit execution completed successfully.");

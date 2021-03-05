@@ -47,5 +47,5 @@ export async function start(context: vscode.ExtensionContext) {
     Log.debug(`  - no preLaunchTask requested.`);
   }
 
-  await selection.configuration.launch(selectedCwd);
+  await selection.configuration.launch(selectedCwd,selection.variant.candidate.displayAs);
 }

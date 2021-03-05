@@ -67,5 +67,8 @@ export async function cleanStart(context: vscode.ExtensionContext) {
   vscode.debug.stopDebugging();
 
   await extensionInstance.executeTask(rebuildTask, selectedCwd);
-  await selection.configuration.launch(selectedCwd);
+  await selection.configuration.launch(
+    selectedCwd,
+    selection.variant.candidate.displayAs
+  );
 }
