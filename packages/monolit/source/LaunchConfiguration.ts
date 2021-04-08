@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Candidate } from "./CandidateSearch";
-import { ExtensionInstance } from "./ExtensionInstance";
+import { ConfigurationLibrary } from "./ConfigurationLibrary";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
 
@@ -10,16 +10,16 @@ import { Log } from "./Log";
  * workspaces.
  */
 export class LaunchConfiguration implements vscode.QuickPickItem {
-  readonly extensionInstance: ExtensionInstance;
+  readonly library: ConfigurationLibrary;
   readonly workspaceFolder: vscode.WorkspaceFolder;
   readonly configuration: vscode.DebugConfiguration;
 
   constructor(
-    extensionInstance: ExtensionInstance,
+    library: ConfigurationLibrary,
     workspaceFolder: vscode.WorkspaceFolder,
     configuration: vscode.DebugConfiguration
   ) {
-    this.extensionInstance = extensionInstance;
+    this.library = library;
     this.workspaceFolder = workspaceFolder;
     this.configuration = configuration;
   }
@@ -28,7 +28,7 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
    * The highlighted, searchable part of the quick-pick item.
    */
   get label(): string {
-    return this.extensionInstance.configuration.get("launch.hideMonoLitPrefix")
+    return this.library.extensionInstance.configuration.get("launch.hideMonoLitPrefix")
       ? this.configuration.name.replace(/^MonoLit: /, "")
       : this.configuration.name;
   }
