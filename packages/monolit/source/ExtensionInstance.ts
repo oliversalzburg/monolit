@@ -114,6 +114,7 @@ export class ExtensionInstance {
 
     Log.debug("Constructing configuration library...");
     const library = await ConfigurationLibrary.fromWorkspaceFolders(
+      this,
       vscode.workspace.workspaceFolders
     );
     if (previousConfig) {
