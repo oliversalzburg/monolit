@@ -21,7 +21,9 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
    * The highlighted, searchable part of the quick-pick item.
    */
   get label(): string {
-    return this.configuration.name;
+    return this.configuration.get("launch.hideMonoLitPrefix")
+      ? this.configuration.name.replace(/^MonoLit: /, "")
+      : this.configuration.name;
   }
 
   /**

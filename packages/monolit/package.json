@@ -39,6 +39,11 @@
           "default": true,
           "markdownDescription": "When launching a configuration that only produces a single `cwd` candidate, automatically use that cwd without prompting."
         },
+        "monolit.launch.hideMonoLitPrefix": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "In the launch selection dialog, should the \"MonoLit:\" prefix be removed from configuration, if it's present?"
+        },
         "monolit.tasks.build": {
           "type": "string",
           "default": "",
