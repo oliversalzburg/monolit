@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { ExtensionInstance } from "./ExtensionInstance";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { Log } from "./Log";
 
@@ -21,6 +22,7 @@ export class ConfigurationLibrary {
    * Constructs a `ConfigurationLibrary` from a set of workspace folders.
    */
   static async fromWorkspaceFolders(
+    extensionInstance:ExtensionInstance,
     folders: ReadonlyArray<vscode.WorkspaceFolder>
   ): Promise<ConfigurationLibrary> {
     const library = new ConfigurationLibrary();
@@ -50,7 +52,7 @@ export class ConfigurationLibrary {
           Log.info(
             `  + Registering configuration '${configuration.name}' from workspace '${workspaceFolder.name}' as a MonoLit configuration.`
           );
-          library.configurations.push(new LaunchConfiguration(workspaceFolder, configuration));
+          library.configurations.push(new LaunchConfiguration(extensionInstance, workspaceFolder, configuration));
         } else {
           Log.debug(
             `  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`

@@ -15,6 +15,10 @@
       "outFiles": [
         "${workspaceFolder}/packages/monolit/out/**/*.js"
       ],
+      "skipFiles": [
+        "<node_internals>/**",
+        "/home/oliver/.vscode-server/**",
+      ],
       "preLaunchTask": "watch"
     },
     {
