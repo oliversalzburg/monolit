@@ -935,15 +935,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-devops-node-api@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "azure-devops-node-api@npm:7.2.0"
+"azure-devops-node-api@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "azure-devops-node-api@npm:10.2.2"
   dependencies:
-    os: 0.1.1
-    tunnel: 0.0.4
-    typed-rest-client: 1.2.0
-    underscore: 1.8.3
-  checksum: 1bf5a4c9d70634f48b35c2e4a8067048a55becb6672f500c78f4a0eecd8b891ab3cc04bcfc4cb8734c60c3aa55cd956e08a250982747a5a99631931406961e3e
+    tunnel: 0.0.6
+    typed-rest-client: ^1.8.4
+  checksum: 13b5fb48d28f4ca47063de1379770fba70ae498388b7126ed221856f69833d59b60c56a51c51369e633ab7d582e8bf0904200bd710edf30fceab06c85061fd18
   languageName: node
   linkType: hard
 
@@ -2232,6 +2230,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"get-intrinsic@npm:^1.0.2":
+  version: 1.1.1
+  resolution: "get-intrinsic@npm:1.1.1"
+  dependencies:
+    function-bind: ^1.1.1
+    has: ^1.0.3
+    has-symbols: ^1.0.1
+  checksum: acf1506f25a32a194cfc5c19d33835756080d970eb6e29a8a3852380106df981acef7bb9ac2002689437235221f24bcbdc1e3532b9bcacd7ff3621091fafe607
+  languageName: node
+  linkType: hard
+
 "get-stream@npm:^5.1.0":
   version: 5.2.0
   resolution: "get-stream@npm:5.2.0"
@@ -3176,7 +3185,7 @@ fsevents@~2.3.1:
     glob: ^7.1.6
     ts-loader: ^8.1.0
     typescript: ^4.2.4
-    vsce: ^1.87.1
+    vsce: ^1.88.0
     vscode-test: ^1.5.2
     webpack: ^5.31.0
     webpack-cli: ^4.6.0
@@ -3340,6 +3349,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"object-inspect@npm:^1.9.0":
+  version: 1.10.2
+  resolution: "object-inspect@npm:1.10.2"
+  checksum: 2bb89d63fde8e5dc8ee255aa783308477c614204a12b5568e4646a3032fd75600ead57769f3e0557c7fed51ab4fe4f54f6998b77a0832c3e5b61974d67f3f705
+  languageName: node
+  linkType: hard
+
 "object-keys@npm:^1.0.12, object-keys@npm:^1.1.1":
   version: 1.1.1
   resolution: "object-keys@npm:1.1.1"
@@ -3411,13 +3427,6 @@ fsevents@~2.3.1:
   version: 1.0.2
   resolution: "os-tmpdir@npm:1.0.2"
   checksum: ca158a3c2e48748adc7736cdbe4c593723f8ed8581d2aae2f2a30fdb9417d4ba14bed1cd487d47561898a7b1ece88bce69745e9ce0303e1dea9ea7d22d1f1082
-  languageName: node
-  linkType: hard
-
-"os@npm:0.1.1":
-  version: 0.1.1
-  resolution: "os@npm:0.1.1"
-  checksum: 624f0f7d385b22d00d1f5f020409e6035795eaf8665a3a9e02aa56fc96430b2091136f761eea763302e7f0ebac63b15a2db6fd9570e0bdd938dce375711d751c
   languageName: node
   linkType: hard
 
@@ -3683,6 +3692,15 @@ fsevents@~2.3.1:
   version: 2.1.1
   resolution: "punycode@npm:2.1.1"
   checksum: 0202dc191cb35bfd88870ac99a1e824b03486d4cee20b543ef337a6dee8d8b11017da32a3e4c40b69b19976e982c030b62bd72bba42884acb691bc5ef91354c8
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.9.1":
+  version: 6.10.1
+  resolution: "qs@npm:6.10.1"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 25e50a9107322027a998ba4eacec3df4b575c4f0a02cf0602002242d09ac997ab783384b6e90d6264a4d8387de3d17fb177d9c304a0dd9ec706a3087a069b204
   languageName: node
   linkType: hard
 
@@ -4026,6 +4044,17 @@ resolve@^1.9.0:
   version: 3.0.0
   resolution: "shebang-regex@npm:3.0.0"
   checksum: ea18044ffaf18129ced5a246660a9171a7dff98999aaa9de8abb237d8a7711d8a1f76e16881399994ee429156717ce1c6a50c665bb18a4d55a7f80b9125b1f7d
+  languageName: node
+  linkType: hard
+
+"side-channel@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "side-channel@npm:1.0.4"
+  dependencies:
+    call-bind: ^1.0.0
+    get-intrinsic: ^1.0.2
+    object-inspect: ^1.9.0
+  checksum: 84258ce3edb1ad35810ca17eccd52fd504b5d4da59447a6829cfd1ae8e3cff97b7df2a14f9a45b7aaa3b507ded95626cf20a500735d3b797e9ffb1eba3cfa9e7
   languageName: node
   linkType: hard
 
@@ -4432,14 +4461,7 @@ resolve@^1.9.0:
   languageName: node
   linkType: hard
 
-"tunnel@npm:0.0.4":
-  version: 0.0.4
-  resolution: "tunnel@npm:0.0.4"
-  checksum: 81faf737a19fd32f81de3cacc5681ad14937a9095f2f2ad5de5e57721d3dd846758321ce04856450d008c3c20174cb06e4481c54e4043e8ad07671e6e01294dd
-  languageName: node
-  linkType: hard
-
-"tunnel@npm:^0.0.6":
+"tunnel@npm:0.0.6, tunnel@npm:^0.0.6":
   version: 0.0.6
   resolution: "tunnel@npm:0.0.6"
   checksum: 78fbb1a55a44fc8de6a497923bf7bf6e7b14b396e0ddaf11fe624ab7f646a0d2ada03f6dcb4a80940faed9649e30d229114f218e8906badd12ded2323a6f666b
@@ -4476,13 +4498,14 @@ resolve@^1.9.0:
   languageName: node
   linkType: hard
 
-"typed-rest-client@npm:1.2.0":
-  version: 1.2.0
-  resolution: "typed-rest-client@npm:1.2.0"
+"typed-rest-client@npm:^1.8.4":
+  version: 1.8.4
+  resolution: "typed-rest-client@npm:1.8.4"
   dependencies:
-    tunnel: 0.0.4
-    underscore: 1.8.3
-  checksum: 6822d05c7a3ce89f434eaccb6a9ab47968e0c165d829908cac75553ef6ee18d9f58aadf23c87107aa631e8008e6ef0b0c66cd0021e9e19d1fe4195e724f4ca70
+    qs: ^6.9.1
+    tunnel: 0.0.6
+    underscore: ^1.12.1
+  checksum: 4820492fa4b2f17de99c86b1884aae56d08e036f6d73180ed3be15bfae0a3f4e24eb3f70a32240ec01206a47f5e518feb2d3ee2a2e9dd222dd732b1aebebddcb
   languageName: node
   linkType: hard
 
@@ -4513,10 +4536,10 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"underscore@npm:1.8.3":
-  version: 1.8.3
-  resolution: "underscore@npm:1.8.3"
-  checksum: 31f4f79bd5ee95da26bb85604c6c82cd3d70a0edc251adf098d4985623b34eb838d3342c08eb02ad0abd24cf0edf71a9cb01a787e60c2f07db113c51a01c1bf5
+"underscore@npm:^1.12.1":
+  version: 1.13.1
+  resolution: "underscore@npm:1.13.1"
+  checksum: 19527b2db3d34f783c3f2db9716a2c1221fef2958866925545697c46f430f59d1b384b8105cc7e7c809bdf0dc9075f2bfff90b8fb270b9d3a6c58347de2dd79d
   languageName: node
   linkType: hard
 
@@ -4588,11 +4611,11 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"vsce@npm:^1.87.1":
-  version: 1.87.1
-  resolution: "vsce@npm:1.87.1"
+"vsce@npm:^1.88.0":
+  version: 1.88.0
+  resolution: "vsce@npm:1.88.0"
   dependencies:
-    azure-devops-node-api: ^7.2.0
+    azure-devops-node-api: ^10.2.2
     chalk: ^2.4.2
     cheerio: ^1.0.0-rc.1
     commander: ^6.1.0
@@ -4608,13 +4631,13 @@ typescript@^4.2.4:
     read: ^1.0.7
     semver: ^5.1.0
     tmp: 0.0.29
-    typed-rest-client: 1.2.0
+    typed-rest-client: ^1.8.4
     url-join: ^1.1.0
     yauzl: ^2.3.1
     yazl: ^2.2.2
   bin:
     vsce: out/vsce
-  checksum: ce4b5815a0ea5fc4484af5aab3a89f8e10852de731cb9ddafc7a025035d840c5d22dd48eb7ca7da6de4732f2d3c1b057cc75fdc0a2c14f37eb2deb627f0cfe9e
+  checksum: 797e5393dbc24e2c0acbe91e573c6d96134322c5d69eb47e87f0b7665c57e6e8ad49c7652e82cd0806f48268243f5cc4934ea3cc4b0eb7607c8feb21a0aa2acb
   languageName: node
   linkType: hard
 
