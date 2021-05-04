@@ -66,9 +66,12 @@ export async function cleanStart(context: vscode.ExtensionContext) {
 
   vscode.debug.stopDebugging();
 
-  await extensionInstance.executeTask(rebuildTask, selectedCwd);
-  await selection.configuration.launch(
-    selectedCwd,
-    selection.variant.candidate.displayAs
-  );
+  try {
+    await extensionInstance.executeTask(rebuildTask, selectedCwd);
+  } catch (error) {
+    // If pre-launch task fails, don't execute.
+    return;
+  }
+
+  await selection.configuration.launch(selectedCwd, selection.variant.candidate.displayAs);
 }

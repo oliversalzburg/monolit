@@ -37,7 +37,12 @@ export async function start(context: vscode.ExtensionContext) {
       if (plt) {
         const taskPromise = getExtensionInstance().executeTask(plt, selectedCwd);
         if (!plt.isBackground) {
-          await taskPromise;
+          try {
+            await taskPromise;
+          } catch (error) {
+            // If pre-launch task fails, don't execute.
+            return;
+          }
         }
       } else {
         Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
@@ -47,5 +52,5 @@ export async function start(context: vscode.ExtensionContext) {
     Log.debug(`  - no preLaunchTask requested.`);
   }
 
-  await selection.configuration.launch(selectedCwd,selection.variant.candidate.displayAs);
+  await selection.configuration.launch(selectedCwd, selection.variant.candidate.displayAs);
 }

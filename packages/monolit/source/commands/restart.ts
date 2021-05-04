@@ -28,7 +28,12 @@ export async function restart(context: vscode.ExtensionContext) {
     const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 
     if (plt) {
-      await getExtensionInstance().executeTask(plt, selectedCwd);
+      try {
+        await getExtensionInstance().executeTask(plt, selectedCwd);
+      } catch (error) {
+        // If pre-launch task fails, don't execute.
+        return;
+      }
     } else {
       Log.warn(`  ? ${userDefinedPreLaunchTask} could not be found.`);
     }

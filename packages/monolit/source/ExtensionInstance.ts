@@ -259,7 +259,12 @@ export class ExtensionInstance {
       task.problemMatchers
     );
 
-    return this._executeTask(buildTask);
+    try {
+      await this._executeTask(buildTask);
+    } catch (error) {
+      Log.warn(`  ☠ ${error?.message ?? "Pre-launch task failed."}`);
+      throw error;
+    }
   }
 
   /**
@@ -286,11 +291,25 @@ export class ExtensionInstance {
       Log.debug("  ? Terminal window not found. Maybe this is the first run in this session.");
     }
 
-    return new Promise<void>(resolve => {
-      const disposable = vscode.tasks.onDidEndTask(e => {
+    return new Promise<void>((resolve, reject) => {
+      const onEndTaskListener = vscode.tasks.onDidEndTask(e => {
         if (e.execution === execution) {
-          disposable.dispose();
+          onEndTaskListener.dispose();
+          onEndTaskProcessListener.dispose();
           resolve();
+        }
+      });
+
+      const onEndTaskProcessListener = vscode.tasks.onDidEndTaskProcess(e => {
+        if (e.execution === execution) {
+          onEndTaskListener.dispose();
+          onEndTaskProcessListener.dispose();
+
+          if (e.exitCode === 0) {
+            resolve();
+          } else {
+            reject(new Error("Pre-launch task failed."));
+          }
         }
       });
     });
