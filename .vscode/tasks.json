@@ -4,8 +4,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "typecheck:all",
+      "label": "typecheck:all",
+      "type": "shell",
+      "command": "~/.yarn/bin/yarn run typecheck:all",
       "problemMatcher": [
         "$tsc"
       ]
