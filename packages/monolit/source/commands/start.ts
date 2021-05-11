@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { CwdParser } from "../CwdParser";
-import { getExtensionInstance } from "../extension";
+import { getExtensionInstance, identifyLaunchedConfiguration } from "../extension";
+import { DebugSession as LitSession } from "../ExtensionInstance";
 import { Log } from "../Log";
 
 /**
@@ -16,6 +17,7 @@ export async function start(context: vscode.ExtensionContext) {
   const selection = await extensionInstance.pickConfigurationVariant();
 
   if (!selection) {
+    // Action cancelled
     return;
   }
 
@@ -53,4 +55,32 @@ export async function start(context: vscode.ExtensionContext) {
   }
 
   await selection.configuration.launch(selectedCwd, selection.variant.candidate.displayAs);
+
+  // Assume that the active debug session is the one we just started.
+  if (!vscode.debug.activeDebugSession) {
+    Log.error(`  ! Launched debug session not found.`);
+    return;
+  }
+
+  const startedDebugSession: LitSession = {
+    configuration: selection.configuration,
+    debugSession: vscode.debug.activeDebugSession,
+    started: new Date(),
+    variant: selection.variant,
+  };
+
+  Log.info(`  → Launched debug session '${startedDebugSession.debugSession.id}'.`);
+
+  extensionInstance.activeDebugSessions.push(startedDebugSession);
+
+  vscode.debug.onDidTerminateDebugSession(event => {
+    if (event.id === startedDebugSession.debugSession.id) {
+      Log.info(
+        `Previously started debug session '${event.id}' for '${identifyLaunchedConfiguration(
+          startedDebugSession.configuration,
+          startedDebugSession.variant
+        )}' has been terminated.`
+      );
+    }
+  });
 }

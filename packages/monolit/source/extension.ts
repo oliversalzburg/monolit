@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import { ExtensionInstance } from "./ExtensionInstance";
+import { LaunchConfiguration } from "./LaunchConfiguration";
+import { LaunchSession } from "./LaunchSession";
 
 let extensionInstance: ExtensionInstance | undefined;
 
@@ -20,4 +22,17 @@ export function getExtensionInstance(): ExtensionInstance {
   }
 
   return extensionInstance;
+}
+
+/**
+ * Generate a user-readable string to identify a running configuration by.
+ * @param configuration The configuration that was launched.
+ * @param variant The variant of the launched configuration.
+ * @returns The identification string.
+ */
+export function identifyLaunchedConfiguration(
+  configuration: LaunchConfiguration,
+  variant: LaunchSession
+): string {
+  return `${configuration.label}@${variant.label}`;
 }

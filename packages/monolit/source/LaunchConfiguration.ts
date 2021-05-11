@@ -14,7 +14,11 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
   readonly workspaceFolder: vscode.WorkspaceFolder;
   readonly configuration: vscode.DebugConfiguration;
 
-  constructor(extensionInstance:ExtensionInstance, workspaceFolder: vscode.WorkspaceFolder, configuration: vscode.DebugConfiguration) {
+  constructor(
+    extensionInstance: ExtensionInstance,
+    workspaceFolder: vscode.WorkspaceFolder,
+    configuration: vscode.DebugConfiguration
+  ) {
     this.extensionInstance = extensionInstance;
     this.workspaceFolder = workspaceFolder;
     this.configuration = configuration;
@@ -77,10 +81,8 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     const configuration = this.asDebugConfiguration(inCwd);
     try {
       configuration.name = `${this.label} ${label ? `(${label})` : ""}`;
-      const result = await vscode.debug.startDebugging(this.workspaceFolder, configuration);
-      if (result === true) {
-        Log.info("MonoLit execution completed successfully.");
-      }
+      await vscode.debug.startDebugging(this.workspaceFolder, configuration);
+      
     } catch (error) {
       Log.error(error);
     }

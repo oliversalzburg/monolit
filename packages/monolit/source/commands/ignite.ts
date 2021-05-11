@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { getExtensionInstance } from "../extension";
 import { Log } from "../Log";
 import { restart } from "./restart";
 import { start } from "./start";
@@ -12,7 +13,12 @@ export async function ignite(context: vscode.ExtensionContext) {
     return;
   }
 
-  if (vscode.debug.activeDebugSession) {
+  const extensionInstance = getExtensionInstance();
+  if (0 < extensionInstance.activeDebugSessions.length) {
+    Log.warn(
+      `! There ${extensionInstance.activeDebugSessions.length} are active sessions already.`
+    );
+
     const selection = await vscode.window.showQuickPick(
       [
         {

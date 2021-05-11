@@ -1,6 +1,8 @@
+import { formatDistance, formatRelative } from "date-fns";
 import * as vscode from "vscode";
 import { CwdParser } from "../CwdParser";
-import { getExtensionInstance } from "../extension";
+import { getExtensionInstance, identifyLaunchedConfiguration } from "../extension";
+import { DebugSession } from "../ExtensionInstance";
 import { Log } from "../Log";
 
 /**
@@ -9,21 +11,47 @@ import { Log } from "../Log";
 export async function restart(context: vscode.ExtensionContext) {
   const extensionInstance = getExtensionInstance();
 
-  if (!extensionInstance.activeConfiguration || !extensionInstance.activeSession) {
-    Log.warn("No active session. Aborting.");
+  if (extensionInstance.activeDebugSessions.length === 0) {
+    Log.warn("No active debug sessions. Aborting.");
     return;
   }
 
-  vscode.debug.stopDebugging();
+  // If we have multiple running sessions, let the user pick the one to restart.
+  let sessionToRestart: DebugSession = extensionInstance.activeDebugSessions[0];
+  if (1 < extensionInstance.activeDebugSessions.length) {
+    const selection = await vscode.window.showQuickPick(
+      extensionInstance.activeDebugSessions.map(session => ({
+        id: session,
+        label: identifyLaunchedConfiguration(session.configuration, session.variant),
+        detail: `Started ${formatRelative(
+          session.started,
+          new Date()
+        )} (${formatDistance(session.started, new Date(), { addSuffix: true })})`,
+      })),
+      {
+        placeHolder: "You have multiple running sessions. Pick one to restart.",
+      }
+    );
+
+    if (!selection) {
+      // Action cancelled
+      return;
+    }
+
+    sessionToRestart = selection.id;
+    console.debug(selection);
+  }
+
+  vscode.debug.stopDebugging(sessionToRestart.debugSession);
+
   // I know it's naughty to terminate *all* tasks, but it's fine for now.
   vscode.tasks.taskExecutions.forEach(task => task.terminate());
 
-  const selectedCwd = CwdParser.cwdFromVariant(extensionInstance.activeSession);
+  const selectedCwd = CwdParser.cwdFromVariant(sessionToRestart.variant);
 
   const tasks = await extensionInstance.taskCache;
 
-  const userDefinedPreLaunchTask =
-    extensionInstance.activeConfiguration.configuration.preLaunchTask;
+  const userDefinedPreLaunchTask = sessionToRestart.configuration.configuration.preLaunchTask;
   if (userDefinedPreLaunchTask) {
     const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 
@@ -41,8 +69,8 @@ export async function restart(context: vscode.ExtensionContext) {
     Log.debug(`  - no preLaunchTask requested.`);
   }
 
-  return extensionInstance.activeConfiguration.launch(
+  return sessionToRestart.configuration.launch(
     selectedCwd,
-    extensionInstance.activeSession.candidate.displayAs
+    sessionToRestart.variant.candidate.displayAs
   );
 }

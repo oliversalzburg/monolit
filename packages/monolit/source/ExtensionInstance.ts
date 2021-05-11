@@ -15,6 +15,13 @@ export type Selection = {
   variant: LaunchSession;
 };
 
+export type DebugSession = {
+  configuration: LaunchConfiguration;
+  debugSession: vscode.DebugSession;
+  started: Date;
+  variant: LaunchSession;
+};
+
 /**
  * Represents all relevant state of the extension.
  */
@@ -22,8 +29,7 @@ export class ExtensionInstance {
   readonly context: vscode.ExtensionContext;
   taskCache: Thenable<Array<vscode.Task>>;
 
-  activeConfiguration: LaunchConfiguration | undefined;
-  activeSession: LaunchSession | undefined;
+  activeDebugSessions = new Array<DebugSession>();
 
   get configuration(): vscode.WorkspaceConfiguration {
     return vscode.workspace.getConfiguration("monolit");
@@ -80,9 +86,6 @@ export class ExtensionInstance {
    * This should be used to improve user experience.
    */
   activateConfiguration(configuration: LaunchConfiguration, variant: LaunchSession): void {
-    this.activeConfiguration = configuration;
-    this.activeSession = variant;
-
     this.context.workspaceState.update("monolit.lastConfiguration", {
       label: configuration.label,
       uri: configuration.workspaceFolder.uri.toString(),
@@ -91,6 +94,20 @@ export class ExtensionInstance {
       path: variant.candidate.path,
       workspace: variant.candidate.workspace.name,
     });
+  }
+
+  registerDebugSession(session: DebugSession): void {
+    this.activeDebugSessions.push(session);
+  }
+  unregisterDebugSession(sessionId: string): void {
+    const activeIndex = this.activeDebugSessions.findIndex(
+      debugSession => debugSession.debugSession.id === sessionId
+    );
+    if (activeIndex === -1) {
+      throw new Error(`Session '${sessionId}' is not registered.`);
+    }
+
+    this.activeDebugSessions.splice(activeIndex, 1);
   }
 
   /**
