@@ -2,7 +2,7 @@ import { formatDistance, formatRelative } from "date-fns";
 import * as vscode from "vscode";
 import { CwdParser } from "../CwdParser";
 import { getExtensionInstance, identifyLaunchedConfiguration } from "../extension";
-import { DebugSession } from "../ExtensionInstance";
+import { LitSession } from "../ExtensionInstance";
 import { Log } from "../Log";
 
 /**
@@ -17,7 +17,7 @@ export async function restart(context: vscode.ExtensionContext) {
   }
 
   // If we have multiple running sessions, let the user pick the one to restart.
-  let sessionToRestart: DebugSession = extensionInstance.activeDebugSessions[0];
+  let sessionToRestart: LitSession = extensionInstance.activeDebugSessions[0];
   if (1 < extensionInstance.activeDebugSessions.length) {
     const selection = await vscode.window.showQuickPick(
       extensionInstance.activeDebugSessions.map(session => ({
@@ -42,7 +42,7 @@ export async function restart(context: vscode.ExtensionContext) {
     console.debug(selection);
   }
 
-  vscode.debug.stopDebugging(sessionToRestart.debugSession);
+  await vscode.debug.stopDebugging(sessionToRestart.debugSession);
 
   // I know it's naughty to terminate *all* tasks, but it's fine for now.
   vscode.tasks.taskExecutions.forEach(task => task.terminate());
@@ -69,8 +69,39 @@ export async function restart(context: vscode.ExtensionContext) {
     Log.debug(`  - no preLaunchTask requested.`);
   }
 
-  return sessionToRestart.configuration.launch(
+  await sessionToRestart.configuration.launch(
     selectedCwd,
     sessionToRestart.variant.candidate.displayAs
   );
+
+  // Assume that the active debug session is the one we just started.
+  if (!vscode.debug.activeDebugSession) {
+    Log.error(`  ! Launched debug session not found.`);
+    return;
+  }
+
+  const startedDebugSession: LitSession = {
+    configuration: sessionToRestart.configuration,
+    debugSession: vscode.debug.activeDebugSession,
+    started: new Date(),
+    variant: sessionToRestart.variant,
+  };
+
+  Log.info(`  → Launched debug session '${startedDebugSession.debugSession.id}'.`);
+
+  extensionInstance.registerDebugSession(startedDebugSession);
+
+  vscode.debug.onDidTerminateDebugSession(event => {
+    if (event.id === startedDebugSession.debugSession.id) {
+      Log.info(
+        `Previously started debug session '${event.id}' for '${identifyLaunchedConfiguration(
+          startedDebugSession.configuration,
+          startedDebugSession.variant
+        )}' has been terminated.`
+      );
+
+      // Remove the session.
+      extensionInstance.unregisterDebugSession(startedDebugSession.debugSession.id);
+    }
+  });
 }
