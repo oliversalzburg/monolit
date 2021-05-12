@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { CwdParser } from "../CwdParser";
 import { getExtensionInstance, identifyLaunchedConfiguration } from "../extension";
-import { DebugSession as LitSession } from "../ExtensionInstance";
+import {  LitSession } from "../ExtensionInstance";
 import { Log } from "../Log";
 
 /**
@@ -71,7 +71,7 @@ export async function start(context: vscode.ExtensionContext) {
 
   Log.info(`  → Launched debug session '${startedDebugSession.debugSession.id}'.`);
 
-  extensionInstance.activeDebugSessions.push(startedDebugSession);
+  extensionInstance.registerDebugSession(startedDebugSession);
 
   vscode.debug.onDidTerminateDebugSession(event => {
     if (event.id === startedDebugSession.debugSession.id) {
@@ -81,6 +81,9 @@ export async function start(context: vscode.ExtensionContext) {
           startedDebugSession.variant
         )}' has been terminated.`
       );
+      
+      // Remove the session.
+      extensionInstance.unregisterDebugSession(startedDebugSession.debugSession.id);
     }
   });
 }
