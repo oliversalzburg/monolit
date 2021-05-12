@@ -15,7 +15,7 @@ export type Selection = {
   variant: LaunchSession;
 };
 
-export type DebugSession = {
+export type LitSession = {
   configuration: LaunchConfiguration;
   debugSession: vscode.DebugSession;
   started: Date;
@@ -29,7 +29,7 @@ export class ExtensionInstance {
   readonly context: vscode.ExtensionContext;
   taskCache: Thenable<Array<vscode.Task>>;
 
-  activeDebugSessions = new Array<DebugSession>();
+  activeDebugSessions = new Array<LitSession>();
 
   get configuration(): vscode.WorkspaceConfiguration {
     return vscode.workspace.getConfiguration("monolit");
@@ -96,7 +96,7 @@ export class ExtensionInstance {
     });
   }
 
-  registerDebugSession(session: DebugSession): void {
+  registerDebugSession(session: LitSession): void {
     this.activeDebugSessions.push(session);
   }
   unregisterDebugSession(sessionId: string): void {
