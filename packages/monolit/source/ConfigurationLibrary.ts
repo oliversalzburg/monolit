@@ -19,7 +19,7 @@ export class ConfigurationLibrary {
   readonly extensionInstance: ExtensionInstance;
   configurations: Array<LaunchConfiguration> = [];
 
-  constructor(extensionInstance:ExtensionInstance){
+  constructor(extensionInstance: ExtensionInstance) {
     this.extensionInstance = extensionInstance;
   }
 
@@ -27,7 +27,7 @@ export class ConfigurationLibrary {
    * Constructs a `ConfigurationLibrary` from a set of workspace folders.
    */
   static async fromWorkspaceFolders(
-    extensionInstance:ExtensionInstance,
+    extensionInstance: ExtensionInstance,
     folders: ReadonlyArray<vscode.WorkspaceFolder>
   ): Promise<ConfigurationLibrary> {
     const library = new ConfigurationLibrary(extensionInstance);
@@ -47,9 +47,10 @@ export class ConfigurationLibrary {
       }
 
       // Find monolit-able configurations.
+      const SUPPORTED_CONFIGURATION_TYPES = ["extensionHost", "node", "pwa-node"];
       for (const configuration of debugConfigurations) {
         if (
-          (configuration.type === "extensionHost" || configuration.type === "node") &&
+          SUPPORTED_CONFIGURATION_TYPES.includes(configuration.type) &&
           (this.hasMonoLitableCwd(configuration) ||
             this.hasMonoLitableName(configuration) ||
             this.hasMonoLitableProgram(configuration))
@@ -57,7 +58,9 @@ export class ConfigurationLibrary {
           Log.info(
             `  + Registering configuration '${configuration.name}' from workspace '${workspaceFolder.name}' as a MonoLit configuration.`
           );
-          library.configurations.push(new LaunchConfiguration(library, workspaceFolder, configuration));
+          library.configurations.push(
+            new LaunchConfiguration(library, workspaceFolder, configuration)
+          );
         } else {
           Log.debug(
             `  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`
