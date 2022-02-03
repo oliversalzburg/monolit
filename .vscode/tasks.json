@@ -4,16 +4,17 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "typecheck:all",
+      "label": "Run type check",
+      "type": "shell",
+      "command": "npm typecheck:all",
       "problemMatcher": [
         "$tsc"
       ],
     },
     {
       "label": "watch",
-      "type": "npm",
-      "script": "watch",
+      "type": "shell",
+      "command": "npm watch",
       "problemMatcher": "$ts-webpack-watch",
       "isBackground": true,
       "presentation": {
