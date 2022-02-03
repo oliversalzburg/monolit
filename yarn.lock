@@ -273,10 +273,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/vscode@npm:1.55.0":
-  version: 1.55.0
-  resolution: "@types/vscode@npm:1.55.0"
-  checksum: cceab8bdeb9891a69c3ed9647f9b30ce12034c8b378ae5022c0b753fed218521c5569b8aec635e783b7c151822362d781d99614a8bef5651945bf0b75783eb7d
+"@types/vscode@npm:1.64.0":
+  version: 1.64.0
+  resolution: "@types/vscode@npm:1.64.0"
+  checksum: 428cfce7f31ebf2d2a82e6ffdc2d903487adecd72147463e7b679d3280532b805e37e69065fbfd66fa144898a8fab86eaf3a0c4ac2861df1135ab41050a6888d
   languageName: node
   linkType: hard
 
@@ -3182,7 +3182,7 @@ fsevents@~2.3.1:
   dependencies:
     "@types/glob": 7.1.3
     "@types/node": 12.20.7
-    "@types/vscode": 1.55.0
+    "@types/vscode": 1.64.0
     date-fns: 2.21.3
     glob: 7.1.6
     ts-loader: 8.1.0
