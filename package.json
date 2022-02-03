@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/oliversalzburg/monolit.git"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": {
     "name": "Oliver Salzburg",
     "email": "oliver.salzburg@gmail.com"
@@ -23,7 +23,7 @@
     "@types/mocha": "8.2.2",
     "@typescript-eslint/eslint-plugin": "4.21.0",
     "@typescript-eslint/parser": "4.21.0",
-    "@yarnpkg/pnpify": "2.4.0",
+    "@yarnpkg/sdks": "2.6.0-rc.5",
     "eslint": "7.23.0",
     "mocha": "8.3.2",
     "prettier": "2.2.1",
