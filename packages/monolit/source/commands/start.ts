@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
+import { ConfigurationLibrary } from "../ConfigurationLibrary";
 import { CwdParser } from "../CwdParser";
 import { getExtensionInstance, identifyLaunchedConfiguration } from "../extension";
-import {  LitSession } from "../ExtensionInstance";
+import { LitSession } from "../ExtensionInstance";
 import { Log } from "../Log";
 
 /**
@@ -37,7 +38,14 @@ export async function start(context: vscode.ExtensionContext) {
       const plt = tasks.find(task => task.name === userDefinedPreLaunchTask);
 
       if (plt) {
-        const taskPromise = getExtensionInstance().executeTask(plt, selectedCwd);
+        // If the task has a monolitable path, it should use the selected cwd.
+        // If it has a fixed path, use the fixed path.
+        // @ts-expect-error
+        let taskCwd = plt.execution.options.cwd;
+        const cwd =
+          taskCwd && !ConfigurationLibrary.hasMonoLitableCwd(taskCwd) ? taskCwd : selectedCwd;
+
+        const taskPromise = getExtensionInstance().executeTask(plt, cwd);
         if (!plt.isBackground) {
           try {
             await taskPromise;
@@ -81,7 +89,7 @@ export async function start(context: vscode.ExtensionContext) {
           startedDebugSession.variant
         )}' has been terminated.`
       );
-      
+
       // Remove the session.
       extensionInstance.unregisterDebugSession(startedDebugSession.debugSession.id);
     }
