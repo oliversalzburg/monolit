@@ -38,34 +38,20 @@ export class ConfigurationLibrary {
         "launch",
         workspaceFolder.uri
       );
-      const debugConfigurations = workspaceConfiguration.get<vscode.DebugConfiguration[]>(
-        "configurations"
-      );
+      const debugConfigurations =
+        workspaceConfiguration.get<vscode.DebugConfiguration[]>("configurations");
       if (!debugConfigurations) {
         Log.debug(`  No launch configurations in '${workspaceFolder}'.`);
         continue;
       }
 
-      // Find monolit-able configurations.
-      const SUPPORTED_CONFIGURATION_TYPES = ["extensionHost", "node", "pwa-node"];
       for (const configuration of debugConfigurations) {
-        if (
-          SUPPORTED_CONFIGURATION_TYPES.includes(configuration.type) &&
-          (this.hasMonoLitableCwd(configuration) ||
-            this.hasMonoLitableName(configuration) ||
-            this.hasMonoLitableProgram(configuration))
-        ) {
-          Log.info(
-            `  + Registering configuration '${configuration.name}' from workspace '${workspaceFolder.name}' as a MonoLit configuration.`
-          );
-          library.configurations.push(
-            new LaunchConfiguration(library, workspaceFolder, configuration)
-          );
-        } else {
-          Log.debug(
-            `  - Configuration '${configuration.name}' in workspace '${workspaceFolder.name}' is not monolit-able!`
-          );
-        }
+        Log.info(
+          `  + Registering configuration '${configuration.name}' from workspace '${workspaceFolder.name}' as a MonoLit configuration.`
+        );
+        library.configurations.push(
+          new LaunchConfiguration(library, workspaceFolder, configuration)
+        );
       }
     }
 
