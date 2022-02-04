@@ -1884,10 +1884,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["date-fns", [
-        ["npm:2.21.3", {
-          "packageLocation": "./.yarn/cache/date-fns-npm-2.21.3-8293095d1a-00dc783af2.zip/node_modules/date-fns/",
+        ["npm:2.28.0", {
+          "packageLocation": "./.yarn/cache/date-fns-npm-2.28.0-c19c5add1b-a0516b2e4f.zip/node_modules/date-fns/",
           "packageDependencies": [
-            ["date-fns", "npm:2.21.3"]
+            ["date-fns", "npm:2.28.0"]
           ],
           "linkType": "HARD",
         }]
@@ -4002,7 +4002,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/glob", "npm:7.2.0"],
             ["@types/node", "npm:12.20.43"],
             ["@types/vscode", "npm:1.64.0"],
-            ["date-fns", "npm:2.21.3"],
+            ["date-fns", "npm:2.28.0"],
             ["glob", "npm:7.2.0"],
             ["ts-loader", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:8.3.0"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
