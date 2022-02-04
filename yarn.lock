@@ -220,10 +220,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mocha@npm:8.2.2":
-  version: 8.2.2
-  resolution: "@types/mocha@npm:8.2.2"
-  checksum: 8e1fbc3e98d6bd93fe5b7454c34d53241b9f1947b28c10b8bb340585a9ed303be649b45c36b19236000f82f74e8d3df67ed617ae7baae80ea09d5317dbe080ba
+"@types/mocha@npm:8.2.3":
+  version: 8.2.3
+  resolution: "@types/mocha@npm:8.2.3"
+  checksum: b43ed1b642a2ee62bf10792a07d5d21d66ab8b4d2cf5d822c8a7643e77b90009aecc000eefab5f6ddc9eb69004192f84119a6f97a8499e1a13ea082e7a5e71bf
   languageName: node
   linkType: hard
 
@@ -3313,9 +3313,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"mocha@npm:8.3.2":
-  version: 8.3.2
-  resolution: "mocha@npm:8.3.2"
+"mocha@npm:8.4.0":
+  version: 8.4.0
+  resolution: "mocha@npm:8.4.0"
   dependencies:
     "@ungap/promise-all-settled": 1.1.2
     ansi-colors: 4.1.1
@@ -3345,7 +3345,7 @@ fsevents@~2.3.1:
   bin:
     _mocha: bin/_mocha
     mocha: bin/mocha
-  checksum: 4c071723f611cdc1a84d6db4ad2f73a9862af80939c050923d6f27270943117e5ff9dee137205f5ec591c9ccd0db9543b1719d5acf378c740d22359aeb165360
+  checksum: 4bcf00670580f009f9e20cc596cce5e2434d3562c468da783a8f935e38c4476435f12ecade43341cb8730b9d4987358038e76a075201d4bc51010927d3f8cd7c
   languageName: node
   linkType: hard
 
@@ -4179,12 +4179,12 @@ resolve@^1.9.0:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
-    "@types/mocha": 8.2.2
+    "@types/mocha": 8.2.3
     "@typescript-eslint/eslint-plugin": 4.33.0
     "@typescript-eslint/parser": 4.33.0
     "@yarnpkg/sdks": 2.6.0-rc.5
     eslint: 8.8.0
-    mocha: 8.3.2
+    mocha: 8.4.0
     prettier: 2.5.1
     prettier-plugin-organize-imports: 1.1.1
     typescript: 4.2.4
