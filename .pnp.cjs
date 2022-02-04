@@ -249,10 +249,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/glob", [
-        ["npm:7.1.3", {
-          "packageLocation": "./.yarn/cache/@types-glob-npm-7.1.3-44516e2aab-e0eef12285.zip/node_modules/@types/glob/",
+        ["npm:7.2.0", {
+          "packageLocation": "./.yarn/cache/@types-glob-npm-7.2.0-772334bf9a-6ae717fedf.zip/node_modules/@types/glob/",
           "packageDependencies": [
-            ["@types/glob", "npm:7.1.3"],
+            ["@types/glob", "npm:7.2.0"],
             ["@types/minimatch", "npm:3.0.3"],
             ["@types/node", "npm:14.14.13"]
           ],
@@ -2883,6 +2883,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["path-is-absolute", "npm:1.0.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.2.0", {
+          "packageLocation": "./.yarn/cache/glob-npm-7.2.0-bb4644d239-78a8ea9423.zip/node_modules/glob/",
+          "packageDependencies": [
+            ["glob", "npm:7.2.0"],
+            ["fs.realpath", "npm:1.0.0"],
+            ["inflight", "npm:1.0.6"],
+            ["inherits", "npm:2.0.4"],
+            ["minimatch", "npm:3.0.4"],
+            ["once", "npm:1.4.0"],
+            ["path-is-absolute", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["glob-parent", [
@@ -3986,11 +3999,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/monolit/",
           "packageDependencies": [
             ["monolit", "workspace:packages/monolit"],
-            ["@types/glob", "npm:7.1.3"],
+            ["@types/glob", "npm:7.2.0"],
             ["@types/node", "npm:12.20.43"],
             ["@types/vscode", "npm:1.64.0"],
             ["date-fns", "npm:2.21.3"],
-            ["glob", "npm:7.1.6"],
+            ["glob", "npm:7.2.0"],
             ["ts-loader", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:8.3.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#~builtin<compat/typescript>::version=4.2.4&hash=493e53"],
             ["vsce", "npm:1.103.1"],
