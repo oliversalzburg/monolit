@@ -3328,7 +3328,7 @@ fsevents@~2.3.1:
     "@types/vscode": 1.55.0
     date-fns: 2.21.3
     glob: 7.1.6
-    ts-loader: 8.1.0
+    ts-loader: 8.3.0
     typescript: 4.2.4
     vsce: 1.103.1
     vscode-test: 1.5.2
@@ -4738,9 +4738,9 @@ resolve@^1.9.0:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:8.1.0":
-  version: 8.1.0
-  resolution: "ts-loader@npm:8.1.0"
+"ts-loader@npm:8.3.0":
+  version: 8.3.0
+  resolution: "ts-loader@npm:8.3.0"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^4.0.0
@@ -4750,7 +4750,7 @@ resolve@^1.9.0:
   peerDependencies:
     typescript: "*"
     webpack: "*"
-  checksum: fd021e2027c541dc4f69ad7b438c001b1aaefd20344e2190e5b971e240ffffb20a4378013e412965e43abaa7eb4e0fb33a66d1afae0cd175e8db90ac30565470
+  checksum: 93dd15b553a2621f969c4c834e7eb085b9b079adb702cba68a7ee516bcd2c67620e62cc5a8c57345e90c644ff6b689ee5a09f0702e440284fdfe872e9aaeefd8
   languageName: node
   linkType: hard
 
