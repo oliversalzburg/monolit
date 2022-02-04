@@ -47,7 +47,10 @@ export class ExtensionInstance {
     // Fetch as early as possible to populate the cache.
     // Ideally, we would be persisting this cache into the workspace state...
     Log.debug("Activated: Fetching tasks...");
-    this.refreshTasks();
+    this.refreshTasks().then(
+      () => Log.debug("Initial task fetch completed."),
+      error => Log.error(error)
+    );
 
     Log.debug("Activated: Registering commands...");
     const commandCleanStart = vscode.commands.registerCommand(
@@ -183,9 +186,8 @@ export class ExtensionInstance {
 
       // Get the previously selected variant to offer it as the top choice.
       Log.debug("Loading last configuration variant...");
-      let previousVariant:
-        | { path: string; workspace: string }
-        | undefined = this.context.workspaceState.get("monolit.lastVariant");
+      let previousVariant: { path: string; workspace: string } | undefined =
+        this.context.workspaceState.get("monolit.lastVariant");
       // Basic schema check for setting while we're still moving shit around.
       if (
         previousVariant &&
