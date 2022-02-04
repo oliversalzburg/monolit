@@ -3913,7 +3913,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-loader", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:8.1.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#~builtin<compat/typescript>::version=4.2.4&hash=493e53"],
             ["vsce", "npm:1.103.1"],
-            ["vscode-test", "npm:1.5.2"],
+            ["vscode-test", "npm:1.6.1"],
             ["webpack", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:5.31.0"],
             ["webpack-cli", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:4.6.0"]
           ],
@@ -5765,10 +5765,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["vscode-test", [
-        ["npm:1.5.2", {
-          "packageLocation": "./.yarn/cache/vscode-test-npm-1.5.2-99b6d1313d-a94218e4de.zip/node_modules/vscode-test/",
+        ["npm:1.6.1", {
+          "packageLocation": "./.yarn/cache/vscode-test-npm-1.6.1-7efe955990-37779441ea.zip/node_modules/vscode-test/",
           "packageDependencies": [
-            ["vscode-test", "npm:1.5.2"],
+            ["vscode-test", "npm:1.6.1"],
             ["http-proxy-agent", "npm:4.0.1"],
             ["https-proxy-agent", "npm:5.0.0"],
             ["rimraf", "npm:3.0.2"],
