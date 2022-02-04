@@ -2051,15 +2051,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["denodeify", [
-        ["npm:1.2.1", {
-          "packageLocation": "./.yarn/cache/denodeify-npm-1.2.1-ea99c72a1c-a85c8f7fce.zip/node_modules/denodeify/",
-          "packageDependencies": [
-            ["denodeify", "npm:1.2.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["detect-libc", [
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/detect-libc-npm-2.0.0-725ffd9c90-cb96738a4a.zip/node_modules/detect-libc/",
@@ -2224,13 +2215,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["entities", [
-        ["npm:2.0.3", {
-          "packageLocation": "./.yarn/cache/entities-npm-2.0.3-9763a6a3bc-5a7899fcc6.zip/node_modules/entities/",
-          "packageDependencies": [
-            ["entities", "npm:2.0.3"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:2.1.0", {
           "packageLocation": "./.yarn/cache/entities-npm-2.1.0-b27b8aebc6-a10a877e48.zip/node_modules/entities/",
           "packageDependencies": [
@@ -3640,10 +3624,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["linkify-it", [
-        ["npm:2.2.0", {
-          "packageLocation": "./.yarn/cache/linkify-it-npm-2.2.0-3eb4775d11-d198871d0b.zip/node_modules/linkify-it/",
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/linkify-it-npm-3.0.3-6880fe29c1-31367a4bb7.zip/node_modules/linkify-it/",
           "packageDependencies": [
-            ["linkify-it", "npm:2.2.0"],
+            ["linkify-it", "npm:3.0.3"],
             ["uc.micro", "npm:1.0.6"]
           ],
           "linkType": "HARD",
@@ -3734,13 +3718,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["markdown-it", [
-        ["npm:10.0.0", {
-          "packageLocation": "./.yarn/cache/markdown-it-npm-10.0.0-5f034e780e-69f5ee640c.zip/node_modules/markdown-it/",
+        ["npm:12.3.2", {
+          "packageLocation": "./.yarn/cache/markdown-it-npm-12.3.2-6c66b716e8-890555711c.zip/node_modules/markdown-it/",
           "packageDependencies": [
-            ["markdown-it", "npm:10.0.0"],
-            ["argparse", "npm:1.0.10"],
-            ["entities", "npm:2.0.3"],
-            ["linkify-it", "npm:2.2.0"],
+            ["markdown-it", "npm:12.3.2"],
+            ["argparse", "npm:2.0.1"],
+            ["entities", "npm:2.1.0"],
+            ["linkify-it", "npm:3.0.3"],
             ["mdurl", "npm:1.0.1"],
             ["uc.micro", "npm:1.0.6"]
           ],
@@ -3958,7 +3942,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["glob", "npm:7.2.0"],
             ["ts-loader", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:9.2.6"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
-            ["vsce", "npm:1.103.1"],
+            ["vsce", "npm:2.6.7"],
             ["vscode-test", "npm:1.6.1"],
             ["webpack", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:5.68.0"],
             ["webpack-cli", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:4.9.2"]
@@ -4244,35 +4228,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prelude-ls", "npm:1.2.1"],
             ["type-check", "npm:0.4.0"],
             ["word-wrap", "npm:1.2.3"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["os-homedir", [
-        ["npm:1.0.2", {
-          "packageLocation": "./.yarn/cache/os-homedir-npm-1.0.2-01f82faa88-af609f5a7a.zip/node_modules/os-homedir/",
-          "packageDependencies": [
-            ["os-homedir", "npm:1.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["os-tmpdir", [
-        ["npm:1.0.2", {
-          "packageLocation": "./.yarn/cache/os-tmpdir-npm-1.0.2-e305b0689b-5666560f7b.zip/node_modules/os-tmpdir/",
-          "packageDependencies": [
-            ["os-tmpdir", "npm:1.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["osenv", [
-        ["npm:0.1.5", {
-          "packageLocation": "./.yarn/cache/osenv-npm-0.1.5-435137eb60-779d261920.zip/node_modules/osenv/",
-          "packageDependencies": [
-            ["osenv", "npm:0.1.5"],
-            ["os-homedir", "npm:1.0.2"],
-            ["os-tmpdir", "npm:1.0.2"]
           ],
           "linkType": "HARD",
         }]
@@ -5701,10 +5656,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["url-join", [
-        ["npm:1.1.0", {
-          "packageLocation": "./.yarn/cache/url-join-npm-1.1.0-c9bf25c365-affa33998f.zip/node_modules/url-join/",
+        ["npm:4.0.1", {
+          "packageLocation": "./.yarn/cache/url-join-npm-4.0.1-e1f4415722-f74e868bf2.zip/node_modules/url-join/",
           "packageDependencies": [
-            ["url-join", "npm:1.1.0"]
+            ["url-join", "npm:4.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5749,30 +5704,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["vsce", [
-        ["npm:1.103.1", {
-          "packageLocation": "./.yarn/cache/vsce-npm-1.103.1-579682505a-739c7c3b34.zip/node_modules/vsce/",
+        ["npm:2.6.7", {
+          "packageLocation": "./.yarn/cache/vsce-npm-2.6.7-cc3a1ef407-66d73edf6e.zip/node_modules/vsce/",
           "packageDependencies": [
-            ["vsce", "npm:1.103.1"],
+            ["vsce", "npm:2.6.7"],
             ["azure-devops-node-api", "npm:11.1.0"],
             ["chalk", "npm:2.4.2"],
             ["cheerio", "npm:1.0.0-rc.10"],
             ["commander", "npm:6.2.1"],
-            ["denodeify", "npm:1.2.1"],
             ["glob", "npm:7.1.6"],
             ["hosted-git-info", "npm:4.1.0"],
             ["keytar", "npm:7.8.0"],
             ["leven", "npm:3.1.0"],
-            ["lodash", "npm:4.17.20"],
-            ["markdown-it", "npm:10.0.0"],
+            ["markdown-it", "npm:12.3.2"],
             ["mime", "npm:1.6.0"],
             ["minimatch", "npm:3.0.4"],
-            ["osenv", "npm:0.1.5"],
             ["parse-semver", "npm:1.1.1"],
             ["read", "npm:1.0.7"],
             ["semver", "npm:5.7.1"],
             ["tmp", "npm:0.2.1"],
             ["typed-rest-client", "npm:1.8.4"],
-            ["url-join", "npm:1.1.0"],
+            ["url-join", "npm:4.0.1"],
             ["xml2js", "npm:0.4.23"],
             ["yauzl", "npm:2.10.0"],
             ["yazl", "npm:2.5.1"]
