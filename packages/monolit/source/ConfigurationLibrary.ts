@@ -76,7 +76,14 @@ export class ConfigurationLibrary {
    * Determine if a `cwd` of a configuration signals to be "monolit-able".
    */
   static hasMonoLitableCwd(configuration: vscode.DebugConfiguration): boolean {
-    return "cwd" in configuration && configuration.cwd.includes("*");
+    return "cwd" in configuration && ConfigurationLibrary.isMonoLitableCwd(configuration.cwd);
+  }
+
+  /**
+   * Determine if a CWD is "monolit-able".
+   */
+  static isMonoLitableCwd(cwd: string): boolean {
+    return cwd.includes("*");
   }
 
   /**

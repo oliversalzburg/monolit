@@ -43,7 +43,7 @@ export async function start(context: vscode.ExtensionContext) {
         // @ts-expect-error
         let taskCwd = plt.execution.options.cwd;
         const cwd =
-          taskCwd && !ConfigurationLibrary.hasMonoLitableCwd(taskCwd) ? taskCwd : selectedCwd;
+          taskCwd && !ConfigurationLibrary.isMonoLitableCwd(taskCwd) ? taskCwd : selectedCwd;
 
         const taskPromise = getExtensionInstance().executeTask(plt, cwd);
         if (!plt.isBackground) {
