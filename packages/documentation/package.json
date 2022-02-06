@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "@monolit/documentation",
+  "version": "0.0.1",
+  "description": "Documentation for MonoLit",
+  "license": "MIT",
+  "author": "Oliver Salzburg <oliver.salzburg@gmail.com>",
+  "main": "Dockerfile",
+  "scripts": {
+    "docs:prepare": "docker build -t mkdocs-material .",
+    "docs:wtf": "echo ${PROJECT_CWD} ${PWD} ${INIT_CWD}",
+    "docs:build": ".scripts/build.sh",
+    "docs:serve": ".scripts/serve.sh"
+  },
+  "engines": {
+    "node": "^16"
+  }
+}
