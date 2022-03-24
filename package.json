@@ -23,7 +23,7 @@
     "@types/mocha": "9.1.0",
     "@typescript-eslint/eslint-plugin": "5.16.0",
     "@typescript-eslint/parser": "5.16.0",
-    "@yarnpkg/sdks": "2.6.0-rc.5",
+    "@yarnpkg/sdks": "2.6.0",
     "eslint": "8.11.0",
     "mocha": "9.2.0",
     "prettier": "2.6.0",
