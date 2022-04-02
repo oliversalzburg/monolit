@@ -46,7 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/sdks", "npm:2.6.0"],
             ["eslint", "npm:8.11.0"],
             ["mocha", "npm:9.2.2"],
-            ["prettier", "npm:2.6.1"],
+            ["prettier", "npm:2.6.2"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
           ],
@@ -4493,10 +4493,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["prettier", [
-        ["npm:2.6.1", {
-          "packageLocation": "./.yarn/cache/prettier-npm-2.6.1-94a3731152-78be1f8a3d.zip/node_modules/prettier/",
+        ["npm:2.6.2", {
+          "packageLocation": "./.yarn/cache/prettier-npm-2.6.2-05918420da-48d08dde8e.zip/node_modules/prettier/",
           "packageDependencies": [
-            ["prettier", "npm:2.6.1"]
+            ["prettier", "npm:2.6.2"]
           ],
           "linkType": "HARD",
         }]
@@ -4515,7 +4515,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
             ["@types/prettier", null],
             ["@types/typescript", null],
-            ["prettier", "npm:2.6.1"],
+            ["prettier", "npm:2.6.2"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
           ],
           "packagePeers": [
@@ -4869,7 +4869,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/sdks", "npm:2.6.0"],
             ["eslint", "npm:8.11.0"],
             ["mocha", "npm:9.2.2"],
-            ["prettier", "npm:2.6.1"],
+            ["prettier", "npm:2.6.2"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
           ],
