@@ -40,7 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
-            ["@types/mocha", "npm:9.1.0"],
+            ["@types/mocha", "npm:9.1.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:5.19.0"],
             ["@typescript-eslint/parser", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:5.19.0"],
             ["@yarnpkg/sdks", "npm:2.6.0"],
@@ -304,10 +304,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/mocha", [
-        ["npm:9.1.0", {
-          "packageLocation": "./.yarn/cache/@types-mocha-npm-9.1.0-8ac56cd8d3-21e1000daf.zip/node_modules/@types/mocha/",
+        ["npm:9.1.1", {
+          "packageLocation": "./.yarn/cache/@types-mocha-npm-9.1.1-9646576ed0-516077c0ac.zip/node_modules/@types/mocha/",
           "packageDependencies": [
-            ["@types/mocha", "npm:9.1.0"]
+            ["@types/mocha", "npm:9.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -4872,7 +4872,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["root", "workspace:."],
-            ["@types/mocha", "npm:9.1.0"],
+            ["@types/mocha", "npm:9.1.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:5.19.0"],
             ["@typescript-eslint/parser", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:5.19.0"],
             ["@yarnpkg/sdks", "npm:2.6.0"],
