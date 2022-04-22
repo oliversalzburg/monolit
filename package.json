@@ -20,7 +20,7 @@
     "typecheck:all": "tsc --noEmit --incremental false"
   },
   "devDependencies": {
-    "@types/mocha": "9.1.0",
+    "@types/mocha": "9.1.1",
     "@typescript-eslint/eslint-plugin": "5.19.0",
     "@typescript-eslint/parser": "5.19.0",
     "@yarnpkg/sdks": "2.6.0",
