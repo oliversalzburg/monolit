@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/mocha": "9.1.1",
-    "@types/prettier-package-json": "^2",
+    "@types/prettier-package-json": "2.1.1",
     "@typescript-eslint/eslint-plugin": "5.19.0",
     "@typescript-eslint/parser": "5.19.0",
     "@yarnpkg/sdks": "2.6.0",
