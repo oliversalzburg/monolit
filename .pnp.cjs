@@ -395,10 +395,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/node", [
-        ["npm:12.20.48", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-12.20.48-5adb182a59-48bd705bda.zip/node_modules/@types/node/",
+        ["npm:12.20.49", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-12.20.49-8800c01c29-08d77520d1.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:12.20.48"]
+            ["@types/node", "npm:12.20.49"]
           ],
           "linkType": "HARD",
         }],
@@ -4241,7 +4241,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["monolit", "workspace:packages/monolit"],
             ["@types/glob", "npm:7.2.0"],
-            ["@types/node", "npm:12.20.48"],
+            ["@types/node", "npm:12.20.49"],
             ["@types/vscode", "npm:1.66.0"],
             ["date-fns", "npm:2.28.0"],
             ["glob", "npm:7.2.0"],
