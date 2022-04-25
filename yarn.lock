@@ -315,7 +315,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier-package-json@npm:^2":
+"@types/prettier-package-json@npm:2.1.1":
   version: 2.1.1
   resolution: "@types/prettier-package-json@npm:2.1.1"
   checksum: f1c083c5bb40d4dcf0afb036092e81c7ada02b53f61f822ae3e804edbc115b92abd49f0cf6eaced1f0fb903434e52633d0472028b43a6df4c76bd5898dab381e
@@ -4418,7 +4418,7 @@ __metadata:
   resolution: "root@workspace:."
   dependencies:
     "@types/mocha": 9.1.1
-    "@types/prettier-package-json": ^2
+    "@types/prettier-package-json": 2.1.1
     "@typescript-eslint/eslint-plugin": 5.19.0
     "@typescript-eslint/parser": 5.19.0
     "@yarnpkg/sdks": 2.6.0
