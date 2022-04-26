@@ -12,4 +12,4 @@ To puild a new patch release and package:
 yarn extension:package:patch
 ```
 
-Upload package manually, `vsce publish` doesn't work well with yarn.
+Upload package manually at <https://marketplace.visualstudio.com>, `vsce publish` doesn't work well with yarn.
