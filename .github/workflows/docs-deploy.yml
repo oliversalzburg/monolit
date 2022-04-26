@@ -17,6 +17,7 @@ jobs:
       - run: |
           pip install mkdocs-material
           pip install blockdiag-fences
+          pip install mkdocs-git-revision-date-localized-plugin
       - run: |
           cd packages/documentation
           mkdocs gh-deploy --force
