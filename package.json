@@ -14,6 +14,8 @@
     "packages/*"
   ],
   "scripts": {
+    "docs:scripts:build": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\"",
+    "docs:scripts:check": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\" --check-only",
     "extension:clean": "cd packages/monolit && rm -rf dist",
     "extension:package": "cd packages/monolit && yarn package",
     "extension:publish": "cd packages/monolit && yarn publish",
@@ -28,6 +30,7 @@
     "eslint": "8.14.0",
     "lint-staged": "12.4.0",
     "mocha": "9.2.2",
+    "node-scripts-docs": "0.0.9",
     "prettier": "2.6.2",
     "prettier-package-json": "2.6.3",
     "prettier-plugin-organize-imports": "2.3.4",

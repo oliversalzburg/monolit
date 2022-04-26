@@ -53,6 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.14.0"],
             ["lint-staged", "npm:12.4.0"],
             ["mocha", "npm:9.2.2"],
+            ["node-scripts-docs", "npm:0.0.9"],
             ["prettier", "npm:2.6.2"],
             ["prettier-package-json", "npm:2.6.3"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
@@ -1423,6 +1424,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["babel-runtime", [
+        ["npm:5.8.38", {
+          "packageLocation": "./.yarn/cache/babel-runtime-npm-5.8.38-6606c00d57-fdb063787b.zip/node_modules/babel-runtime/",
+          "packageDependencies": [
+            ["babel-runtime", "npm:5.8.38"],
+            ["core-js", "npm:1.2.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["balanced-match", [
         ["npm:1.0.2", {
           "packageLocation": "./.yarn/cache/balanced-match-npm-1.0.2-a53c126459-9706c088a2.zip/node_modules/balanced-match/",
@@ -1525,6 +1536,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["braces", "npm:3.0.2"],
             ["fill-range", "npm:7.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["browser-process-hrtime", [
+        ["npm:0.1.3", {
+          "packageLocation": "./.yarn/cache/browser-process-hrtime-npm-0.1.3-12a293d493-e052e05933.zip/node_modules/browser-process-hrtime/",
+          "packageDependencies": [
+            ["browser-process-hrtime", "npm:0.1.3"]
           ],
           "linkType": "HARD",
         }]
@@ -2063,6 +2083,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["core-js", [
+        ["npm:1.2.7", {
+          "packageLocation": "./.yarn/cache/core-js-npm-1.2.7-88c984873f-0b76371bfa.zip/node_modules/core-js/",
+          "packageDependencies": [
+            ["core-js", "npm:1.2.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["core-util-is", [
         ["npm:1.0.3", {
           "packageLocation": "./.yarn/cache/core-util-is-npm-1.0.3-ca74b76c90-9de8597363.zip/node_modules/core-util-is/",
@@ -2375,6 +2404,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/eastasianwidth-npm-0.2.0-c37eb16bd1-7d00d7cd8e.zip/node_modules/eastasianwidth/",
           "packageDependencies": [
             ["eastasianwidth", "npm:0.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["elapsed-time", [
+        ["npm:0.0.1", {
+          "packageLocation": "./.yarn/cache/elapsed-time-npm-0.0.1-dacb275819-fcfcff22ee.zip/node_modules/elapsed-time/",
+          "packageDependencies": [
+            ["elapsed-time", "npm:0.0.1"],
+            ["babel-runtime", "npm:5.8.38"],
+            ["browser-process-hrtime", "npm:0.1.3"]
           ],
           "linkType": "HARD",
         }]
@@ -4047,6 +4087,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["marked", [
+        ["npm:4.0.12", {
+          "packageLocation": "./.yarn/cache/marked-npm-4.0.12-1fc6e0ed31-7575117f85.zip/node_modules/marked/",
+          "packageDependencies": [
+            ["marked", "npm:4.0.12"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["mdurl", [
         ["npm:1.0.1", {
           "packageLocation": "./.yarn/cache/mdurl-npm-1.0.1-054d974269-71731ecba9.zip/node_modules/mdurl/",
@@ -4165,6 +4214,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["minimist", [
+        ["npm:1.2.5", {
+          "packageLocation": "./.yarn/cache/minimist-npm-1.2.5-ced0e1f617-86706ce5b3.zip/node_modules/minimist/",
+          "packageDependencies": [
+            ["minimist", "npm:1.2.5"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:1.2.6", {
           "packageLocation": "./.yarn/cache/minimist-npm-1.2.6-f4cee4b4af-d15428cd1e.zip/node_modules/minimist/",
           "packageDependencies": [
@@ -4447,6 +4503,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/node-releases-npm-2.0.3-42fb6ecea2-5e555fbbeb.zip/node_modules/node-releases/",
           "packageDependencies": [
             ["node-releases", "npm:2.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["node-scripts-docs", [
+        ["npm:0.0.9", {
+          "packageLocation": "./.yarn/cache/node-scripts-docs-npm-0.0.9-9f07fdea2e-4aa4d03440.zip/node_modules/node-scripts-docs/",
+          "packageDependencies": [
+            ["node-scripts-docs", "npm:0.0.9"],
+            ["elapsed-time", "npm:0.0.1"],
+            ["globby", "npm:11.1.0"],
+            ["marked", "npm:4.0.12"],
+            ["minimist", "npm:1.2.5"],
+            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5343,6 +5413,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.14.0"],
             ["lint-staged", "npm:12.4.0"],
             ["mocha", "npm:9.2.2"],
+            ["node-scripts-docs", "npm:0.0.9"],
             ["prettier", "npm:2.6.2"],
             ["prettier-package-json", "npm:2.6.3"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
@@ -6090,6 +6161,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-1.14.1-102499115e-dbe628ef87.zip/node_modules/tslib/",
           "packageDependencies": [
             ["tslib", "npm:1.14.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.3.1", {
+          "packageLocation": "./.yarn/cache/tslib-npm-2.3.1-0e21e18015-de17a98d46.zip/node_modules/tslib/",
+          "packageDependencies": [
+            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }],

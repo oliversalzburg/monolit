@@ -8,7 +8,7 @@
   "main": "Dockerfile",
   "scripts": {
     "docs:prepare": "docker build -t mkdocs-material .",
-    "docs:wtf": "echo ${PROJECT_CWD} ${PWD} ${INIT_CWD}",
+    "docs:wtf": "echo ${PROJECT_CWD} ${PWD} ${INIT_CWD} $(pwd)",
     "docs:build": ".scripts/build.sh",
     "docs:serve": ".scripts/serve.sh"
   },
