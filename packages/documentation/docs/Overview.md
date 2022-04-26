@@ -19,9 +19,9 @@ Invoke the `monolit.start` command to get started.
 MonoLit presents a list of "monolit-able" launch configurations. A launch
 configuration becomes monolit-able if any of the following are true:
 
-- The `cwd` of the configuration contains a `*`.
-- The `program` of the configuration contains a `*`.
-- The name starts with `MonoLit:`.
+-   The `cwd` of the configuration contains a `*`.
+-   The `program` of the configuration contains a `*`.
+-   The name starts with `MonoLit:`.
 
 ![Configuration Selection](./assets/select-configuration.png)
 
@@ -53,13 +53,13 @@ Let's assume you have an existing launch configuration for a specific project:
 
 ```json
 {
-  "type": "node",
-  "request": "launch",
-  "name": "Launch Web Worker",
-  "preLaunchTask": "yarn.build",
-  "program": "${workspaceFolder}/packages/app-web/source/main.ts",
-  "runtimeArgs": ["…"],
-  "cwd": "${workspaceFolder}/packages/app-web"
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Web Worker",
+    "preLaunchTask": "yarn.build",
+    "program": "${workspaceFolder}/packages/app-web/source/main.ts",
+    "runtimeArgs": ["…"],
+    "cwd": "${workspaceFolder}/packages/app-web"
 }
 ```
 
@@ -70,13 +70,13 @@ so:
 
 ```json
 {
-  "type": "node",
-  "request": "launch",
-  "name": "Launch",
-  "preLaunchTask": "yarn.build",
-  "program": "${workspaceFolder}/packages/app-*/source/main.ts",
-  "runtimeArgs": ["…"],
-  "cwd": "${workspaceFolder}/packages/app-*"
+    "type": "node",
+    "request": "launch",
+    "name": "Launch",
+    "preLaunchTask": "yarn.build",
+    "program": "${workspaceFolder}/packages/app-*/source/main.ts",
+    "runtimeArgs": ["…"],
+    "cwd": "${workspaceFolder}/packages/app-*"
 }
 ```
 
@@ -94,14 +94,14 @@ task. For example:
 
 ```json
 {
-  "label": "yarn.build",
-  "type": "shell",
-  "command": ["yarn", "build"],
-  "problemMatcher": ["$tsc"],
-  "group": {
-    "kind": "build",
-    "isDefault": true
-  }
+    "label": "yarn.build",
+    "type": "shell",
+    "command": ["yarn", "build"],
+    "problemMatcher": ["$tsc"],
+    "group": {
+        "kind": "build",
+        "isDefault": true
+    }
 }
 ```
 
@@ -114,11 +114,11 @@ This enables workflows with a fast default build (change detection, incremental,
 
 ## Workflows
 
-- `monolit.start` <kbd>F5</kbd>  
-  Start a new session.
-- `workbench.action.debug.restart` <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F5</kbd>  
-  Restart the session without running the pre-launch task.
-- `monolit.restart` <kbd>Shift</kbd>+<kbd>F5</kbd>  
-  Restart the session and run the pre-launch task.
-- `monolit.cleanStart` <kbd>Ctrl</kbd>+<kbd>F5</kbd>  
-  Restart the session and run the rebuild task.
+-   `monolit.start` <kbd>F5</kbd>  
+    Start a new session.
+-   `workbench.action.debug.restart` <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F5</kbd>  
+    Restart the session without running the pre-launch task.
+-   `monolit.restart` <kbd>Shift</kbd>+<kbd>F5</kbd>  
+    Restart the session and run the pre-launch task.
+-   `monolit.cleanStart` <kbd>Ctrl</kbd>+<kbd>F5</kbd>  
+    Restart the session and run the rebuild task.
