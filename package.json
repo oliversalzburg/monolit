@@ -1,26 +1,24 @@
 {
   "name": "root",
   "version": "latest",
+  "license": "MIT",
+  "author": "Oliver Salzburg <oliver.salzburg@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/oliversalzburg/monolit.git"
   },
-  "license": "MIT",
-  "author": {
-    "name": "Oliver Salzburg",
-    "email": "oliver.salzburg@gmail.com"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "docs:scripts:build": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\"",
     "docs:scripts:check": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\" --check-only",
     "extension:clean": "cd packages/monolit && rm -rf dist",
     "extension:package": "cd packages/monolit && yarn package",
     "extension:publish": "cd packages/monolit && yarn publish",
+    "lint:eslint": "eslint packages --ext .ts",
     "typecheck:all": "tsc --noEmit --incremental false"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@types/mocha": "9.1.1",
     "@types/prettier-package-json": "2.1.1",
