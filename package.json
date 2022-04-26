@@ -14,6 +14,7 @@
     "extension:package": "cd packages/monolit && yarn package",
     "extension:publish": "cd packages/monolit && yarn publish",
     "lint:eslint": "eslint packages --ext .ts",
+    "lint:tsc": "tsc --noEmit",
     "typecheck:all": "tsc --noEmit --incremental false"
   },
   "workspaces": [
