@@ -53,7 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.14.0"],
             ["lint-staged", "npm:12.4.0"],
             ["mocha", "npm:9.2.2"],
-            ["node-scripts-docs", "npm:0.0.9"],
+            ["node-scripts-docs", "npm:0.0.12"],
             ["prettier", "npm:2.6.2"],
             ["prettier-package-json", "npm:2.6.3"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
@@ -4088,10 +4088,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["marked", [
-        ["npm:4.0.12", {
-          "packageLocation": "./.yarn/cache/marked-npm-4.0.12-1fc6e0ed31-7575117f85.zip/node_modules/marked/",
+        ["npm:4.0.14", {
+          "packageLocation": "./.yarn/cache/marked-npm-4.0.14-e5c71dccb3-778bc2fc94.zip/node_modules/marked/",
           "packageDependencies": [
-            ["marked", "npm:4.0.12"]
+            ["marked", "npm:4.0.14"]
           ],
           "linkType": "HARD",
         }]
@@ -4214,13 +4214,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["minimist", [
-        ["npm:1.2.5", {
-          "packageLocation": "./.yarn/cache/minimist-npm-1.2.5-ced0e1f617-86706ce5b3.zip/node_modules/minimist/",
-          "packageDependencies": [
-            ["minimist", "npm:1.2.5"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:1.2.6", {
           "packageLocation": "./.yarn/cache/minimist-npm-1.2.6-f4cee4b4af-d15428cd1e.zip/node_modules/minimist/",
           "packageDependencies": [
@@ -4508,15 +4501,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["node-scripts-docs", [
-        ["npm:0.0.9", {
-          "packageLocation": "./.yarn/cache/node-scripts-docs-npm-0.0.9-9f07fdea2e-4aa4d03440.zip/node_modules/node-scripts-docs/",
+        ["npm:0.0.12", {
+          "packageLocation": "./.yarn/cache/node-scripts-docs-npm-0.0.12-3594580ad6-032b9a9061.zip/node_modules/node-scripts-docs/",
           "packageDependencies": [
-            ["node-scripts-docs", "npm:0.0.9"],
+            ["node-scripts-docs", "npm:0.0.12"],
             ["elapsed-time", "npm:0.0.1"],
             ["globby", "npm:11.1.0"],
-            ["marked", "npm:4.0.12"],
-            ["minimist", "npm:1.2.5"],
-            ["tslib", "npm:2.3.1"]
+            ["marked", "npm:4.0.14"],
+            ["minimist", "npm:1.2.6"],
+            ["tslib", "npm:2.4.0"]
           ],
           "linkType": "HARD",
         }]
@@ -5413,7 +5406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.14.0"],
             ["lint-staged", "npm:12.4.0"],
             ["mocha", "npm:9.2.2"],
-            ["node-scripts-docs", "npm:0.0.9"],
+            ["node-scripts-docs", "npm:0.0.12"],
             ["prettier", "npm:2.6.2"],
             ["prettier-package-json", "npm:2.6.3"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
@@ -6161,13 +6154,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-1.14.1-102499115e-dbe628ef87.zip/node_modules/tslib/",
           "packageDependencies": [
             ["tslib", "npm:1.14.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:2.3.1", {
-          "packageLocation": "./.yarn/cache/tslib-npm-2.3.1-0e21e18015-de17a98d46.zip/node_modules/tslib/",
-          "packageDependencies": [
-            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }],
