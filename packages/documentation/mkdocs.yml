@@ -28,6 +28,8 @@ markdown_extensions:
 plugins:
   - git-revision-date-localized
   - search
+repo_name: oliversalzburg/monolit
+repo_url: https://github.com/oliversalzburg/monolit
 site_name: MonoLit
 theme:
   features:
@@ -35,12 +37,14 @@ theme:
     - navigation.sections
     - navigation.tabs
     - navigation.tabs.sticky
+  icon:
+    repo: fontawesome/brands/github
   name: material
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
       accent: amber
+      primary: indigo
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
