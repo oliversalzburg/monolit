@@ -4364,7 +4364,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:12.20.49"],
             ["@types/vscode", "npm:1.66.0"],
             ["date-fns", "npm:2.28.0"],
-            ["glob", "npm:7.2.0"],
+            ["glob", "npm:8.0.1"],
             ["ts-loader", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:9.2.9"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
             ["vsce", "npm:2.7.0"],

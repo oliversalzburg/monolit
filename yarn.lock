@@ -2544,7 +2544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^8.0.1":
+"glob@npm:8.0.1, glob@npm:^8.0.1":
   version: 8.0.1
   resolution: "glob@npm:8.0.1"
   dependencies:
@@ -3653,7 +3653,7 @@ __metadata:
     "@types/node": 12.20.49
     "@types/vscode": 1.66.0
     date-fns: 2.28.0
-    glob: 7.2.0
+    glob: 8.0.1
     ts-loader: 9.2.9
     typescript: 4.5.5
     vsce: 2.7.0
