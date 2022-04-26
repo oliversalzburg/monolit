@@ -32,4 +32,6 @@ jobs:
       - name: Lint TSC
         run: yarn lint:tsc
       - name: Build
-        run: yarn extension:compile
+        run: |
+          yarn extension:compile
+          yarn extension:package
