@@ -4367,7 +4367,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["glob", "npm:7.2.0"],
             ["ts-loader", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:9.2.8"],
             ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"],
-            ["vsce", "npm:2.6.7"],
+            ["vsce", "npm:2.7.0"],
             ["vscode-test", "npm:1.6.1"],
             ["webpack", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:5.72.0"],
             ["webpack-cli", "virtual:15804fd49b0eefbde2e541a93185f8a9830df45b7f6b31121f748d995d63362b02e7b472db7119ff572c31489d2777cf9d30a39bf7e06aa6aac99b950c05d586#npm:4.9.2"]
@@ -6381,10 +6381,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["vsce", [
-        ["npm:2.6.7", {
-          "packageLocation": "./.yarn/cache/vsce-npm-2.6.7-cc3a1ef407-66d73edf6e.zip/node_modules/vsce/",
+        ["npm:2.7.0", {
+          "packageLocation": "./.yarn/cache/vsce-npm-2.7.0-a8de302f19-8c6e822622.zip/node_modules/vsce/",
           "packageDependencies": [
-            ["vsce", "npm:2.6.7"],
+            ["vsce", "npm:2.7.0"],
             ["azure-devops-node-api", "npm:11.1.1"],
             ["chalk", "npm:2.4.2"],
             ["cheerio", "npm:1.0.0-rc.10"],
