@@ -11,7 +11,7 @@
 
 -   Description:
 
-    _documentation pending_
+    Build the MonoLit documentation website.
 
 ## docs:prepare
 
@@ -37,7 +37,7 @@
 
 -   Description:
 
-    _documentation pending_
+    Build the `node-scripts-docs` you're reading right now.
 
 ## docs:scripts:check
 
@@ -45,12 +45,12 @@
 -   Source:
 
     ```shell
-    nsd --check-only
+    nsd --docs-location "packages/documentation/docs/reference/Repository Scripts/" --check-only
     ```
 
 -   Description:
 
-    _documentation pending_
+    Check if there are any changes to the `node-scripts-docs` documentation.
 
 ## docs:serve
 
@@ -80,11 +80,24 @@
 
 ## extension:clean
 
--   Project: `root`
+-   Project: `monolit`
 -   Source:
 
     ```shell
-    cd packages/monolit && rm -rf dist
+    rm -rf dist
+    ```
+
+-   Description:
+
+    _documentation pending_
+
+## extension:compile
+
+-   Project: `monolit`
+-   Source:
+
+    ```shell
+    webpack --mode development
     ```
 
 -   Description:
@@ -93,11 +106,24 @@
 
 ## extension:package
 
--   Project: `root`
+-   Project: `monolit`
 -   Source:
 
     ```shell
-    cd packages/monolit && yarn package
+    run vsce package --yarn
+    ```
+
+-   Description:
+
+    _documentation pending_
+
+## extension:package:patch
+
+-   Project: `monolit`
+-   Source:
+
+    ```shell
+    npm version patch && run vsce package --yarn
     ```
 
 -   Description:
@@ -106,16 +132,55 @@
 
 ## extension:publish
 
--   Project: `root`
+-   Project: `monolit`
 -   Source:
 
     ```shell
-    cd packages/monolit && yarn publish
+    run vsce publish --yarn
     ```
 
 -   Description:
 
     _documentation pending_
+
+## extension:watch
+
+-   Project: `monolit`
+-   Source:
+
+    ```shell
+    webpack --mode development --watch
+    ```
+
+-   Description:
+
+    Build the extension in watch mode.
+
+## lint:eslint
+
+-   Project: `root`
+-   Source:
+
+    ```shell
+    eslint packages --ext .ts
+    ```
+
+-   Description:
+
+    Run ESLint on the TypeScript sources.
+
+## lint:tsc
+
+-   Project: `root`
+-   Source:
+
+    ```shell
+    tsc --noEmit
+    ```
+
+-   Description:
+
+    Run the TypeScript compiler on the TypeScript sources to check for errors.
 
 ## typecheck:all
 
@@ -142,4 +207,3 @@
 -   Description:
 
     _documentation pending_
-
