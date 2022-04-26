@@ -6,6 +6,7 @@ import { refreshTasks } from "./commands/refreshTasks";
 import { restart } from "./commands/restart";
 import { start } from "./commands/start";
 import { ConfigurationLibrary, SelectedConfiguration } from "./ConfigurationLibrary";
+import { unknownToError } from "./ErrorTools";
 import { LaunchConfiguration } from "./LaunchConfiguration";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
@@ -282,7 +283,7 @@ export class ExtensionInstance {
     try {
       await this._executeTask(buildTask);
     } catch (error) {
-      Log.warn(`  ☠ ${error?.message ?? "Pre-launch task failed."}`);
+      Log.warn(`  ☠ ${unknownToError(error).message ?? "Pre-launch task failed."}`);
       throw error;
     }
   }

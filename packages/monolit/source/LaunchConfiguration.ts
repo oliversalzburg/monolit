@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { Candidate } from "./CandidateSearch";
 import { ConfigurationLibrary } from "./ConfigurationLibrary";
+import { unknownToError } from "./ErrorTools";
 import { LaunchSession } from "./LaunchSession";
 import { Log } from "./Log";
 
@@ -82,9 +83,8 @@ export class LaunchConfiguration implements vscode.QuickPickItem {
     try {
       configuration.name = `${this.label} ${label ? `(${label})` : ""}`;
       await vscode.debug.startDebugging(this.workspaceFolder, configuration);
-      
     } catch (error) {
-      Log.error(error);
+      Log.error(unknownToError(error).message);
     }
   }
 }
