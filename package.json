@@ -10,9 +10,6 @@
   "scripts": {
     "docs:scripts:build": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\"",
     "docs:scripts:check": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\" --check-only",
-    "extension:clean": "cd packages/monolit && rm -rf dist",
-    "extension:package": "cd packages/monolit && yarn package",
-    "extension:publish": "cd packages/monolit && yarn publish",
     "lint:eslint": "eslint packages --ext .ts",
     "lint:tsc": "tsc --noEmit",
     "typecheck:all": "tsc --noEmit --incremental false"

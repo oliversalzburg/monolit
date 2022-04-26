@@ -1,23 +1,35 @@
 {
   "name": "monolit",
-  "displayName": "MonoLit",
-  "description": "Dynamic launch system for VS Code",
-  "icon": "icon.png",
   "version": "0.1.0",
-  "preview": true,
-  "publisher": "OliverSalzburg",
+  "description": "Dynamic launch system for VS Code",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/oliversalzburg/monolit.git",
     "directory": "/packages/monolit"
   },
-  "license": "UNLICENSED",
-  "engines": {
-    "vscode": "^1.64.0"
+  "main": "./dist/extension.js",
+  "scripts": {
+    "extension:clean": "rm -rf dist",
+    "extension:compile": "webpack --mode development",
+    "extension:package": "run vsce package --yarn",
+    "extension:publish": "run vsce publish --yarn",
+    "extension:watch": "webpack --mode development --watch",
+    "vscode:prepublish": "webpack --mode production"
   },
-  "categories": [
-    "Other"
-  ],
+  "devDependencies": {
+    "@types/glob": "7.2.0",
+    "@types/node": "12.20.49",
+    "@types/vscode": "1.66.0",
+    "date-fns": "2.28.0",
+    "glob": "7.2.0",
+    "ts-loader": "9.2.6",
+    "typescript": "4.5.5",
+    "vsce": "2.6.7",
+    "vscode-test": "1.6.1",
+    "webpack": "5.71.0",
+    "webpack-cli": "4.9.2"
+  },
   "keywords": [
     "debug",
     "launch",
@@ -25,10 +37,14 @@
     "task",
     "workspace"
   ],
-  "qna": "false",
-  "main": "./dist/extension.js",
+  "engines": {
+    "vscode": "^1.64.0"
+  },
   "activationEvents": [
     "onStartupFinished"
+  ],
+  "categories": [
+    "Other"
   ],
   "contributes": {
     "configuration": {
@@ -79,24 +95,9 @@
       }
     ]
   },
-  "scripts": {
-    "vscode:prepublish": "webpack --mode production",
-    "compile": "webpack --mode development",
-    "watch": "webpack --mode development --watch",
-    "package": "run vsce package --yarn",
-    "publish": "run vsce publish --yarn"
-  },
-  "devDependencies": {
-    "@types/glob": "7.2.0",
-    "@types/node": "12.20.49",
-    "@types/vscode": "1.66.0",
-    "date-fns": "2.28.0",
-    "glob": "7.2.0",
-    "ts-loader": "9.2.6",
-    "typescript": "4.5.5",
-    "vsce": "2.6.7",
-    "vscode-test": "1.6.1",
-    "webpack": "5.71.0",
-    "webpack-cli": "4.9.2"
-  }
+  "displayName": "MonoLit",
+  "icon": "icon.png",
+  "preview": true,
+  "publisher": "OliverSalzburg",
+  "qna": "false"
 }
