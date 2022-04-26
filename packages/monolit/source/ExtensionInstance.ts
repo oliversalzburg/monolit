@@ -167,8 +167,19 @@ export class ExtensionInstance {
     Log.debug(`  + Configured cwd: '${configuredCwd}'${cwdIsGlobbed ? "" : " (not globbed)"}`);
 
     // Find new cwd for operation.
-    Log.debug(`  ? Starting candidate search in all workspaces...`);
-    const targets = await search.search();
+    let targets;
+    if (cwdIsGlobbed) {
+      Log.debug(`  ? Starting candidate search in all workspaces...`);
+      targets = await search.search();
+    } else {
+      Log.debug(`  ! Using cwd as-is...`);
+      targets = [
+        {
+          path: configuredCwd,
+          workspace: selectedConfiguration.workspaceFolder,
+        },
+      ];
+    }
 
     let selectedVariant: LaunchSession | undefined;
 

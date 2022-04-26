@@ -23,6 +23,11 @@ export class CwdParser {
    * Rewrite the `cwd` to something we can process properly.
    */
   async analyzeAndRewrite(): Promise<void> {
+    // If the initial cwd starts with a /, we assume it's an absolute path to not mess with.
+    if (this._cwd.startsWith("/")) {
+      return;
+    }
+
     // If the cwd is empty, it's assumed to be `${workspaceFolder}`
     // If the cwd is relative, it's assumed to be relative to `${workspaceFolder}`
     if (!this._cwd.startsWith("${workspaceFolder}")) {
@@ -40,6 +45,8 @@ export class CwdParser {
   }
 
   static cwdFromVariant(variant: LaunchSession): string {
-    return join(variant.candidate.workspace.uri.fsPath, variant.candidate.path);
+    return variant.candidate.path.startsWith("/")
+      ? variant.candidate.path
+      : join(variant.candidate.workspace.uri.fsPath, variant.candidate.path);
   }
 }
