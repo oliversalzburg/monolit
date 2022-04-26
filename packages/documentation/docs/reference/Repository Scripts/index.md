@@ -63,20 +63,7 @@
 
 -   Description:
 
-    _documentation pending_
-
-## docs:wtf
-
--   Project: `@monolit/documentation`
--   Source:
-
-    ```shell
-    echo ${PROJECT_CWD} ${PWD} ${INIT_CWD} $(pwd)
-    ```
-
--   Description:
-
-    _documentation pending_
+    Run an HTTP server that serves, and continuously updates the documentation site.
 
 ## extension:clean
 
@@ -89,7 +76,7 @@
 
 -   Description:
 
-    _documentation pending_
+    Delete all build output of the extension.
 
 ## extension:compile
 
@@ -102,7 +89,7 @@
 
 -   Description:
 
-    _documentation pending_
+    Compile a development build of the extension.
 
 ## extension:package
 
@@ -193,7 +180,7 @@
 
 -   Description:
 
-    _documentation pending_
+    Type-check all projects, to fill the problems panel in VS Code.
 
 ## vscode:prepublish
 
@@ -206,4 +193,4 @@
 
 -   Description:
 
-    _documentation pending_
+    Pre-publish hook from `vsce`. Compile the extension in production mode.

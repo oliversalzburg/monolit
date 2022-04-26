@@ -37,28 +37,24 @@
       "projectName": "@monolit/documentation",
       "scriptName": "docs:serve",
       "scriptCode": ".scripts/serve.sh",
-      "isGlobal": true
-    },
-    {
-      "manifestPath": "packages/documentation/package.json",
-      "projectName": "@monolit/documentation",
-      "scriptName": "docs:wtf",
-      "scriptCode": "echo ${PROJECT_CWD} ${PWD} ${INIT_CWD} $(pwd)",
-      "isGlobal": true
+      "isGlobal": true,
+      "description": "Run an HTTP server that serves, and continuously updates the documentation site."
     },
     {
       "manifestPath": "packages/monolit/package.json",
       "projectName": "monolit",
       "scriptName": "extension:clean",
       "scriptCode": "rm -rf dist",
-      "isGlobal": true
+      "isGlobal": true,
+      "description": "Delete all build output of the extension."
     },
     {
       "manifestPath": "packages/monolit/package.json",
       "projectName": "monolit",
       "scriptName": "extension:compile",
       "scriptCode": "webpack --mode development",
-      "isGlobal": true
+      "isGlobal": true,
+      "description": "Compile a development build of the extension."
     },
     {
       "manifestPath": "packages/monolit/package.json",
@@ -110,14 +106,16 @@
       "projectName": "root",
       "scriptName": "typecheck:all",
       "scriptCode": "tsc --noEmit --incremental false",
-      "isGlobal": true
+      "isGlobal": true,
+      "description": "Type-check all projects, to fill the problems panel in VS Code."
     },
     {
       "manifestPath": "packages/monolit/package.json",
       "projectName": "monolit",
       "scriptName": "vscode:prepublish",
       "scriptCode": "webpack --mode production",
-      "isGlobal": true
+      "isGlobal": true,
+      "description": "Pre-publish hook from `vsce`. Compile the extension in production mode."
     }
   ],
   "version": 1

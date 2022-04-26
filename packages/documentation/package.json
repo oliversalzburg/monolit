@@ -7,9 +7,8 @@
   "author": "Oliver Salzburg <oliver.salzburg@gmail.com>",
   "main": "Dockerfile",
   "scripts": {
-    "docs:prepare": "docker build -t mkdocs-material .",
-    "docs:wtf": "echo ${PROJECT_CWD} ${PWD} ${INIT_CWD} $(pwd)",
     "docs:build": ".scripts/build.sh",
+    "docs:prepare": "docker build -t mkdocs-material .",
     "docs:serve": ".scripts/serve.sh"
   },
   "engines": {
