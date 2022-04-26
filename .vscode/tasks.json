@@ -7,14 +7,12 @@
       "label": "Run type check",
       "type": "shell",
       "command": "yarn typecheck:all",
-      "problemMatcher": [
-        "$tsc"
-      ],
+      "problemMatcher": ["$tsc"]
     },
     {
       "label": "watch",
       "type": "shell",
-      "command": "yarn watch",
+      "command": "yarn extension:watch",
       "problemMatcher": "$ts-webpack-watch",
       "isBackground": true,
       "presentation": {
