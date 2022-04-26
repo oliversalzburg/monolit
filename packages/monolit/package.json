@@ -1,6 +1,6 @@
 {
   "name": "monolit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Dynamic launch system for VS Code",
   "license": "UNLICENSED",
   "repository": {
@@ -13,6 +13,7 @@
     "extension:clean": "rm -rf dist",
     "extension:compile": "webpack --mode development",
     "extension:package": "run vsce package --yarn",
+    "extension:package:patch": "npm version patch && run vsce package --yarn",
     "extension:publish": "run vsce publish --yarn",
     "extension:watch": "webpack --mode development --watch",
     "vscode:prepublish": "webpack --mode production"
