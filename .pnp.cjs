@@ -53,7 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.14.0"],
             ["lint-staged", "npm:12.4.1"],
             ["mocha", "npm:9.2.2"],
-            ["node-scripts-docs", "npm:0.0.12"],
+            ["node-scripts-docs", "npm:0.0.13"],
             ["prettier", "npm:2.6.2"],
             ["prettier-package-json", "npm:2.6.3"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],
@@ -4501,10 +4501,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["node-scripts-docs", [
-        ["npm:0.0.12", {
-          "packageLocation": "./.yarn/cache/node-scripts-docs-npm-0.0.12-3594580ad6-032b9a9061.zip/node_modules/node-scripts-docs/",
+        ["npm:0.0.13", {
+          "packageLocation": "./.yarn/cache/node-scripts-docs-npm-0.0.13-1a034b27ad-1d7c81a644.zip/node_modules/node-scripts-docs/",
           "packageDependencies": [
-            ["node-scripts-docs", "npm:0.0.12"],
+            ["node-scripts-docs", "npm:0.0.13"],
             ["elapsed-time", "npm:0.0.1"],
             ["globby", "npm:11.1.0"],
             ["marked", "npm:4.0.14"],
@@ -5406,7 +5406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.14.0"],
             ["lint-staged", "npm:12.4.1"],
             ["mocha", "npm:9.2.2"],
-            ["node-scripts-docs", "npm:0.0.12"],
+            ["node-scripts-docs", "npm:0.0.13"],
             ["prettier", "npm:2.6.2"],
             ["prettier-package-json", "npm:2.6.3"],
             ["prettier-plugin-organize-imports", "virtual:36a01d8083315b8a6e8362097258ea8bc0f9dfb672cb210742e054760850c673a1038f542a6b7156397b5275ace8ee0482231cac5e8898044fa1a1c29f78ee5b#npm:2.3.4"],

@@ -3775,9 +3775,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-scripts-docs@npm:0.0.12":
-  version: 0.0.12
-  resolution: "node-scripts-docs@npm:0.0.12"
+"node-scripts-docs@npm:0.0.13":
+  version: 0.0.13
+  resolution: "node-scripts-docs@npm:0.0.13"
   dependencies:
     elapsed-time: 0.0.1
     globby: 11.1.0
@@ -3786,7 +3786,7 @@ __metadata:
     tslib: 2.4.0
   bin:
     nsd: output/node-scripts-docs.js
-  checksum: 032b9a9061dbef1c1c4557ca9121aaf3bbc90190a8925bd4285c19663c52c9a45651b698084fbce5c10d308d5cc0fd44e8d17a1ac03693c50b436b84bdc54642
+  checksum: 1d7c81a6447c579127a2c9b626a2bbb52b67bc2bad709d747c4c316947b16295579ff870f1a22a632b306a061a51b280cb8f882169cc2146fde9ed4aaa55cf6b
   languageName: node
   linkType: hard
 
@@ -4567,7 +4567,7 @@ __metadata:
     eslint: 8.14.0
     lint-staged: 12.4.1
     mocha: 9.2.2
-    node-scripts-docs: 0.0.12
+    node-scripts-docs: 0.0.13
     prettier: 2.6.2
     prettier-package-json: 2.6.3
     prettier-plugin-organize-imports: 2.3.4
