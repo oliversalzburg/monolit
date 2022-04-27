@@ -308,10 +308,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:12.20.50":
-  version: 12.20.50
-  resolution: "@types/node@npm:12.20.50"
-  checksum: 7101c8d7d38b7bba9b7b0a102ad519c05bbb257318c061362dcf2d3a3d78bb0c4cae905730dd9ca8f9c4b1c3f985ca7ea5c6d2906c0a0b93b0ab6a0cadff13e7
+"@types/node@npm:16.11.31":
+  version: 16.11.31
+  resolution: "@types/node@npm:16.11.31"
+  checksum: 0bad289e12c7066cd2ea7a204d051a0bb09a32a29da39850812ea14c075f9e2b4aeaab23aa23447ef9e3aa6a30173bf3d3524e37bbeeb56fb8ffa4bbd783c5db
   languageName: node
   linkType: hard
 
@@ -3650,7 +3650,7 @@ __metadata:
   resolution: "monolit@workspace:packages/monolit"
   dependencies:
     "@types/glob": 7.2.0
-    "@types/node": 12.20.50
+    "@types/node": 16.11.31
     "@types/vscode": 1.66.0
     date-fns: 2.28.0
     glob: 8.0.1
