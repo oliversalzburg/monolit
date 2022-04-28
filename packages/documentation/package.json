@@ -8,7 +8,6 @@
   "main": "Dockerfile",
   "scripts": {
     "docs:build": ".scripts/build.sh",
-    "docs:prepare": "docker build -t mkdocs-material .",
     "docs:serve": ".scripts/serve.sh"
   },
   "engines": {

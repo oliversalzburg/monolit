@@ -13,19 +13,6 @@
 
     Build the MonoLit documentation website.
 
-## docs:prepare
-
--   Project: `@monolit/documentation`
--   Source:
-
-    ```shell
-    docker build -t mkdocs-material .
-    ```
-
--   Description:
-
-    _documentation pending_
-
 ## docs:scripts:build
 
 -   Project: `root`

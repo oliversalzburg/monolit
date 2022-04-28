@@ -7,14 +7,8 @@
       "scriptName": "docs:build",
       "scriptCode": ".scripts/build.sh",
       "isGlobal": true,
+      "isRootManifest": false,
       "description": "Build the MonoLit documentation website."
-    },
-    {
-      "manifestPath": "packages/documentation/package.json",
-      "projectName": "@monolit/documentation",
-      "scriptName": "docs:prepare",
-      "scriptCode": "docker build -t mkdocs-material .",
-      "isGlobal": true
     },
     {
       "manifestPath": "package.json",
@@ -22,6 +16,7 @@
       "scriptName": "docs:scripts:build",
       "scriptCode": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\"",
       "isGlobal": true,
+      "isRootManifest": true,
       "description": "Build the `node-scripts-docs` you're reading right now."
     },
     {
@@ -30,6 +25,7 @@
       "scriptName": "docs:scripts:check",
       "scriptCode": "nsd --docs-location \"packages/documentation/docs/reference/Repository Scripts/\" --check-only",
       "isGlobal": true,
+      "isRootManifest": true,
       "description": "Check if there are any changes to the `node-scripts-docs` documentation."
     },
     {
@@ -38,6 +34,7 @@
       "scriptName": "docs:serve",
       "scriptCode": ".scripts/serve.sh",
       "isGlobal": true,
+      "isRootManifest": false,
       "description": "Run an HTTP server that serves, and continuously updates the documentation site."
     },
     {
@@ -46,6 +43,7 @@
       "scriptName": "extension:clean",
       "scriptCode": "rm -rf dist",
       "isGlobal": true,
+      "isRootManifest": false,
       "description": "Delete all build output of the extension."
     },
     {
@@ -54,6 +52,7 @@
       "scriptName": "extension:compile",
       "scriptCode": "webpack --mode development",
       "isGlobal": true,
+      "isRootManifest": false,
       "description": "Compile a development build of the extension."
     },
     {
@@ -61,21 +60,24 @@
       "projectName": "monolit",
       "scriptName": "extension:package",
       "scriptCode": "run vsce package --yarn",
-      "isGlobal": true
+      "isGlobal": true,
+      "isRootManifest": false
     },
     {
       "manifestPath": "packages/monolit/package.json",
       "projectName": "monolit",
       "scriptName": "extension:package:patch",
       "scriptCode": "npm version patch && run vsce package --yarn",
-      "isGlobal": true
+      "isGlobal": true,
+      "isRootManifest": false
     },
     {
       "manifestPath": "packages/monolit/package.json",
       "projectName": "monolit",
       "scriptName": "extension:publish",
       "scriptCode": "run vsce publish --yarn",
-      "isGlobal": true
+      "isGlobal": true,
+      "isRootManifest": false
     },
     {
       "manifestPath": "packages/monolit/package.json",
@@ -83,6 +85,7 @@
       "scriptName": "extension:watch",
       "scriptCode": "webpack --mode development --watch",
       "isGlobal": true,
+      "isRootManifest": false,
       "description": "Build the extension in watch mode."
     },
     {
@@ -91,6 +94,7 @@
       "scriptName": "lint:eslint",
       "scriptCode": "eslint packages --ext .ts",
       "isGlobal": true,
+      "isRootManifest": true,
       "description": "Run ESLint on the TypeScript sources."
     },
     {
@@ -99,6 +103,7 @@
       "scriptName": "lint:tsc",
       "scriptCode": "tsc --noEmit",
       "isGlobal": true,
+      "isRootManifest": true,
       "description": "Run the TypeScript compiler on the TypeScript sources to check for errors."
     },
     {
@@ -107,6 +112,7 @@
       "scriptName": "typecheck:all",
       "scriptCode": "tsc --noEmit --incremental false",
       "isGlobal": true,
+      "isRootManifest": true,
       "description": "Type-check all projects, to fill the problems panel in VS Code."
     },
     {
@@ -115,6 +121,7 @@
       "scriptName": "vscode:prepublish",
       "scriptCode": "webpack --mode production",
       "isGlobal": true,
+      "isRootManifest": false,
       "description": "Pre-publish hook from `vsce`. Compile the extension in production mode."
     }
   ],
