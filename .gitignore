@@ -1,11 +1,13 @@
-.yarn/*
-!.yarn/cache
+.yarn/*.*
+.yarn/cache/**
 !.yarn/releases
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+.pnp.*
 
 out
 dist
 .vscode-test/
 *.vsix
+node_modules
