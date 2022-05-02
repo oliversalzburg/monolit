@@ -45,7 +45,7 @@ export class CwdParser {
   }
 
   static cwdFromVariant(variant: LaunchSession): string {
-    return variant.candidate.path.startsWith("/")
+    return variant.candidate.path.startsWith("/") || variant.candidate.path.startsWith("$")
       ? variant.candidate.path
       : join(variant.candidate.workspace.uri.fsPath, variant.candidate.path);
   }
