@@ -6,7 +6,8 @@
       "es2016"
     ],
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "exclude": [
     ".yarn",
