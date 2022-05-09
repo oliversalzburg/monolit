@@ -23,7 +23,7 @@
     "@typescript-eslint/eslint-plugin": "5.22.0",
     "@typescript-eslint/parser": "5.22.0",
     "@yarnpkg/sdks": "2.6.0",
-    "eslint": "8.14.0",
+    "eslint": "8.15.0",
     "lint-staged": "12.4.1",
     "mocha": "10.0.0",
     "node-scripts-docs": "0.0.13",
