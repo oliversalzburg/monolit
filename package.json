@@ -26,7 +26,7 @@
     "eslint": "8.15.0",
     "lint-staged": "12.4.1",
     "mocha": "10.0.0",
-    "node-scripts-docs": "0.0.13",
+    "node-scripts-docs": "0.0.14",
     "prettier": "2.6.2",
     "prettier-package-json": "2.6.3",
     "prettier-plugin-organize-imports": "2.3.4",
