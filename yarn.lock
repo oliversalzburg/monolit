@@ -3565,7 +3565,7 @@ __metadata:
     glob: 8.0.3
     ts-loader: 9.3.0
     typescript: 4.7.2
-    vsce: 2.8.0
+    vsce: 2.9.0
     vscode-test: 1.6.1
     webpack: 5.72.1
     webpack-cli: 4.9.2
@@ -5268,9 +5268,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vsce@npm:2.8.0":
-  version: 2.8.0
-  resolution: "vsce@npm:2.8.0"
+"vsce@npm:2.9.0":
+  version: 2.9.0
+  resolution: "vsce@npm:2.9.0"
   dependencies:
     azure-devops-node-api: ^11.0.1
     chalk: ^2.4.2
@@ -5294,7 +5294,7 @@ __metadata:
     yazl: ^2.2.2
   bin:
     vsce: vsce
-  checksum: 433419789e396072aeed22134bb2e1ecf5eb9e6e11a74ba36d9b69b8af42fee7522d88996fc2c0605d778f6144808848231d0adbdfa5c42848594b58ae6a2c16
+  checksum: 9e2b15c32b0592ddcc9f284aa46823fea4c45782ee50386b8db4f9b598c84dd7911e7c56ce54997cfb97d88447e772e7fccb367a62cf9dffa7275473ece6fe0e
   languageName: node
   linkType: hard
 
